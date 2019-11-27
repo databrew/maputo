@@ -1,0 +1,356 @@
+---
+title: "Data Visualization using R"
+subtitle: "Focus on ggplot2"
+author: "Arsénio Nhacolo, Joe Brew and Ben Brew"
+date: "02-06/12/2019"
+output: 
+  ioslides_presentation:
+    logo: logo_full.png
+    css: cism_styles.css
+    widescreen: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+npac <- c("ggplot2","plotly" , "dplyr", "tidyr", "mosaicData", "carData", "rio", "VIM", 
+        "scales", "treemapify", "gapminder", "ggmap", "choroplethr", "choroplethrMaps", 
+        "CGPfunctions", "ggcorrplot", "visreg", "gcookbook", "forcats", "survival", 
+        "survminer", "ggalluvial", "ggridges", "GGally", "superheat", "waterfalls", 
+        "factoextra", "networkD3", "ggthemes", "hrbrthemes", "ggpol", "ggbeeswarm",
+        "knitr", "kableExtra")
+for (pk in npac){
+  library(pk,character.only = TRUE)
+}
+
+```
+
+# Outline
+
+## Outline 
+
+<div style="float: left; width: 50%;">
+* Preparing the environment 
+* Preparing the data 
+* Introduction to ggplot2
+* Univariate graphs
+* Bivariate graphs
+* Multivariate graphs
+* Maps
+</div>
+
+<div style="float: right; width: 50%;">
+* Time-dependent graphs
+* Statistical models
+* Other graphs
+* Customizing graphs
+* Saving graphs
+* Interactive graphs
+* Advice
+</div>
+
+
+
+# Preparing the environment
+
+## Preparing the environment|Installing R and RStudio
+
+For this training, we will use:
+
+1. **R** -- a free software environment for statistical computing and graphics (download and install from https://cloud.r-project.org/)
+2. **RStudio** -- an integrated development environment for R (download and install from https://rstudio.com/products/rstudio/download/)
+3. **Packages** -- extend the capabilities of R. To install a package, open RStudio then
+   + Packages --> Install --> *type the package name in Packages* --> Install or
+   + Type `install.packages("package_name")` then hit Enter key
+     - e.g.: install.packages("plotly")
+
+  
+## Preparing the environment|Installing the necessary packages
+
+Run the following code to install all the necessary packages
+```{r, eval=FALSE}
+npac <- c("ggplot2","plotly" , "dplyr", "tidyr", "mosaicData", "carData", "rio", "VIM", 
+        "scales", "treemapify", "gapminder", "ggmap", "choroplethr", "choroplethrMaps", 
+        "CGPfunctions", "ggcorrplot", "visreg", "gcookbook", "forcats", "survival", 
+        "survminer", "ggalluvial", "ggridges", "GGally", "superheat", "waterfalls", 
+        "factoextra", "networkD3", "ggthemes", "hrbrthemes", "ggpol", "ggbeeswarm",
+        "knitr", "kableExtra")
+
+install.packages(npac)
+```
+
+
+# Preparing the data
+
+## Preparing the data|Importing data from files
+
+Different packages/functions to import data from different file formats
+
+<div style="float: left; width: 50%;">
+```{r, eval=FALSE}
+library(readr)
+# from a comma delimited file
+opd <- read_csv("opd.csv")
+# from a tab delimited file
+opd <- read_tsv("opd.txt")
+
+library(readxl)
+# from an Excel workbook
+opd <- read_excel("opd.xlsx", sheet=1)
+```
+</div>
+
+
+<div style="float: right; width: 50%;">
+```{r, eval=FALSE}
+library(haven)
+# from Stata file
+opd <- read_dta("opd.dta")
+# from SPSS file
+opd <- read_sav("opd.sav")
+# from SAS file
+opd <- read_sas("opd.sas7bdat")
+```
+</div>
+
+## Preparing the data|Importing data from files
+
+Swiss-army knife for data import/export: `rio`
+```{r, eval=FALSE}
+library(rio)
+# from any (supported) file format 
+opd <- import("opd.csv") 
+opd <- import("opd.txt")
+opd <- import("opd.xlsx")
+opd <- import("opd.dta")
+opd <- import("opd.sav")
+opd <- import("opd.sas7bdat")
+```
+
+
+## Preparing the data|Importing data from databases management systems
+
+Different packages for different DBMS, e.g.:
+
+* RODBC --  implements ODBC, an API for accessing DBMS
+* RMySQL/RMariaDB -- for accessing MySQL/MariaDB databases
+* ROracle -- for accessing Oracle database
+* RPostgreSQL -- for accessing PostgreSQL database
+* RSQLite -- for accessing SQLite database
+* RMongo -- for accessing MongoDB database
+* ...
+
+## Preparing the data|Importing data from databases management systems
+
+E.g.: Importing data from MariaDB
+
+```{r, eval=FALSE}
+library(RMariaDB)
+
+con <- dbConnect(RMariaDB::MariaDB(), user = 'user_name', password  = 'password',
+                 host = 'server_address', dbname = 'database_name')
+
+death <- dbGetQuery(con,"SELECT d.person_id, m.date_birth, d.date_death, 
+                    DATEDIFF(d.date_death,m.date_birth) AS age_days, 
+                    d.place_death, d.place_death_other 
+                    FROM dsdb.death AS d LEFT JOIN dsdb.resident AS m 
+                    ON d.person_id=m.person_id 
+                    WHERE YEAR(d.date_death) IN (2017, 2018) 
+                    HAVING age_days BETWEEN 28 AND 1800")
+```
+
+
+## Preparing the data|Cleaning data
+
+* Often the most time-consuming part of any data analysis
+* Some useful functions:
+
+
+
+```{r,echo=FALSE}
+Package <- c("dplyr", "dplyr", "dplyr", "dplyr", "dplyr", "tidyr", "tidyr")
+Function <- c("select", "filter", "mutate", "summarize", "group_by", "gather", "spread")
+Use <- c("select variables/columns",
+         "select observations/rows",
+         "transform or recode variables",
+         "summarize data",
+         "identify subgroups for further processing",
+         "convert wide format dataset to long format",
+         "convert long format dataset to wide format")
+
+tibble(Package, Function, Use) %>% 
+  kable() %>% 
+  kable_styling(bootstrap_options = c('striped', 'hover', 'condensed'),full_width = TRUE,
+                position = 'center')
+```
+
+
+## Preparing the data|Tranforming data
+
+
+
+# Introduction to ggplot2
+
+## Introduction to ggplot2
+
+
+
+# Univariate graphs
+
+## Univariate graphs|Categorical
+
+## Univariate graphs|Quantitative
+
+
+
+# Bivariate graphs
+
+## Bivariate graphs|Categorical vs Categorical
+
+## Bivariate graphs|Quantitative vs Quantitative
+
+## Bivariate graphs|Categorical vs Quantitative
+
+
+
+# Multivariate graphs
+
+## Multivariate graphs|Grouping
+
+
+
+# Maps
+
+## Maps|Dot density maps
+
+## Maps|Choropleth maps
+
+
+
+# Time-dependent graphs
+
+## Time-dependent graphs|Time series
+
+## Time-dependent graphs|Dummbbell charts
+
+## Time-dependent graphs|Slope graphs
+
+## Time-dependent graphs|Area charts
+
+
+
+# Statistical models
+
+## Statistical models|Correlation plots
+
+## Statistical models|Linear regression
+
+## Statistical models|Logistic regression
+
+## Statistical models|Survival plots
+
+## Statistical models|Mosaic plots
+
+
+
+# Other graphs
+
+## Other graphs|3-D scatterplot
+
+## Other graphs|Biplots
+
+## Other graphs|Bubble charts
+
+## Other graphs|Flow diagrams
+
+## Other graphs|Heatmaps
+
+## Other graphs|Radar charts
+
+## Other graphs|Scatterplot matrix
+
+## Other graphs|Waterfall charts
+
+## Other graphs|Word clouds
+
+
+
+# Customizing graphs
+
+## Customizing graphs|Axes
+
+## Customizing graphs|Colours
+
+## Customizing graphs|Points and lines
+
+## Customizing graphs|Legends
+
+## Customizing graphs|Labels
+
+## Customizing graphs|Annotations
+
+## Customizing graphs|Themes
+
+## Customizing graphs|BBC-like (bbplot)
+
+
+
+# Saving graphs
+
+## Saving graphs|Via menus
+
+## Saving graphs|Via code
+
+## Saving graphs|File formats
+
+## Saving graphs|External editing
+
+
+
+# Interactive graphs
+
+## Interactive graphs|leaflet
+
+## Interactive graphs|plotly
+
+## Interactive graphs|rbokeh
+
+## Interactive graphs|rCharts
+
+## Interactive graphs|highcharter
+
+
+
+# Advice
+
+## Advice|Labeling
+
+## Advice|Signal to noise ratio
+
+## Advice|Color choice
+
+## Advice|y-Axis scaling
+
+## Advice|Attribution
+
+## Advice|Going further
+
+## Advice|Final note
+
+
+
+# References
+
+## References
+
+- Kabacoff, R. (2018). *Data Visualization with R*. QAC
+- Moulik, T. (2018). *Applied Data Visualization with R and Ggplot2*. Packt Publishing
+
+
+
+
+
+
+
+
+
+## {data-background=3.png data-background-size=cover}
