@@ -1,0 +1,67 @@
+---
+title: "Data Visualization using R"
+subtitle: "Focus on ggplot2"
+author: "Arsénio Nhacolo, Joe Brew and Ben Brew"
+date: "02-06/12/2019"
+output: 
+  ioslides_presentation:
+    logo: www/logo_full.png
+    css: www/cism_styles.css
+    widescreen: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+npac <- c("ggplot2","plotly" , "dplyr", "tidyr", 
+          # "mosaicData", "carData", "rio", "VIM", 
+        "scales", 
+        # "treemapify", 
+        "gapminder", "ggmap", 
+        "choroplethr",# "choroplethrMaps", 
+        # "CGPfunctions", "ggcorrplot", "visreg", "gcookbook", "forcats", "survival", 
+        # "survminer", "ggalluvial", "ggridges", "GGally", "superheat", "waterfalls", 
+        # "factoextra", "networkD3", "ggthemes", "hrbrthemes", "ggpol", "ggbeeswarm",
+        "knitr", "kableExtra")
+for (pk in npac){
+  library(pk,character.only = TRUE)
+}
+
+```
+
+# Outline
+
+
+
+```{r, eval = TRUE, echo = FALSE}
+# Build document from contents of directory
+# Get a list of all the child documents
+rmds <- list.files(pattern = '*.Rmd', recursive = FALSE, include.dirs = FALSE)
+rmds <- rmds[!rmds %in% c('parent.Rmd', 'children.Rmd')]
+
+chunks <- paste0("\n\n```{r child = '", 
+                 rmds, 
+                 "'}\n```\n")
+
+# Write our order / child-calls to a doc
+file_connection <- file('children.Rmd')
+writeLines(paste0('---\noutput: html_document\n---\n\n', 
+                  chunks), 
+           file_connection)
+close(file_connection)
+```
+
+
+```{r child='children.Rmd', echo = FALSE, eval = TRUE}
+```
+
+```{r, results='hide', echo = FALSE}
+file.remove('children.Rmd')
+```
+
+
+
+
+
+
+
+
