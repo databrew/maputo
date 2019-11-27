@@ -21,8 +21,8 @@ knitr::opts_chunk$set(echo = TRUE)
   - Intuitive, powerful, and popular.
   - Open source: it's free and maintained and upadated by programmers all over the world. 
 - Joe: The learning curve and motivation
- - All programming languages have a learning curve, but R is as accesible as it is powerful.
- - Analzye data and produce impressive functions with limited knowledge. 
+ - All programming languages have a learning curve, but R is as accesible as it is efficient.
+ - Analzye data and produce impressive visualizations with limited knowledge. 
 - Arsenio: **Preparing the environment**
  - Setting up Rstudio and understanding the interface.
  - Learn the 4 panels in Rstudio.
