@@ -1,6 +1,8 @@
 ---
-title: "Timeline"
-output: html_document
+output:
+  github_document:
+    toc: true
+    toc_depth: 2
 ---
 
 ```{r setup, include=FALSE}
@@ -13,43 +15,93 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ### Morning  
 - Arsenio: Introduction and week plan  
-- Ben: What is R? Why use R?  
+  - Go over the main goals of the course.
+  - Go over the main goals of each day.
+- Ben: What is R? Why use R? 
+  - Intuitive, powerful, and popular.
+  - Open source: it's free and maintained and upadated by programmers all over the world. 
 - Joe: The learning curve and motivation
+ - All programming languages have a learning curve, but R is as accesible as it is efficient.
+ - Analzye data and produce impressive visualizations with limited knowledge. 
 - Arsenio: **Preparing the environment**
+ - Setting up Rstudio and understanding the interface.
+ - Learn the 4 panels in Rstudio.
+  - The scripts.
+  - The console.
+  - The global environment.
+  - The plots.
+ - Installing packages and using them during a session.
 
 ### Afternoon
 - Arsenio: **Preparing the data** (basic only, save databases, etc. for day 5)  
+ - Exploring packages and functions to read in data.
+ - Cleaning column names, removing missing values, and formatting variables. 
+ - Preparing the data for analysis and visualization.
 - Ben: **Introduction to ggplot2** (context, rationale, structure)
+ - The advantages of ggplot.
+ - Quick, simple, and beautiful.
+ - Adding layers to a plot.
+ - Exploring the basics as well as showing the potential.
 - Joe: First chart
+ - Build a basic bar, scatter, or line plot with data from R packages. 
+ - Explain how aesthetics (aes) works in ggplot. 
 - Exercises: reading-in different types of data with `rio`
+ - Importing and exporting data to a repository.
 
 # Day 2
 
 ### Morning  
 - Arsenio: **Univariate graphs** - Categorical
+ - Use different color schemes in ggplot to visualize a bar chart. 
 - Ben: **Univeriate graphs** - Quantitative
+ - Use ggplot to show density and distributions for univariate frequency data.
 - Joe: **Univariate graphs** - Exercises
+ - Give the students data and ask them to produce a categorical and quantitative univariate graph.
 
 ### Afternoon
 - Ben: **Bivariate graphs** - Introduction
+ - Show how two variables can be grouped and shown in a bar chart. 
+ - Introduction to line/scatter plots. 
 - Arsenio: **Bivariate graphs**|Categorical vs Categorical
+ - Show frequency data in a bivariate scenario.
 - Joe: **Bivariate graphs**|Quantitative vs Quantitative
+ - Scatter plots.
+ - Correlation charts.
 - Ben: **Bivariate graphs**|Categorical vs Quantitative
+ - Time series graphs. 
 - Arsenio: **Bivariate graphs** - Exercises
+ - Provide the students with data and ask them to produce all the charts from variables of their choosing.
+ 
 
 # Day 3
 
 ### Morning
 - Ben: **Multivariate graphs** - Introduction
+ - Show the grouping functionality on ggplot.
+ - Show the color functionality in ggplot.
+ - Show the fill functionality in ggplot.
 - Joe: **Multivariate graphs** - Preparing the data (dplyr, grouping, etc.).
+ - Introduction to tidyverse/tidyr/dplyr.
+ - Go over dplyr "verbs".
+ - long data vs wide data for plotting ease. 
 - Arsenio: **Multivariate graphs** - Practical instruction
+ - Show the different ways you can visualize the same data. 
 - All: **Multivariate graphs** - Exercises
+ - Give the students wide data and have them use dplyr functions to make it long.
+ - Plot the multivariate data using colors and groups.
 
 ### Afternoon
 - Joe: **Mapping** - Introduction  
+ - Show all the libraries that can produce maps in R. 
+ - Introudction to shape files.
+ - Introduction to ggmap package.
+ - Introduction to leaflet package.
 - Arsenio: **Mapping** - Point maps / dot density maps
+ - Use leaflet to show point maps and density maps.
 - Ben: **Mapping** - Choropleth maps  
+ - Show heat maps.
 - All: **Mapping** - Exercises
+ - Give the students a dataset with lat/long information and have them use one of the packages to produce a map.
 
 
 
@@ -58,29 +110,68 @@ knitr::opts_chunk$set(echo = TRUE)
 ### Morning
 
 - Ben: **Time-dependent maps** - Introduction
+ - Introudction to packages that handle time dependent maps (plotly).
+ - Advantages and disadvantages to using plotly.
 - Joe: **Time-dependent maps** - Time series
+ - Show how plotly can animate basic maps (and other plots).
 - Arsenio: **Time-dependent maps** - Dumbbell, slope, area charts
+ - Using plotly show examples of the charts above. 
 - All: **Time-dependent maps** - Exercises
+ - Give the students data and have them animate a map or basic plot (bar, line, scatter, etc) using the plotly package.
 
 ### Afternoon
 
 - Arsenio: **Statistical models** - Introduction
+ - Explain how R, unlike other languages, was built for statistical analysis.
+ - Go over basic statistical principles and how R handles them with various packages. 
 - Ben: **Statistical models** - Correlation plots
+ - Show how are can visualize correlation in different ways. 
+ - Show bivariate correlation.
+ - Show multivariate correlation plot/tables.
 - Arsenio: **Statistical models** - Linear regression 
+ - Introduction to the lm (linear model) function in R.
+ - Show how to run a basic bivariate linear regression.
+ - Show how to run a basic multivariate linear regression.
+ - Demonstrate how to access the object returned by models (estimates, std deviation, R squared, etc)
 - Joe: **Statistical models** - Logistic regression
+ - Show how to test if the relationship between predictors and outcomes are not linear.
+ - Use the glm (generalized linear model) function to run a logistic regression for non-linear relationships.
+ - Show how to extract the odds ratios from logistic regressions.
 - Ben: **Statistical models** - Mosaic plots
+ - Show how mosaic plots can visualize data with multiple qualitative data.
 - Ben: **Statistical models** - Survival plots
+ - Use survival analysis to visualise time to event. 
+ - Distinguish between right censored and left censored data and how to properly visualize that distinction.
 - All: **Statistical models** - Exercises
+ - Give the students data and have them run a basic linear regression (univariate or multivariate)
+ - Have them identify non linear relationships in the data and model a logistic regression. 
+ - Have them conduct a basic survival analysis and visualize the time to event. 
 
 # Day 5:
 
 ### Morning
 - Arsenio: **Other graphs** - Introduction
+ - Introduction to basic plotting in R. 
+ - Introduce alternative plotting methods - using candle stick plots instead of bar charts.
+ - Introduction to jittering scatter plots.
+ - Introduction to more in depth ggplot functionality - using alpha for transparency, annotating plots, etc.
 - Joe: **Interactive graphs** - Overview
+ - Revisit plotly using maps.
+ - Customizing the hover functionality in plotly.
 - Ben: **Customizing graphs** - Tips
+ - Introudction to ggthemes. 
+ - Show how to programmtically annotate a plot.
+ - Show how to manually annotate a plot.
 - Joe: **Saving graphs** - Overview
+ - Exporting plots to your desktop.
+ - Use the pdf function to save plots to pdfs.
+ - Publishing plots on plotly.
 - Arsenio: **Advice** 
+ - Q&A with students to prioritize what useful advice we can give.
 
 # Afternoon:
 - Visualization competition
+ - Give the students data and have them produce any plot/map they learned during the course.
 - Extra / personal project help time
+ - Individual help for students that have specific questions about a project they are working on. 
+ 
