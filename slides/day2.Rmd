@@ -2,4 +2,46 @@
 output: html_document
 ---
 
-## Day 2
+# Day 2
+
+
+## Today's agenda
+
+### Morning  
+- Arsenio: **Univariate graphs** - Categorical
+- Ben: **Univeriate graphs** - Quantitative
+- Joe: **Univariate graphs** - Exercises
+
+### Afternoon
+- Ben: **Bivariate graphs** - Introduction
+- Arsenio: **Bivariate graphs**|Categorical vs Categorical
+- Joe: **Bivariate graphs**|Quantitative vs Quantitative
+- Ben: **Bivariate graphs**|Categorical vs Quantitative
+- Arsenio: **Bivariate graphs** - Exercises
+
+
+## Univariate graphs|Categorical (Arsenio)
+
+## Univariate graphs|Quantitative (Ben)
+
+
+
+# Bivariate graphs
+
+## Bivariate graphs|Introduction (Ben)
+
+## Bivariate graphs|Categorical vs Categorical (Arsenio)
+
+## Bivariate graphs|Quantitative vs Quantitative (Joe)
+
+## Bivariate graphs|Categorical vs Quantitative (Ben)
+
+## Bivariate graphs|Exercises (Arsenio)
+
+
+
+
+###########################
+
+
+

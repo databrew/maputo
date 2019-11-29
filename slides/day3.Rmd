@@ -2,4 +2,41 @@
 output: html_document
 ---
 
-## Day 3
+# Day 3
+
+## Today's agenda
+
+### Morning
+- Ben: **Multivariate graphs** - Introduction
+- Joe: **Multivariate graphs** - Preparing the data (dplyr, grouping, etc.).
+- Arsenio: **Multivariate graphs** - Practical instruction
+- All: **Multivariate graphs** - Exercises
+
+### Afternoon
+- Joe: **Mapping** - Introduction  
+- Arsenio: **Mapping** - Point maps / dot density maps
+- Ben: **Mapping** - Choropleth maps  
+- All: **Mapping** - Exercises
+
+
+# Multivariate graphs
+
+## Multivariate graphs|Introduction (Ben)
+
+## Multivariate graphs|Data preparation (Joe)
+
+## Multivariate graphs|Practical instruction (Arsenio)
+
+## Multivariate graphs|Exercises (all)
+
+
+
+# Maps
+
+## Maps|Introduction (Joe)
+
+## Maps|Dot density maps (Arsenio)
+
+## Maps|Choropleth maps (Ben)
+
+## Maps|Exercises (all)

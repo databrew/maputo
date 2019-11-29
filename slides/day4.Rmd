@@ -2,4 +2,62 @@
 output: html_document
 ---
 
-## Day 4
+# Day 4
+
+## Today's agenda
+
+
+### Morning
+
+- Ben: **Time-dependent maps** - Introduction
+- Joe: **Time-dependent maps** - Time series
+- Arsenio: **Time-dependent maps** - Dumbbell, slope, area charts
+- All: **Time-dependent maps** - Exercises
+
+### Afternoon
+
+- Arsenio: **Statistical models** - Introduction
+- Ben: **Statistical models** - Correlation plots
+- Arsenio: **Statistical models** - Linear regression 
+- Joe: **Statistical models** - Logistic regression
+- Ben: **Statistical models** - Mosaic plots
+- Ben: **Statistical models** - Survival plots
+- All: **Statistical models** - Exercises
+
+
+
+# Time-dependent graphs
+
+## Time-dependent graphs|Introduction (Ben)
+
+
+## Time-dependent graphs|Time series (Joe)
+
+## Time-dependent graphs|Dummbbell charts (Arsenio)
+
+## Time-dependent graphs|Slope graphs (Arsenio)
+
+## Time-dependent graphs|Area charts (Arsenio)
+
+## Time-dependent graphs|Exercises (all)
+
+
+
+# Statistical models
+
+## Statistical models|Introduction (Arsenio)
+
+## Statistical models|Correlation plots (Ben)
+
+## Statistical models|Linear regression (Arsenio)
+
+## Statistical models|Logistic regression (Joe)
+
+## Statistical models|Mosaic plots (Ben)
+
+## Statistical models|Survival plots (Ben)
+
+
+## Statistical models|Exercises (all)
+
+

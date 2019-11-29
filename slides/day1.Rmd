@@ -2,31 +2,47 @@
 output: html_document
 ---
 
-## Outline 
+# Day 1
 
-<div style="float: left; width: 50%;">
-* Preparing the environment 
-* Preparing the data 
-* Introduction to ggplot2
-* Univariate graphs
-* Bivariate graphs
-* Multivariate graphs
-* Maps
-</div>
+## Plan for the day
 
-<div style="float: right; width: 50%;">
-* Time-dependent graphs
-* Statistical models
-* Other graphs
-* Customizing graphs
-* Saving graphs
-* Interactive graphs
-* Advice
-</div>
+### Morning  
+- Arsenio: Introduction and week plan  
+- Ben: What is R? Why use R? 
+- Joe: The learning curve and motivation
+- Arsenio: **Preparing the environment**
+
+### Afternoon
+- Arsenio: **Preparing the data** (basic only, save databases, etc. for day 5)  
+- Ben: **Introduction to ggplot2** (context, rationale, structure)
+- Joe: First chart
 
 
+## Introduction and week plan (Arsenio)
 
-# Preparing the environment
+- Main goals for the course
+- Main goals for each day
+
+## What is R? (Ben)
+
+- Why use it?
+  - Intuitive, powerful, and popular.
+  - Open source: it's free and maintained and upadated by programmers all over the world. 
+  
+## The learning curve (Joe)
+
+- Motivation
+- Expectations
+- Active, engaged learning 
+
+## Preparing the environment (Arsenio)
+- Installing R
+- Installing RStudio
+- Understanding the interface / the 4 panels
+  - The scripts.
+  - The console.
+  - The global environment.
+  - The plots.
 
 ## Preparing the environment|Installing R and RStudio
 
@@ -40,9 +56,12 @@ For this training, we will use:
      - e.g.: install.packages("plotly")
 
   
+# Packages (Arsenio)
+  
 ## Preparing the environment|Installing the necessary packages
 
 Run the following code to install all the necessary packages
+
 ```{r, eval=FALSE}
 npac <- c("ggplot2","plotly" , "dplyr", "tidyr", "mosaicData", "carData", "rio", "VIM", 
         "scales", "treemapify", "gapminder", "ggmap", "choroplethr", "choroplethrMaps", 
@@ -54,10 +73,38 @@ npac <- c("ggplot2","plotly" , "dplyr", "tidyr", "mosaicData", "carData", "rio",
 install.packages(npac)
 ```
 
+## How to use/load a package (Arsenio)
+
+```{R, eval = FALSE}
+library(dplyr)
+library(ggplot2)
+```
+
+
+
+# Afternoon
+
+## Preparing the data (Arsenio)
+
+ - Exploring packages and functions to read in data.
+ - Cleaning column names, removing missing values, and formatting variables. 
+ - Preparing the data for analysis and visualization.
+
+## Introduction to ggplot2 (Ben) 
+
+- The advantages of ggplot.
+- Quick, simple, and beautiful.
+- Adding layers to a plot.
+- Exploring the basics as well as showing the potential.
+
+## First chart (Joe)
+
+(Interactive activity)
+
 
 # Preparing the data
 
-## Preparing the data|Importing data from files
+## Preparing the data|Importing data from files (Arsenio)
 
 Different packages/functions to import data from different file formats
 
@@ -88,7 +135,7 @@ opd <- read_sas("opd.sas7bdat")
 ```
 </div>
 
-## Preparing the data|Importing data from files
+## Preparing the data|Importing data from files (Arsenio)
 
 Swiss-army knife for data import/export: `rio`
 ```{r, eval=FALSE}
@@ -103,7 +150,7 @@ opd <- import("opd.sas7bdat")
 ```
 
 
-## Preparing the data|Importing data from databases management systems
+## Preparing the data|Importing data from databases management systems (Arsenio)
 
 Different packages for different DBMS, e.g.:
 
@@ -115,7 +162,7 @@ Different packages for different DBMS, e.g.:
 * RMongo -- for accessing MongoDB database
 * ...
 
-## Preparing the data|Importing data from databases management systems
+## Preparing the data|Importing data from databases management systems (Arsenio)
 
 E.g.: Importing data from MariaDB
 
@@ -135,7 +182,7 @@ death <- dbGetQuery(con,"SELECT d.person_id, m.date_birth, d.date_death,
 ```
 
 
-## Preparing the data|Cleaning data
+## Preparing the data|Cleaning data (Arsenio)
 
 * Often the most time-consuming part of any data analysis
 * Some useful functions:
@@ -160,163 +207,8 @@ tibble(Package, Function, Use) %>%
 ```
 
 
-## Preparing the data|Tranforming data
+## Preparing the data|Tranforming data (Joe)
 
+(Interactive activity)
 
 
-# Introduction to ggplot2
-
-## Introduction to ggplot2
-
-
-
-# Univariate graphs
-
-## Univariate graphs|Categorical
-
-## Univariate graphs|Quantitative
-
-
-
-# Bivariate graphs
-
-## Bivariate graphs|Categorical vs Categorical
-
-## Bivariate graphs|Quantitative vs Quantitative
-
-## Bivariate graphs|Categorical vs Quantitative
-
-
-
-# Multivariate graphs
-
-## Multivariate graphs|Grouping
-
-
-
-# Maps
-
-## Maps|Dot density maps
-
-## Maps|Choropleth maps
-
-
-
-# Time-dependent graphs
-
-## Time-dependent graphs|Time series
-
-## Time-dependent graphs|Dummbbell charts
-
-## Time-dependent graphs|Slope graphs
-
-## Time-dependent graphs|Area charts
-
-
-
-# Statistical models
-
-## Statistical models|Correlation plots
-
-## Statistical models|Linear regression
-
-## Statistical models|Logistic regression
-
-## Statistical models|Survival plots
-
-## Statistical models|Mosaic plots
-
-
-
-# Other graphs
-
-## Other graphs|3-D scatterplot
-
-## Other graphs|Biplots
-
-## Other graphs|Bubble charts
-
-## Other graphs|Flow diagrams
-
-## Other graphs|Heatmaps
-
-## Other graphs|Radar charts
-
-## Other graphs|Scatterplot matrix
-
-## Other graphs|Waterfall charts
-
-## Other graphs|Word clouds
-
-
-
-# Customizing graphs
-
-## Customizing graphs|Axes
-
-## Customizing graphs|Colours
-
-## Customizing graphs|Points and lines
-
-## Customizing graphs|Legends
-
-## Customizing graphs|Labels
-
-## Customizing graphs|Annotations
-
-## Customizing graphs|Themes
-
-## Customizing graphs|BBC-like (bbplot)
-
-
-
-# Saving graphs
-
-## Saving graphs|Via menus
-
-## Saving graphs|Via code
-
-## Saving graphs|File formats
-
-## Saving graphs|External editing
-
-
-
-# Interactive graphs
-
-## Interactive graphs|leaflet
-
-## Interactive graphs|plotly
-
-## Interactive graphs|rbokeh
-
-## Interactive graphs|rCharts
-
-## Interactive graphs|highcharter
-
-
-
-# Advice
-
-## Advice|Labeling
-
-## Advice|Signal to noise ratio
-
-## Advice|Color choice
-
-## Advice|y-Axis scaling
-
-## Advice|Attribution
-
-## Advice|Going further
-
-## Advice|Final note
-
-
-
-# References
-
-## References
-
-- Kabacoff, R. (2018). *Data Visualization with R*. QAC
-- Moulik, T. (2018). *Applied Data Visualization with R and Ggplot2*. Packt Publishing

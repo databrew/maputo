@@ -2,4 +2,118 @@
 output: html_document
 ---
 
-## Day 5
+# Day 5
+
+
+## Today's agenda
+
+
+### Morning
+- Arsenio: **Other graphs** - Introduction
+- Joe: **Interactive graphs** - Overview
+- Ben: **Customizing graphs** - Tips
+- Joe: **Saving graphs** - Overview
+- Arsenio: **Advice** 
+
+### Afternoon
+- Visualization competition
+- Extra / personal project help time
+
+
+
+
+
+
+
+# Other graphs
+
+## Other graphs|3-D scatterplot (Joe)
+
+## Other graphs|Biplots (Arsenio)
+
+## Other graphs|Bubble charts (Ben)
+
+## Other graphs|Flow diagrams (Joe)
+
+## Other graphs|Heatmaps (Joe)
+
+## Other graphs|Radar charts (Arsenio)
+
+## Other graphs|Scatterplot matrix (Arsenio)
+
+## Other graphs|Waterfall charts (Ben)
+
+## Other graphs|Word clouds (Joe)
+
+
+
+# Customizing graphs
+
+## Customizing graphs|Axes (Ben)
+
+## Customizing graphs|Colours (Joe)
+
+## Customizing graphs|Points and lines (Arsenio)
+
+## Customizing graphs|Legends (Ben)
+
+## Customizing graphs|Labels (Joe)
+
+## Customizing graphs|Annotations (Arsenio)
+
+## Customizing graphs|Themes (Ben)
+
+## Customizing graphs|BBC-like (bbplot) (Arsenio)
+
+
+
+# Saving graphs
+
+## Saving graphs|Via menus (Arsenio)
+
+## Saving graphs|Via code (Joe)
+
+## Saving graphs|File formats
+
+## Saving graphs|External editing
+
+
+
+# Interactive graphs
+
+## Interactive graphs|leaflet (Joe)
+
+## Interactive graphs|plotly (Ben)
+
+## Interactive graphs|rbokeh (Arsenio)
+
+## Interactive graphs|rCharts (Joe)
+
+## Interactive graphs|highcharter (Arsenio)
+
+
+
+# Advice
+
+## Advice|Labeling (Arsenio)
+
+## Advice|Signal to noise ratio (Joe)
+
+## Advice|Color choice (Arsenio)
+
+## Advice|y-Axis scaling (Ben)
+
+## Advice|Attribution (Arsenio)
+
+## Advice|Going further (Joe)
+
+## Advice|Final note (Arsenio)
+
+
+
+# References
+
+## References
+
+- Kabacoff, R. (2018). *Data Visualization with R*. QAC
+- Moulik, T. (2018). *Applied Data Visualization with R and Ggplot2*. Packt Publishing

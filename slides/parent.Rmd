@@ -28,8 +28,6 @@ for (pk in npac){
 
 ```
 
-# Outline
-
 
 
 ```{r, eval = TRUE, echo = FALSE}
