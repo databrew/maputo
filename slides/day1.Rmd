@@ -27,14 +27,12 @@ output: html_document
 
 - Why use it?
   - Intuitive, powerful, and popular.
-  - Open source: it's free and maintained and upadated by programmers all over the world. 
+  - Open source: it's free and maintained and upadated by programmers all over the world.
   
-## Here is a photo
+![](www/why_r.png)
 
-- Some bullet point
-
-![](www/download.png)
   
+
 ## The learning curve (Joe)
 
 - Motivation
