@@ -4,6 +4,13 @@ output: html_document
 
 # Day 1
 
+
+```{r, echo = FALSE, eval = TRUE, results = 'hide'}
+library(tidyverse)
+library(tidyr)
+```
+
+
 ## Plan for the day
 
 ### Morning  
@@ -29,11 +36,6 @@ output: html_document
   - Intuitive, powerful, and popular.
   - Open source: it's free and maintained and upadated by programmers all over the world. 
   
-## Here is a photo
-
-- Some bullet point
-
-![](www/download.png)
   
 ## The learning curve (Joe)
 
@@ -44,8 +46,54 @@ output: html_document
 ## The learning curve (Joe)
 
 ```{r}
+time <- 1:100
+spss <- 1:100
+sas <- ((1:100)^(2)) / 100
+stata <- ((1:100)^(2.1)) / 100
+r <- ((1:100)^(2.3)) / 100
+pd <- tibble(time, spss, sas, stata, r) %>%
+  gather(key, value, spss:r) %>% 
+  mutate(key = toupper(key))
 
+variations <- list(
+  c('SPSS'),
+  c('SPSS', 'SAS'),
+  c('SPSS', 'SAS', 'STATA'),
+  c('SPSS', 'SAS', 'STATA', 'R')
+)
+var_plot <- function(i){
+  this_variation <- variations[[i]]
+  pdx <- pd %>% filter(key %in% this_variation)
+  ggplot(data = pdx,
+       aes(x = time,
+           y = value)) +
+  geom_line(aes(color = key)) +
+    scale_color_discrete(name = '') +
+    labs(x = 'Time',
+         y = 'Value of concepts learned')
+}
+var_plot(1)
 ```
+
+## The learning curve (Joe)
+
+```{r}
+var_plot(2)
+```
+
+## The learning curve (Joe)
+
+```{r}
+var_plot(3)
+```
+
+
+## The learning curve (Joe)
+
+```{r}
+var_plot(4)
+```
+
 
 ## Preparing the environment (Arsenio)
 - Installing R
