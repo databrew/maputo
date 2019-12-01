@@ -29,6 +29,12 @@ output: html_document
   - Intuitive, powerful, and popular.
   - Open source: it's free and maintained and upadated by programmers all over the world. 
   
+## Here is a photo
+
+- Some bullet point
+
+![](www/download.png)
+  
 ## The learning curve (Joe)
 
 - Motivation
