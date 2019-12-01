@@ -35,6 +35,12 @@ output: html_document
 - Expectations
 - Active, engaged learning 
 
+## The learning curve (Joe)
+
+```{r}
+
+```
+
 ## Preparing the environment (Arsenio)
 - Installing R
 - Installing RStudio
