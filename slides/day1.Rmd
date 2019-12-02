@@ -268,6 +268,36 @@ library(ggplot2)
 - Its part of a pipeline of well maintained packages.
 - Tidyverse = readr -> dplyr -> ggplot2
 
+## Quck and simple 
+
+![](www/ggplot_code.png)
+
+## Quck and simple 
+
+![](www/ggplot_code_2.png)
+
+
+## Quck and simple 
+
+![](www/ggplot_3_vars.png)
+
+## the potential
+
+![](www/ggplot_1.png)
+
+
+## the potential
+
+![](www/ggplot_2.png)
+
+## the potential
+
+![](www/ggplot_3.png)
+
+
+## the potential
+
+![](www/ggplot_4.png)
 
 ## First chart (Joe)
 
@@ -403,7 +433,6 @@ death <- dbGetQuery(con,"SELECT d.person_id, m.date_birth, d.date_death,
 
 * Often the most time-consuming part of any data analysis
 * Some useful functions:
-
 
 
 ```{r,echo=FALSE}
