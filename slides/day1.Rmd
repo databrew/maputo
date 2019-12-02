@@ -528,3 +528,55 @@ ggplot(data = ncountries,
            y = n)) +
   geom_point()
 ```
+
+
+## Preparing the data|Tranforming data (Joe)
+
+- Let's create an object called `moz`. This will be the gapminder data, but just for Mozambique.
+
+
+
+## Preparing the data|Tranforming data (Joe)
+
+- Let's create an object called `moz`. This will be the gapminder data, but just for Mozambique.
+
+```{r}
+gm <- gapminder::gapminder
+moz <- gm %>%
+  filter(country == 'Mozambique')
+```
+
+
+## Preparing the data|Tranforming data (Joe)
+
+- Plot GDP per capita over time
+
+
+
+## Preparing the data|Tranforming data (Joe)
+
+- Plot life expectancy over time
+
+
+## Preparing the data|Tranforming data (Joe)
+
+- Plot the association between gdpPercap and life expectancy
+
+
+
+## Preparing the data|Tranforming data (Joe)
+
+- Plot the association between gdpPercap and life expectancy
+
+## Preparing the data|Tranforming data (Joe)
+
+- Take the gapminder data, keep only 2007 data, group by continent, and get the maximum and minimum life expectancy for each continent
+
+
+## Preparing the data|Tranforming data (Joe)
+
+- Take the gapminder data, keep only 2007 data, group by continent, `mutate` a new variable with the average GDP for that continent, `mutate` another variable with the difference between each country and its continent's average GDP
+
+## Discussion and activities
+
+- How else can we visualize the `gapminder` data?
