@@ -24,14 +24,21 @@ creds <- tibble(name = names(creds),
   ok <- FALSE
 
     # Push to git
-    system('git add parent.html')
+    system('git add slides/parent.html')
     system("git commit -m 'course update'")
     system(paste0("git push https://'",
                   creds$password[creds$name == 'github_user'],
                   "':'",
                   creds$password[creds$name == 'github_pass'], "'@github.com/databrew/maputo.git"))
+    setwd('../databrew.github.io/')
+    file.copy(from = '../maputo/slides/parent.html',
+              to = 'maputo.html')
+    system('git add maputo.html')
+    system("git commit -m 'course update'")
+    system(paste0("git push https://'",
+                  creds$password[creds$name == 'github_user'],
+                  "':'",
+                  creds$password[creds$name == 'github_pass'], "'@github.com/databrew/databrew.github.io.git"))
     beep(1)
-  } else {
-    beep(2)
-  }
+  # }
 # }
