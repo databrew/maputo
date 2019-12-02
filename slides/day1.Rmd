@@ -5,7 +5,7 @@ output: html_document
 # Day 1
 
 
-```{r, echo = FALSE, eval = TRUE, results = 'hide'}
+```{r, echo = FALSE, eval = TRUE, results = 'hide', include = FALSE}
 library(tidyverse)
 library(tidyr)
 ```
@@ -52,18 +52,21 @@ library(tidyr)
 ```{r}
 time <- 1:100
 spss <- 1:100
-sas <- ((1:100)^(2)) / 100
+sas <- ((1:100)^(2)) / 90
 stata <- ((1:100)^(2.1)) / 100
+excel <- ((1:100) ^ (0.2)) * 30
 r <- ((1:100)^(2.3)) / 100
-pd <- tibble(time, spss, sas, stata, r) %>%
-  gather(key, value, spss:r) %>% 
+r[1:40] <- r[1:40] * seq(0, 1, length = 40)
+pd <- tibble(time, excel, spss, sas, stata, r) %>%
+  gather(key, value, excel:r) %>% 
   mutate(key = toupper(key))
 
 variations <- list(
-  c('SPSS'),
-  c('SPSS', 'SAS'),
-  c('SPSS', 'SAS', 'STATA'),
-  c('SPSS', 'SAS', 'STATA', 'R')
+  c('EXCEL'),
+  c('EXCEL', 'SPSS'),
+  c('EXCEL', 'SPSS', 'SAS'),
+  c('EXCEL', 'SPSS', 'SAS', 'STATA'),
+  c('EXCEL', 'SPSS', 'SAS', 'STATA', 'R')
 )
 var_plot <- function(i){
   this_variation <- variations[[i]]
@@ -96,6 +99,19 @@ var_plot(3)
 
 ```{r}
 var_plot(4)
+```
+
+
+## The learning curve (Joe)
+
+```{r}
+var_plot(5) + xlim(1, 10) + ylim (0, 50)
+```
+
+## The learning curve (Joe)
+
+```{r}
+var_plot(5) 
 ```
 
 
@@ -163,7 +179,52 @@ library(ggplot2)
 
 ## First chart (Joe)
 
-(Interactive activity)
+```{r}
+library(gapminder)
+```
+
+
+## First chart (Joe)
+
+```{r}
+library(gapminder)
+gm <- gapminder::gapminder
+head(gm)
+```
+
+
+## First chart (Joe)
+
+```{r}
+library(gapminder)
+gm <- gapminder::gapminder
+
+ggplot(data = gm)
+```
+
+## First chart (Joe)
+
+```{r}
+library(gapminder)
+gm <- gapminder::gapminder
+
+ggplot(data = gm,
+       aes(x = gdpPercap,
+           y = lifeExp))
+```
+
+## First chart (Joe)
+
+```{r}
+library(gapminder)
+gm <- gapminder::gapminder
+
+ggplot(data = gm,
+       aes(x = gdpPercap,
+           y = lifeExp)) +
+  geom_point()
+```
+
 
 
 # Preparing the data
@@ -275,4 +336,103 @@ tibble(Package, Function, Use) %>%
 
 (Interactive activity)
 
+## Preparing the data|Tranforming data (Joe)
 
+```{r}
+gm <- gapminder::gapminder
+```
+
+
+## Preparing the data|Tranforming data (Joe)
+
+- Create an object called `gmx`. This will be `gm`, but we will `filter` to include only the most recent year (2007).
+
+```{r}
+gm <- gapminder::gapminder
+```
+
+
+## Preparing the data|Tranforming data (Joe)
+
+- Create an object called `gmx`. This will be `gm`, but we will `filter` to include only the most recent year (2007).
+
+```{r}
+gm <- gapminder::gapminder
+gmx <- gm %>% filter(year == 2017)
+```
+
+
+## Preparing the data|Tranforming data (Joe)
+
+- Create an object called `gmx`. This will be `gm`, but we will `filter` to include only the most recent year (2007).
+
+```{r}
+gm <- gapminder::gapminder
+gmx <- gm %>% filter(year == 2007)
+```
+
+## Preparing the data|Tranforming data (Joe)
+
+- Make an object called `ncountries`. To do this, group the data by continent and `tally` the number of countries
+
+## Preparing the data|Tranforming data (Joe)
+
+- Make an object called `ncountries`. To do this, group the data by continent and `tally` the number of countries
+
+```{r}
+ncountries <- gmx %>%
+  group_by(continent) %>%
+  tally
+```
+
+## Preparing the data|Tranforming data (Joe)
+
+- Arrange `ncountries` from lowest to highest
+
+
+## Preparing the data|Tranforming data (Joe)
+
+- Arrange `ncountries` from lowest to highest
+
+```{r}
+ncountries <- gmx %>%
+  group_by(continent) %>%
+  tally
+```
+
+
+## Preparing the data|Tranforming data (Joe)
+
+- Make a plot of the continents (x-axis) and the number of countries (y-axis)
+
+
+## Preparing the data|Tranforming data (Joe)
+
+- Make a plot of the continents (x-axis) and the number of countries (y-axis)
+
+```{r}
+ggplot(data = ncountries)
+```
+
+
+## Preparing the data|Tranforming data (Joe)
+
+- Make a plot of the continents (x-axis) and the number of countries (y-axis)
+
+```{r}
+ggplot(data = ncountries,
+       aes(x = continent,
+           y = n))
+```
+
+
+## Preparing the data|Tranforming data (Joe)
+
+- Make a plot of the continents (x-axis) and the number of countries (y-axis)
+
+```{r}
+ggplot(data = ncountries,
+       aes(x = continent,
+           y = n)) +
+  geom_point()
+```
