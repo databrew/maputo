@@ -4,6 +4,13 @@ output: html_document
 
 # Day 1
 
+
+```{r, echo = FALSE, eval = TRUE, results = 'hide', include = FALSE}
+library(tidyverse)
+library(tidyr)
+```
+
+
 ## Plan for the day
 
 ### Morning  
@@ -27,13 +34,166 @@ output: html_document
 
 - Why use it?
   - Intuitive, powerful, and popular.
-  - Open source: it's free and maintained and upadated by programmers all over the world. 
+  - Open source: it's free and maintained and upadated by programmers all over the world.
   
+
+![](www/why_r.png)
+
+## What is R? (Ben)
+
+- Object oriented programming language
+  -Designed to make data handling and statitics intuitive.
+ 
+- Why use it?
+  - Intuitive, powerful, and popular.
+  - Open source: it's free and maintained and upadated by programmers all over the world.
+  
+## There is a package for that!
+
+![](www/load_data.png)
+
+## There is a package for that!
+
+![](www/manipulate_data.png)
+  
+## There is a package for that!
+
+![](www/viz_data.png)  
+
+## There is a package for that!
+
+![](www/model_data.png)
+  
+## There is a package for that!
+
+![](www/report_data.png)
+
+## There is a package for that!
+
+![](www/spatial_data.png)
+
+## There is a package for that!
+
+![](www/time_s.png)
+
+## There is a package for that!
+
+![](www/high_performance.png)
+
+## There is a package for that!
+
+![](www/work_web.png)
+
+## There is a package for that!
+
+![](www/write_packages.png)
+
+
+## R is fast 
+
+![](www/r_fast.png)
+
+## R is beautiful
+
+![](www/pretty_!.png)
+
+## R is beautiful
+
+![](www/pretty_2.png)
+
+
+## R is beautiful
+
+![](www/pretty_3.png)
+
+## R is beautiful
+
+![](www/pretty_4.png)
+
+
+## R is beautiful
+
+![](www/pretty_5.png)
+
+
+## R is beautiful
+
+![](www/pretty_6.png)
+
+
 ## The learning curve (Joe)
 
 - Motivation
 - Expectations
 - Active, engaged learning 
+
+## The learning curve (Joe)
+
+```{r}
+time <- 1:100
+spss <- 1:100
+sas <- ((1:100)^(2)) / 90
+stata <- ((1:100)^(2.1)) / 100
+excel <- ((1:100) ^ (0.2)) * 30
+r <- ((1:100)^(2.3)) / 100
+r[1:40] <- r[1:40] * seq(0, 1, length = 40)
+pd <- tibble(time, excel, spss, sas, stata, r) %>%
+  gather(key, value, excel:r) %>% 
+  mutate(key = toupper(key))
+
+variations <- list(
+  c('EXCEL'),
+  c('EXCEL', 'SPSS'),
+  c('EXCEL', 'SPSS', 'SAS'),
+  c('EXCEL', 'SPSS', 'SAS', 'STATA'),
+  c('EXCEL', 'SPSS', 'SAS', 'STATA', 'R')
+)
+var_plot <- function(i){
+  this_variation <- variations[[i]]
+  pdx <- pd %>% filter(key %in% this_variation)
+  ggplot(data = pdx,
+       aes(x = time,
+           y = value)) +
+  geom_line(aes(color = key)) +
+    scale_color_discrete(name = '') +
+    labs(x = 'Time',
+         y = 'Value of concepts learned')
+}
+var_plot(1)
+```
+
+## The learning curve (Joe)
+
+```{r}
+var_plot(2)
+```
+
+## The learning curve (Joe)
+
+```{r}
+var_plot(3)
+```
+
+
+## The learning curve (Joe)
+
+```{r}
+var_plot(4)
+```
+
+
+## The learning curve (Joe)
+
+```{r}
+var_plot(5) + xlim(1, 10) + ylim (0, 50)
+```
+
+## The learning curve (Joe)
+
+```{r}
+var_plot(5) 
+```
+
 
 ## Preparing the environment (Arsenio)
 - Installing R
@@ -115,12 +275,98 @@ R loads automatically a set of packages necessary for its basic functionality
 
 - The advantages of ggplot.
 - Quick, simple, and beautiful.
-- Adding layers to a plot.
 - Exploring the basics as well as showing the potential.
+
+## The advantages 
+
+![](www/gg_tufte.png)
+
+## The advantages
+
+- Its part of a pipeline of well maintained packages.
+- Tidyverse = readr -> dplyr -> ggplot2
+
+## Quck and simple 
+
+![](www/ggplot_code.png)
+
+## Quck and simple 
+
+![](www/ggplot_code_2.png)
+
+
+## Quck and simple 
+
+![](www/ggplot_3_vars.png)
+
+## the potential
+<center>
+![](www/ggplot_1.png){width = 100%, height = 100%}
+</center>
+
+
+
+## the potential
+
+![](www/ggplot_2.png)
+
+## the potential
+
+![](www/ggplot_3.png)
+
+
+## the potential
+
+![](www/ggplot_4.png)
 
 ## First chart (Joe)
 
-(Interactive activity)
+```{r}
+library(gapminder)
+```
+
+
+## First chart (Joe)
+
+```{r}
+library(gapminder)
+gm <- gapminder::gapminder
+head(gm)
+```
+
+
+## First chart (Joe)
+
+```{r}
+library(gapminder)
+gm <- gapminder::gapminder
+
+ggplot(data = gm)
+```
+
+## First chart (Joe)
+
+```{r}
+library(gapminder)
+gm <- gapminder::gapminder
+
+ggplot(data = gm,
+       aes(x = gdpPercap,
+           y = lifeExp))
+```
+
+## First chart (Joe)
+
+```{r}
+library(gapminder)
+gm <- gapminder::gapminder
+
+ggplot(data = gm,
+       aes(x = gdpPercap,
+           y = lifeExp)) +
+  geom_point()
+```
+
 
 
 # Preparing the data
@@ -338,6 +584,7 @@ rcv3 <- rcv[,c("subjectid", "sex", "marital_status")]
 rcv3$marital_status <- NULL 
 ```
 
+
 ## Preparing the data|Subsetting data -- notes
 
 * You can combine row and column subsetting in one step
@@ -345,6 +592,17 @@ rcv3$marital_status <- NULL
 rcv_f3 <- rcv[rcv$sex == "Female", c("subjectid", "sex", "marital_status")]
 ```
 * Any operation with a missing value (`NA`) results in a missing value, so to check if a variable `x` is `NA` use `is.na(x)` instead of `x==NA`
+
+```{r,echo=FALSE}
+Package <- c("dplyr", "dplyr", "dplyr", "dplyr", "dplyr", "tidyr", "tidyr")
+Function <- c("select", "filter", "mutate", "summarize", "group_by", "gather", "spread")
+Use <- c("select variables/columns",
+         "select observations/rows",
+         "transform or recode variables",
+         "summarize data",
+         "identify subgroups for further processing",
+         "convert wide format dataset to long format",
+         "convert long format dataset to wide format")
 
 * Check the tidyverse's `dbplyr` package for more advanced data manipulation
 
@@ -370,4 +628,155 @@ rio::export(rcv,"rcv.sas7bdat")
 
 (Interactive activity)
 
+## Preparing the data|Tranforming data (Joe)
 
+```{r}
+gm <- gapminder::gapminder
+```
+
+
+## Preparing the data|Tranforming data (Joe)
+
+- Create an object called `gmx`. This will be `gm`, but we will `filter` to include only the most recent year (2007).
+
+```{r}
+gm <- gapminder::gapminder
+```
+
+
+## Preparing the data|Tranforming data (Joe)
+
+- Create an object called `gmx`. This will be `gm`, but we will `filter` to include only the most recent year (2007).
+
+```{r}
+gm <- gapminder::gapminder
+gmx <- gm %>% filter(year == 2017)
+```
+
+
+## Preparing the data|Tranforming data (Joe)
+
+- Create an object called `gmx`. This will be `gm`, but we will `filter` to include only the most recent year (2007).
+
+```{r}
+gm <- gapminder::gapminder
+gmx <- gm %>% filter(year == 2007)
+```
+
+## Preparing the data|Tranforming data (Joe)
+
+- Make an object called `ncountries`. To do this, group the data by continent and `tally` the number of countries
+
+## Preparing the data|Tranforming data (Joe)
+
+- Make an object called `ncountries`. To do this, group the data by continent and `tally` the number of countries
+
+```{r}
+ncountries <- gmx %>%
+  group_by(continent) %>%
+  tally
+```
+
+## Preparing the data|Tranforming data (Joe)
+
+- Arrange `ncountries` from lowest to highest
+
+
+## Preparing the data|Tranforming data (Joe)
+
+- Arrange `ncountries` from lowest to highest
+
+```{r}
+ncountries <- gmx %>%
+  group_by(continent) %>%
+  tally
+```
+
+
+## Preparing the data|Tranforming data (Joe)
+
+- Make a plot of the continents (x-axis) and the number of countries (y-axis)
+
+
+## Preparing the data|Tranforming data (Joe)
+
+- Make a plot of the continents (x-axis) and the number of countries (y-axis)
+
+```{r}
+ggplot(data = ncountries)
+```
+
+
+## Preparing the data|Tranforming data (Joe)
+
+- Make a plot of the continents (x-axis) and the number of countries (y-axis)
+
+```{r}
+ggplot(data = ncountries,
+       aes(x = continent,
+           y = n))
+```
+
+
+## Preparing the data|Tranforming data (Joe)
+
+- Make a plot of the continents (x-axis) and the number of countries (y-axis)
+
+```{r}
+ggplot(data = ncountries,
+       aes(x = continent,
+           y = n)) +
+  geom_point()
+```
+
+
+## Preparing the data|Tranforming data (Joe)
+
+- Let's create an object called `moz`. This will be the gapminder data, but just for Mozambique.
+
+
+
+## Preparing the data|Tranforming data (Joe)
+
+- Let's create an object called `moz`. This will be the gapminder data, but just for Mozambique.
+
+```{r}
+gm <- gapminder::gapminder
+moz <- gm %>%
+  filter(country == 'Mozambique')
+```
+
+
+## Preparing the data|Tranforming data (Joe)
+
+- Plot GDP per capita over time
+
+
+
+## Preparing the data|Tranforming data (Joe)
+
+- Plot life expectancy over time
+
+
+## Preparing the data|Tranforming data (Joe)
+
+- Plot the association between gdpPercap and life expectancy
+
+
+
+## Preparing the data|Tranforming data (Joe)
+
+- Plot the association between gdpPercap and life expectancy
+
+## Preparing the data|Tranforming data (Joe)
+
+- Take the gapminder data, keep only 2007 data, group by continent, and get the maximum and minimum life expectancy for each continent
+
+
+## Preparing the data|Tranforming data (Joe)
+
+- Take the gapminder data, keep only 2007 data, group by continent, `mutate` a new variable with the average GDP for that continent, `mutate` another variable with the difference between each country and its continent's average GDP
+
+## Discussion and activities
+
+- How else can we visualize the `gapminder` data?
