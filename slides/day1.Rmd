@@ -185,8 +185,17 @@ library(ggplot2)
 
 - The advantages of ggplot.
 - Quick, simple, and beautiful.
-- Adding layers to a plot.
 - Exploring the basics as well as showing the potential.
+
+## The advantages 
+
+![](www/gg_tufte.png)
+
+## The advantages
+
+- Its part of a pipeline of well maintained packages.
+- Tidyverse = readr -> dplyr -> ggplot2
+
 
 ## First chart (Joe)
 
