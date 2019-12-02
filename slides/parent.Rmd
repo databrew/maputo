@@ -33,8 +33,9 @@ for (pk in npac){
 ```{r, eval = TRUE, echo = FALSE}
 # Build document from contents of directory
 # Get a list of all the child documents
-rmds <- list.files(pattern = '*.Rmd', recursive = FALSE, include.dirs = FALSE)
-rmds <- rmds[!rmds %in% c('parent.Rmd', 'children.Rmd')]
+# rmds <- list.files(pattern = '*.Rmd', recursive = FALSE, include.dirs = FALSE)
+# rmds <- rmds[!rmds %in% c('parent.Rmd', 'children.Rmd')]
+rmds <- 'day1.Rmd'
 
 chunks <- paste0("\n\n```{r child = '", 
                  rmds, 

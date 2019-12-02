@@ -12,18 +12,16 @@ library(tidyr)
 
 
 ## Plan for the day
-
 ### Morning  
 - Arsenio: Introduction and week plan  
-- Ben: What is R? Why use R? 
+- Ben: What is R? Why use R?
 - Joe: The learning curve and motivation
 - Arsenio: **Preparing the environment**
 
 ### Afternoon
-- Arsenio: **Preparing the data** (basic only, save databases, etc. for day 5)  
+- Arsenio: **Preparing the data** (basic only, save databases, etc. for day 5) 
 - Ben: **Introduction to ggplot2** (context, rationale, structure)
 - Joe: First chart
-
 
 ## Introduction and week plan (Arsenio)
 
@@ -35,7 +33,7 @@ library(tidyr)
 - Why use it?
   - Intuitive, powerful, and popular.
   - Open source: it's free and maintained and upadated by programmers all over the world.
-  
+ 
 <center>
 ![](www/why_r.png)
 </center>
@@ -48,7 +46,7 @@ library(tidyr)
 - Why use it?
   - Intuitive, powerful, and popular.
   - Open source: it's free and maintained and upadated by programmers all over the world.
-  
+ 
 ## There is a package for that!
 <center>
 ![](www/load_data.png)
@@ -59,7 +57,7 @@ library(tidyr)
 <center>
 ![](www/manipulate_data.png)
 </center>
-  
+ 
 ## There is a package for that!
 <center>
 ![](www/viz_data.png)  
@@ -70,7 +68,7 @@ library(tidyr)
 <center>
 ![](www/model_data.png)
 </center>
-  
+ 
 ## There is a package for that!
 
 <center>
@@ -108,7 +106,7 @@ library(tidyr)
 </center>
 
 
-## R is fast 
+## R is fast
 
 ![](www/r_fast.png)
 
@@ -142,12 +140,6 @@ library(tidyr)
 ![](www/pretty_6.png)
 </center>
 
-
-## The learning curve (Joe)
-
-- Motivation
-- Expectations
-- Active, engaged learning 
 
 ## The learning curve (Joe)
 
@@ -288,18 +280,21 @@ R loads automatically a set of packages necessary for its basic functionality
 
 # Afternoon
 
+
+# Afternoon
+
 ## Preparing the data (Arsenio)
 
  - Exploring packages and functions to read in data.
  - Preparing the data for analysis and visualization.
 
-## Introduction to ggplot2 (Ben) 
+## Introduction to ggplot2 (Ben)
 
 - The advantages of ggplot.
 - Quick, simple, and beautiful.
 - Exploring the basics as well as showing the potential.
 
-## The advantages 
+## The advantages
 
 <center>
 ![](www/gg_tufte.png)
@@ -310,18 +305,18 @@ R loads automatically a set of packages necessary for its basic functionality
 - Its part of a pipeline of well maintained packages.
 - Tidyverse = readr -> dplyr -> ggplot2
 
-## Quck and simple 
+## Quck and simple
 <center>
 ![](www/ggplot_code.png)
 </center>
 
-## Quck and simple 
+## Quck and simple
 <center>
 ![](www/ggplot_code_2.png)
 </center>
 
 
-## Quck and simple 
+## Quck and simple
 <center>
 ![](www/ggplot_3_vars.png)
 </center>
@@ -473,8 +468,8 @@ cv1 <- read_sas("cv1.sas7bdat")
 Swiss-army knife for data import/export: `rio`
 ```{r, eval=FALSE}
 library(rio)
-# from any (supported) file format 
-cv1 <- import("cv1.csv") 
+# from any (supported) file format
+cv1 <- import("cv1.csv")
 cv1 <- import("cv1.txt")
 cv1 <- import("cv1.xlsx")
 cv1 <- import("cv1.dta")
@@ -483,12 +478,12 @@ cv1 <- import("cv1.sas7bdat")
 ```
 
 
-## Preparing the data|Example study 
+## Preparing the data|Example study
 
 Suppose we have three datasets from a study:
 
 * `recruitment.xlsx` -- data collected during the participant recruitment
-* `clinic_visit1.xlsx` -- data from the first clinic visit 
+* `clinic_visit1.xlsx` -- data from the first clinic visit
 * `clinic_visit2.xlsx` -- data from the second clinic visit, has the same variables as `clinic_visit1.xlsx`
 
 ```{r, eval=FALSE}
@@ -499,6 +494,7 @@ rec <- rio::import("data/recruitment.xlsx")
 cv1 <- rio::import("data/clinic_visit1.xlsx")
 cv2 <- rio::import("data/clinic_visit2.xlsx")
 ```
+
 ```{r, echo=FALSE}
 #ddir <- "C:/Users/qnhacolo/Google Drive/CISM/Trainning/Trainer/TESA/DataVis/GitHub/maputo-master/slides/"
 #setwd(ddir)
@@ -510,13 +506,15 @@ cv2 <- rio::import("data/clinic_visit2.xlsx")
 
 ***
 
-```{r}
+```{r, eval=FALSE}
 rec[1:2,]
 ```
-```{r}
+
+```{r, eval=FALSE}
 cv1[1:2,]
 ```
-```{r}
+
+```{r, eval=FALSE}
 cv2[1:2,]
 ```
 
@@ -524,7 +522,7 @@ cv2[1:2,]
 
 * Create age at recruitment in days (`age_d`) and in years (`age_y`) variables in the `rec`data frame
 
-```{r}
+```{r, eval=FALSE}
 rec$age_d <- difftime(rec$date_recru, rec$date_birth, units = "days")
 rec$age_d <- as.integer(rec$age_d) # convert to integer class
 rec$age_y <- rec$age_d/365.25
@@ -538,7 +536,7 @@ rec$age_y <- round(rec$age_y, digits = 0)
 
 * `cv1` and `cv2` have the same variables (columns), let's combine them vertically
 
-```{r}
+```{r, eval=FALSE}
 # In order to be able to identity the visit in the combined
 # data frame, we need to create extra variable before
 cv1$visit <- "v1"
@@ -552,11 +550,11 @@ cvs <- rbind(cv1, cv2)
 * The `cvs` data frame has data from different visits of the same study participant in different rows -- this is called __long format__
 * We would like to have the data from all visits of the same participant in the same row -- this is called __wide format__
 
-```{r}
+```{r, eval=FALSE}
 library(tidyr)
 # Reshaping from long to wide
-cvs_wide <- pivot_wider(cvs, 
-                        id_cols = "subjectid", 
+cvs_wide <- pivot_wider(cvs,
+                        id_cols = "subjectid",
                         names_from = "visit",
                         values_from = c("date", "weight_kg", "temp", "mal_test"))
 ```
@@ -567,7 +565,7 @@ cvs_wide <- pivot_wider(cvs,
 
 * Now that we have all visits' data in one row per participant, we would like to joint them with the corresponding participant data from the recruitment (`rec`)
 
-```{r}
+```{r, eval=FALSE}
 rcv <- merge(rec, cvs_wide, by = "subjectid", all.x = TRUE, all.y = TRUE)
 ```
 
@@ -576,7 +574,7 @@ rcv <- merge(rec, cvs_wide, by = "subjectid", all.x = TRUE, all.y = TRUE)
 * The variable `sex` is stored as numeric (1 and 2), where _1=Female_ and _2=Male_
 * `marital_status` is stored as _sing_ (Single), _marr_ (Married), _divo_ (Divorced) and _wido_ (Widowed)
 
-```{r}
+```{r, eval=FALSE}
 # Recoding variables
 rcv$sex <- factor(rcv$sex,
                           levels = c(1, 2),
@@ -587,27 +585,27 @@ rcv$marital_status <- factor(rcv$marital_status,
                                      c("Single", "Married", "Divorced", "Widowed"))
 ```
 
-## Preparing the data|Subsetting data -- rows (observations) 
+## Preparing the data|Subsetting data -- rows (observations)
 
 * `dataframe_name[row_selection,]`
-* `row_selection` can be a 
-  + vector of row numbers 
+* `row_selection` can be a
+  + vector of row numbers
     - `rcv[2,]` returns the 2^nd^ row
     - `rcv[c(1,3,7),]` returns 1^st^, 3^rd^ and 7^th^ rows
   + logical vector (TRUE/FALSE) whose length is equal to the total number of rows of the data frame
     - returns rows in positions where the vector has the value `TRUE`
-    - it is often given as a logical condition involving the operators `<` (less than), `<=` (less than or equal to), `>`, `>=`, `==` (equal to), `!=` (not equal), `!` (not), `|` (or), `&` (and), `is.na()` (returns true for missing values, `NA`) 
-    
+    - it is often given as a logical condition involving the operators `<` (less than), `<=` (less than or equal to), `>`, `>=`, `==` (equal to), `!=` (not equal), `!` (not), `|` (or), `&` (and), `is.na()` (returns true for missing values, `NA`)
+   
 
 ## Preparing the data|Subsetting data -- rows  
 
 Examples:
-```{r}
+```{r, eval=FALSE}
 # Create data frame of females
 rcv_f <- rcv[rcv$sex == "Female",]
 
 # Create data frame of single or divorced females
-rcv_sdf <- rcv[rcv$sex == "Female" & 
+rcv_sdf <- rcv[rcv$sex == "Female" &
                         (rcv$marital_status == "Single" | rcv$marital_status == "Divorced"),]
 
 ```
@@ -615,30 +613,31 @@ rcv_sdf <- rcv[rcv$sex == "Female" &
 ## Preparing the data|Subsetting data -- columns (variables)  
 
 * `dataframe_name[,column_selection]`
-* `colu_selection` can be a 
+* `colu_selection` can be a
   + vector of column numbers to keep or drop
     - `rcv[,c(1,3,5)]` keeps the 1^st^, 3^rd^ and 5^th^ columns
     - `rcv[,-c(1,3,5)]` drops the 1^st^, 3^rd^ and 5^th^ columns
   + vector of column names to keep
     - `rcv[,c("subjectid", "sex", "marital_status")]
-    
-```{r}
+   
+```{r, eval=FALSE}
 # Create data frame with containing only the subjectid, sex and marital_status
 rcv3 <- rcv[,c("subjectid", "sex", "marital_status")]
 # Delete marital_status variable from rcv3
-rcv3$marital_status <- NULL 
+rcv3$marital_status <- NULL
 ```
 
 
 ## Preparing the data|Subsetting data -- notes
 
 * You can combine row and column subsetting in one step
-```{r}
+```{r, eval=FALSE}
 rcv_f3 <- rcv[rcv$sex == "Female", c("subjectid", "sex", "marital_status")]
 ```
+
 * Any operation with a missing value (`NA`) results in a missing value, so to check if a variable `x` is `NA` use `is.na(x)` instead of `x==NA`
 
-```{r,echo=FALSE}
+```{r, eval=FALSE}
 Package <- c("dplyr", "dplyr", "dplyr", "dplyr", "dplyr", "tidyr", "tidyr")
 Function <- c("select", "filter", "mutate", "summarize", "group_by", "gather", "spread")
 Use <- c("select variables/columns",
@@ -648,12 +647,15 @@ Use <- c("select variables/columns",
          "identify subgroups for further processing",
          "convert wide format dataset to long format",
          "convert long format dataset to wide format")
+```
+
 
 * Check the tidyverse's `dbplyr` package for more advanced data manipulation
 
 ## Preparing the data|Saving data frame to a file
 
 * You can easily save your R data frames in different file formats using the `rio` package
+
 ```{r, eval=FALSE}
 # Saving the rcv data frame to a file in the current working directory in
 # R format
