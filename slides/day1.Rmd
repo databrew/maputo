@@ -31,7 +31,88 @@ output: html_document
   
 ![](www/why_r.png)
 
+## What is R? (Ben)
+
+- Object oriented programming language
+  -Designed to make data handling and statitics intuitive.
+ 
+- Why use it?
+  - Intuitive, powerful, and popular.
+  - Open source: it's free and maintained and upadated by programmers all over the world.
   
+## There is a package for that!
+
+![](www/load_data.png)
+## There is a package for that!
+
+![](www/manipulate_data.png)
+  
+## There is a package for that!
+
+![](www/viz_data.png)  
+
+## There is a package for that!
+
+![](www/model_data.png)
+  
+## There is a package for that!
+
+![](www/report_data.png)
+
+
+## There is a package for that!
+
+![](www/spatial_data.png)
+
+## There is a package for that!
+
+![](www/time_s.png)
+
+
+## There is a package for that!
+
+![](www/high_performance.png)
+
+
+## There is a package for that!
+
+![](www/work_web.png)
+
+## There is a package for that!
+
+![](www/write_packages.png)
+
+
+## R is fast 
+
+![](www/r_fast.png)
+
+## R is beautiful
+
+![](www/pretty_!.png)
+
+## R is beautiful
+
+![](www/pretty_2.png)
+
+
+## R is beautiful
+
+![](www/pretty_3.png)
+
+## R is beautiful
+
+![](www/pretty_4.png)
+
+
+## R is beautiful
+
+![](www/pretty_5.png)
+
+
+## R is beautiful
+
+![](www/pretty_6.png)
 
 ## The learning curve (Joe)
 
