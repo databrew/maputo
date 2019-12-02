@@ -36,8 +36,9 @@ library(tidyr)
   - Intuitive, powerful, and popular.
   - Open source: it's free and maintained and upadated by programmers all over the world.
   
-
+<center>
 ![](www/why_r.png)
+</center>
 
 <<<<<<< HEAD
 ## What is R? (Ben)
@@ -50,44 +51,62 @@ library(tidyr)
   - Open source: it's free and maintained and upadated by programmers all over the world.
   
 ## There is a package for that!
-
+<center>
 ![](www/load_data.png)
+</center?
 
 ## There is a package for that!
 
+<center>
 ![](www/manipulate_data.png)
+</center>
   
 ## There is a package for that!
-
+<center>
 ![](www/viz_data.png)  
+</center>
 
 ## There is a package for that!
 
+<center>
 ![](www/model_data.png)
+</center>
   
 ## There is a package for that!
 
+<center>
 ![](www/report_data.png)
+</center>
 
 ## There is a package for that!
 
+<center>
 ![](www/spatial_data.png)
+</center>
 
 ## There is a package for that!
 
-![](www/time_s.png)
+<center>
+![](www/time_series.png)
+</center>
 
 ## There is a package for that!
 
+<center>
 ![](www/high_performance.png)
+</center>
 
 ## There is a package for that!
 
+<center>
 ![](www/work_web.png)
+</center>
 
 ## There is a package for that!
 
+<center>
 ![](www/write_packages.png)
+</center>
 
 
 ## R is fast 
@@ -96,30 +115,33 @@ library(tidyr)
 
 ## R is beautiful
 
+<center>
 ![](www/pretty_!.png)
+</center>
+
 
 ## R is beautiful
 
+<center>
 ![](www/pretty_2.png)
+</center>
 
 
 ## R is beautiful
-
+<center>
 ![](www/pretty_3.png)
+</center>
 
 ## R is beautiful
-
+<center>
 ![](www/pretty_4.png)
+</center>
 
 
 ## R is beautiful
-
-![](www/pretty_5.png)
-
-
-## R is beautiful
-
+<center>
 ![](www/pretty_6.png)
+</center>
 
 
 ## The learning curve (Joe)
@@ -259,7 +281,9 @@ library(ggplot2)
 
 ## The advantages 
 
+<center>
 ![](www/gg_tufte.png)
+</center>
 
 ## The advantages
 
@@ -267,37 +291,63 @@ library(ggplot2)
 - Tidyverse = readr -> dplyr -> ggplot2
 
 ## Quck and simple 
-
-![](www/ggplot_code.png)
-
-## Quck and simple 
-
-![](www/ggplot_code_2.png)
-
-
-## Quck and simple 
-
-![](www/ggplot_3_vars.png)
-
-## the potential
 <center>
-![](www/ggplot_1.png){width = 100%, height = 100%}
+![](www/ggplot_code.png)
+</center>
+
+## Quck and simple 
+<center>
+![](www/ggplot_code_2.png)
 </center>
 
 
+## Quck and simple 
+<center>
+![](www/ggplot_3_vars.png)
+</center>
 
 ## the potential
-
-![](www/ggplot_2.png)
-
-## the potential
-
-![](www/ggplot_3.png)
-
+<center>
+![](www/gg_1_code.png)
+</center>
 
 ## the potential
+<center>
+![](www/gg1_plot.png)
+</center>
 
-![](www/ggplot_4.png)
+
+## the potential
+<center>
+![](www/gg_2_code.png)
+</center>
+
+## the potential
+<center>
+![](www/gg_2_plot.png)
+</center>
+
+## the potential
+<center>
+![](www/gg_3_code.png)
+</center>
+
+## the potential
+<center>
+![](www/gg_3_plot.png)
+</center>
+
+## the potential
+<center>
+![](www/gg_4_code.png)
+</center>
+
+## the potential
+<center>
+![](www/gg_4_plot.png)
+</center>
+
+
 
 ## First chart (Joe)
 
