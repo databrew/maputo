@@ -40,7 +40,6 @@ library(tidyr)
 ![](www/why_r.png)
 </center>
 
-<<<<<<< HEAD
 ## What is R? (Ben)
 
 - Object oriented programming language
@@ -251,26 +250,47 @@ npac <- c("ggplot2","plotly" , "dplyr", "tidyr", "mosaicData", "carData", "rio",
         "CGPfunctions", "ggcorrplot", "visreg", "gcookbook", "forcats", "survival", 
         "survminer", "ggalluvial", "ggridges", "GGally", "superheat", "waterfalls", 
         "factoextra", "networkD3", "ggthemes", "hrbrthemes", "ggpol", "ggbeeswarm",
-        "knitr", "kableExtra")
+        "knitr", "kableExtra", "ggmosaic", "sjPlot", "vcd", "ggpubr")
 
 install.packages(npac)
 ```
 
 ## How to use/load a package (Arsenio)
 
-```{R, eval = FALSE}
-library(dplyr)
+Use a function without loading its package:
+
+* `package_name::function_name()`
+```{r, eval = FALSE}
+ggplot2::ggplot()
+dplyr::mutate()
+```
+
+Load a package so that all ist function are readily avaible
+
+* `library(package_name)`
+```{r, eval = FALSE}
 library(ggplot2)
+library(dplyr) 
 ```
 
 
+## How to use/load a package (Arsenio) 
+
+Use a function after loading its package:
+
+* `function_name()`
+```{r, eval = FALSE}
+ggplot()
+mutate()
+```
+
+R loads automatically a set of packages necessary for its basic functionality
 
 # Afternoon
 
 ## Preparing the data (Arsenio)
 
  - Exploring packages and functions to read in data.
- - Cleaning column names, removing missing values, and formatting variables. 
  - Preparing the data for analysis and visualization.
 
 ## Introduction to ggplot2 (Ben) 
@@ -403,19 +423,40 @@ ggplot(data = gm,
 
 ## Preparing the data|Importing data from files (Arsenio)
 
+Set the working directory (`setwd('path_to_a_folder')`)
+
+* It's a folder in your computer where `R` search for and save files by default
+
+Example:
+
+
+```{r, eval=FALSE}
+# Read the file clinic_v1.xlsx from C:\Users\qnhacolo\Documents\DataVisMz\data
+# (note the path notation difference between Windows (\) and R (/))
+library(readxl)
+cv1 <- read_excel("C:/Users/qnhacolo/Documents/DataVisMz/data/clinic_v1.xlsx", sheet=1)
+
+# After setting the working directory
+setwd("C:/Users/qnhacolo/Documents/DataVisMz/data/")
+library(readxl)
+cv1 <- read_excel("clinic_v1.xlsx", sheet=1)
+```
+
+## Preparing the data|Importing data from files (Arsenio)
+
 Different packages/functions to import data from different file formats
 
 <div style="float: left; width: 50%;">
 ```{r, eval=FALSE}
 library(readr)
 # from a comma delimited file
-opd <- read_csv("opd.csv")
+cv1 <- read_csv("cv1.csv")
 # from a tab delimited file
-opd <- read_tsv("opd.txt")
+cv1 <- read_tsv("cv1.txt")
 
 library(readxl)
 # from an Excel workbook
-opd <- read_excel("opd.xlsx", sheet=1)
+cv1 <- read_excel("cv1.xlsx", sheet=1)
 ```
 </div>
 
@@ -424,11 +465,11 @@ opd <- read_excel("opd.xlsx", sheet=1)
 ```{r, eval=FALSE}
 library(haven)
 # from Stata file
-opd <- read_dta("opd.dta")
+cv1 <- read_dta("cv1.dta")
 # from SPSS file
-opd <- read_sav("opd.sav")
+cv1 <- read_sav("cv1.sav")
 # from SAS file
-opd <- read_sas("opd.sas7bdat")
+cv1 <- read_sas("cv1.sas7bdat")
 ```
 </div>
 
@@ -438,52 +479,169 @@ Swiss-army knife for data import/export: `rio`
 ```{r, eval=FALSE}
 library(rio)
 # from any (supported) file format 
-opd <- import("opd.csv") 
-opd <- import("opd.txt")
-opd <- import("opd.xlsx")
-opd <- import("opd.dta")
-opd <- import("opd.sav")
-opd <- import("opd.sas7bdat")
+cv1 <- import("cv1.csv") 
+cv1 <- import("cv1.txt")
+cv1 <- import("cv1.xlsx")
+cv1 <- import("cv1.dta")
+cv1 <- import("cv1.sav")
+cv1 <- import("cv1.sas7bdat")
 ```
 
 
-## Preparing the data|Importing data from databases management systems (Arsenio)
+## Preparing the data|Example study 
 
-Different packages for different DBMS, e.g.:
+Suppose we have three datasets from a study:
 
-* RODBC --  implements ODBC, an API for accessing DBMS
-* RMySQL/RMariaDB -- for accessing MySQL/MariaDB databases
-* ROracle -- for accessing Oracle database
-* RPostgreSQL -- for accessing PostgreSQL database
-* RSQLite -- for accessing SQLite database
-* RMongo -- for accessing MongoDB database
-* ...
-
-## Preparing the data|Importing data from databases management systems (Arsenio)
-
-E.g.: Importing data from MariaDB
+* `recruitment.xlsx` -- data collected during the participant recruitment
+* `clinic_visit1.xlsx` -- data from the first clinic visit 
+* `clinic_visit2.xlsx` -- data from the second clinic visit, has the same variables as `clinic_visit1.xlsx`
 
 ```{r, eval=FALSE}
-library(RMariaDB)
+ddir <- "C:/Users/qnhacolo/.../DataVis/GitHub/maputo-master/slides/"
+setwd(ddir)
+# Import (read) the data
+rec <- rio::import("data/recruitment.xlsx")
+cv1 <- rio::import("data/clinic_visit1.xlsx")
+cv2 <- rio::import("data/clinic_visit2.xlsx")
+```
+```{r, echo=FALSE}
+#ddir <- "C:/Users/qnhacolo/Google Drive/CISM/Trainning/Trainer/TESA/DataVis/GitHub/maputo-master/slides/"
+#setwd(ddir)
+# Import (read) the data
+rec <- rio::import("data/recruitment.xlsx")
+cv1 <- rio::import("data/clinic_visit1.xlsx")
+cv2 <- rio::import("data/clinic_visit2.xlsx")
+```
 
-con <- dbConnect(RMariaDB::MariaDB(), user = 'user_name', password  = 'password',
-                 host = 'server_address', dbname = 'database_name')
+***
 
-death <- dbGetQuery(con,"SELECT d.person_id, m.date_birth, d.date_death, 
-                    DATEDIFF(d.date_death,m.date_birth) AS age_days, 
-                    d.place_death, d.place_death_other 
-                    FROM dsdb.death AS d LEFT JOIN dsdb.resident AS m 
-                    ON d.person_id=m.person_id 
-                    WHERE YEAR(d.date_death) IN (2017, 2018) 
-                    HAVING age_days BETWEEN 28 AND 1800")
+```{r}
+rec[1:2,]
+```
+```{r}
+cv1[1:2,]
+```
+```{r}
+cv2[1:2,]
+```
+
+## Preparing the data|Creating new variables
+
+* Create age at recruitment in days (`age_d`) and in years (`age_y`) variables in the `rec`data frame
+
+```{r}
+rec$age_d <- difftime(rec$date_recru, rec$date_birth, units = "days")
+rec$age_d <- as.integer(rec$age_d) # convert to integer class
+rec$age_y <- rec$age_d/365.25
+# Round to the nearest integer
+rec$age_y <- round(rec$age_y, digits = 0)
+```
+
+* Check the tidyverse's `lubridate` package for more advanced date/time manipulation
+
+## Preparing the data|Joining data frames vertically (appending)
+
+* `cv1` and `cv2` have the same variables (columns), let's combine them vertically
+
+```{r}
+# In order to be able to identity the visit in the combined
+# data frame, we need to create extra variable before
+cv1$visit <- "v1"
+cv2$visit <- "v2"
+# Now combining
+cvs <- rbind(cv1, cv2)
+```
+
+## Preparing the data|Reshaping data
+
+* The `cvs` data frame has data from different visits of the same study participant in different rows -- this is called __long format__
+* We would like to have the data from all visits of the same participant in the same row -- this is called __wide format__
+
+```{r}
+library(tidyr)
+# Reshaping from long to wide
+cvs_wide <- pivot_wider(cvs, 
+                        id_cols = "subjectid", 
+                        names_from = "visit",
+                        values_from = c("date", "weight_kg", "temp", "mal_test"))
+```
+
+* Use `pivot_longer()` to reshape from wide to long format
+
+## Preparing the data|Joining data frames horizontally (merging)
+
+* Now that we have all visits' data in one row per participant, we would like to joint them with the corresponding participant data from the recruitment (`rec`)
+
+```{r}
+rcv <- merge(rec, cvs_wide, by = "subjectid", all.x = TRUE, all.y = TRUE)
+```
+
+## Preparing the data|Recode categorical variables
+
+* The variable `sex` is stored as numeric (1 and 2), where _1=Female_ and _2=Male_
+* `marital_status` is stored as _sing_ (Single), _marr_ (Married), _divo_ (Divorced) and _wido_ (Widowed)
+
+```{r}
+# Recoding variables
+rcv$sex <- factor(rcv$sex,
+                          levels = c(1, 2),
+                          labels = c("Female", "Male"))
+
+rcv$marital_status <- factor(rcv$marital_status,
+                                     c("sing", "marr", "divo", "wido"),
+                                     c("Single", "Married", "Divorced", "Widowed"))
+```
+
+## Preparing the data|Subsetting data -- rows (observations) 
+
+* `dataframe_name[row_selection,]`
+* `row_selection` can be a 
+  + vector of row numbers 
+    - `rcv[2,]` returns the 2^nd^ row
+    - `rcv[c(1,3,7),]` returns 1^st^, 3^rd^ and 7^th^ rows
+  + logical vector (TRUE/FALSE) whose length is equal to the total number of rows of the data frame
+    - returns rows in positions where the vector has the value `TRUE`
+    - it is often given as a logical condition involving the operators `<` (less than), `<=` (less than or equal to), `>`, `>=`, `==` (equal to), `!=` (not equal), `!` (not), `|` (or), `&` (and), `is.na()` (returns true for missing values, `NA`) 
+    
+
+## Preparing the data|Subsetting data -- rows  
+
+Examples:
+```{r}
+# Create data frame of females
+rcv_f <- rcv[rcv$sex == "Female",]
+
+# Create data frame of single or divorced females
+rcv_sdf <- rcv[rcv$sex == "Female" & 
+                        (rcv$marital_status == "Single" | rcv$marital_status == "Divorced"),]
+
+```
+
+## Preparing the data|Subsetting data -- columns (variables)  
+
+* `dataframe_name[,column_selection]`
+* `colu_selection` can be a 
+  + vector of column numbers to keep or drop
+    - `rcv[,c(1,3,5)]` keeps the 1^st^, 3^rd^ and 5^th^ columns
+    - `rcv[,-c(1,3,5)]` drops the 1^st^, 3^rd^ and 5^th^ columns
+  + vector of column names to keep
+    - `rcv[,c("subjectid", "sex", "marital_status")]
+    
+```{r}
+# Create data frame with containing only the subjectid, sex and marital_status
+rcv3 <- rcv[,c("subjectid", "sex", "marital_status")]
+# Delete marital_status variable from rcv3
+rcv3$marital_status <- NULL 
 ```
 
 
-## Preparing the data|Cleaning data (Arsenio)
+## Preparing the data|Subsetting data -- notes
 
-* Often the most time-consuming part of any data analysis
-* Some useful functions:
-
+* You can combine row and column subsetting in one step
+```{r}
+rcv_f3 <- rcv[rcv$sex == "Female", c("subjectid", "sex", "marital_status")]
+```
+* Any operation with a missing value (`NA`) results in a missing value, so to check if a variable `x` is `NA` use `is.na(x)` instead of `x==NA`
 
 ```{r,echo=FALSE}
 Package <- c("dplyr", "dplyr", "dplyr", "dplyr", "dplyr", "tidyr", "tidyr")
@@ -496,10 +654,23 @@ Use <- c("select variables/columns",
          "convert wide format dataset to long format",
          "convert long format dataset to wide format")
 
-tibble(Package, Function, Use) %>% 
-  kable() %>% 
-  kable_styling(bootstrap_options = c('striped', 'hover', 'condensed'),full_width = TRUE,
-                position = 'center')
+* Check the tidyverse's `dbplyr` package for more advanced data manipulation
+
+## Preparing the data|Saving data frame to a file
+
+* You can easily save your R data frames in different file formats using the `rio` package
+```{r, eval=FALSE}
+# Saving the rcv data frame to a file in the current working directory in
+# R format
+rio::export(x = rcv, file = "rcv.rds")
+# Excel format
+rio::export(rcv,"rcv.xlsx")
+# Stata format
+rio::export(rcv,"rcv.dta")
+# SPSS format
+rio::export(rcv,"rcv.sav")
+# SAS format
+rio::export(rcv,"rcv.sas7bdat")
 ```
 
 
