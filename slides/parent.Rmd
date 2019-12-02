@@ -20,8 +20,8 @@ npac <- c("ggplot2","plotly" , "dplyr", "tidyr",
         "choroplethr",# "choroplethrMaps", 
         # "CGPfunctions", "ggcorrplot", "visreg", "gcookbook", "forcats", "survival", 
         # "survminer", "ggalluvial", "ggridges", "GGally", "superheat", "waterfalls", 
-        # "factoextra", "networkD3", "ggthemes", "hrbrthemes", "ggpol", "ggbeeswarm",
-        "knitr", "kableExtra", "ggpubr")
+        # "factoextra", "networkD3", "ggthemes", "hrbrthemes", "ggpol", "ggbeeswarm", "ggpubr",
+        "knitr", "kableExtra")
 for (pk in npac){
   library(pk,character.only = TRUE)
 }

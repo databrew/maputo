@@ -339,12 +339,7 @@ library(ggplot2)
 
 ## the potential
 <center>
-![](www/gg_4_code.png)
-</center>
-
-## the potential
-<center>
-![](www/gg_4_plot.png)
+![](www/ggmpa.png)
 </center>
 
 
