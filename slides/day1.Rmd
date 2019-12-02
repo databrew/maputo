@@ -361,14 +361,15 @@ R loads automatically a set of packages necessary for its basic functionality
 
 ## First chart (Joe)
 
-```{r}
+```{r, echo = TRUE}
 library(gapminder)
 ```
 
 
 ## First chart (Joe)
 
-```{r}
+
+```{r, echo = TRUE}
 library(gapminder)
 gm <- gapminder::gapminder
 head(gm)
@@ -377,7 +378,8 @@ head(gm)
 
 ## First chart (Joe)
 
-```{r}
+
+```{r, echo = TRUE}
 library(gapminder)
 gm <- gapminder::gapminder
 
@@ -386,7 +388,7 @@ ggplot(data = gm)
 
 ## First chart (Joe)
 
-```{r}
+```{r, echo = TRUE}
 library(gapminder)
 gm <- gapminder::gapminder
 
@@ -397,7 +399,7 @@ ggplot(data = gm,
 
 ## First chart (Joe)
 
-```{r}
+```{r, echo = TRUE}
 library(gapminder)
 gm <- gapminder::gapminder
 
@@ -677,7 +679,7 @@ rio::export(rcv,"rcv.sas7bdat")
 
 ## Preparing the data|Tranforming data (Joe)
 
-```{r}
+```{r, echo = TRUE}
 gm <- gapminder::gapminder
 ```
 
@@ -686,7 +688,7 @@ gm <- gapminder::gapminder
 
 - Create an object called `gmx`. This will be `gm`, but we will `filter` to include only the most recent year (2007).
 
-```{r}
+```{r, echo = TRUE}
 gm <- gapminder::gapminder
 ```
 
@@ -695,7 +697,7 @@ gm <- gapminder::gapminder
 
 - Create an object called `gmx`. This will be `gm`, but we will `filter` to include only the most recent year (2007).
 
-```{r}
+```{r, echo = TRUE}
 gm <- gapminder::gapminder
 gmx <- gm %>% filter(year == 2017)
 ```
@@ -705,7 +707,7 @@ gmx <- gm %>% filter(year == 2017)
 
 - Create an object called `gmx`. This will be `gm`, but we will `filter` to include only the most recent year (2007).
 
-```{r}
+```{r, echo = TRUE}
 gm <- gapminder::gapminder
 gmx <- gm %>% filter(year == 2007)
 ```
@@ -718,7 +720,7 @@ gmx <- gm %>% filter(year == 2007)
 
 - Make an object called `ncountries`. To do this, group the data by continent and `tally` the number of countries
 
-```{r}
+```{r, echo = TRUE}
 ncountries <- gmx %>%
   group_by(continent) %>%
   tally
@@ -733,7 +735,7 @@ ncountries <- gmx %>%
 
 - Arrange `ncountries` from lowest to highest
 
-```{r}
+```{r, echo = TRUE}
 ncountries <- gmx %>%
   group_by(continent) %>%
   tally
@@ -749,7 +751,7 @@ ncountries <- gmx %>%
 
 - Make a plot of the continents (x-axis) and the number of countries (y-axis)
 
-```{r}
+```{r, echo = TRUE}
 ggplot(data = ncountries)
 ```
 
@@ -758,7 +760,7 @@ ggplot(data = ncountries)
 
 - Make a plot of the continents (x-axis) and the number of countries (y-axis)
 
-```{r}
+```{r, echo = TRUE}
 ggplot(data = ncountries,
        aes(x = continent,
            y = n))
@@ -769,7 +771,7 @@ ggplot(data = ncountries,
 
 - Make a plot of the continents (x-axis) and the number of countries (y-axis)
 
-```{r}
+```{r, echo = TRUE}
 ggplot(data = ncountries,
        aes(x = continent,
            y = n)) +
@@ -787,7 +789,7 @@ ggplot(data = ncountries,
 
 - Let's create an object called `moz`. This will be the gapminder data, but just for Mozambique.
 
-```{r}
+```{r, echo = TRUE}
 gm <- gapminder::gapminder
 moz <- gm %>%
   filter(country == 'Mozambique')
