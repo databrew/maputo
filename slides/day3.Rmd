@@ -27,6 +27,244 @@ output: html_document
 
 ## Multivariate graphs|Practical instruction (Arsenio)
 
+## Multivariate graphs
+
+* Display the relationships among three or more variables in a single graph
+* Two common methods for accommodating multiple variables: grouping and faceting
+
+## Multivariate graphs|Grouping
+
+* The values of the first two variables are mapped to the x and y axes
+* Additional variables are mapped to other visual characteristics such as color, shape, size, line type, and transparency 
+
+## Multivariate graphs|Grouping -- 3 variables (colour)
+
+```{r, eval=FALSE}
+# Plot experience vs. salary (color represents rank)
+ggplot(salaries, aes(x = yrs_since_phd, 
+                     y = salary, 
+                     color=rank)) +
+  geom_point() +
+  labs(title = "Academic salary by rank and years since degree",
+       x = "Years since PhD",
+       y = "Salary ($)",
+       color = "Rank") +
+  theme_pubr()
+```
+
+## Multivariate graphs|Grouping -- 3 variables (colour)
+
+```{r, echo=FALSE, fig.width=9, fig.height=4.3}
+salaries <- rio::import("data/salaries.rds")
+# Plot experience vs. salary (color represents rank)
+ggplot(salaries, aes(x = yrs_since_phd, 
+                     y = salary, 
+                     color=rank)) +
+  geom_point() +
+  labs(title = "Academic salary by rank and years since degree",
+       x = "Years since PhD",
+       y = "Salary ($)",
+       color = "Rank") +
+  theme_pubr()
+```
+
+## Multivariate graphs|Grouping -- 4 variables (colour and shape)
+
+```{r, eval=FALSE}
+# Plot experience vs. salary (color represents rank, shape represents sex)
+ggplot(salaries, 
+       aes(x = yrs_since_phd, 
+           y = salary, 
+           color = rank, 
+           shape = sex)) +
+  geom_point(size = 3, 
+             alpha = .6) +
+  labs(title = "Academic salary by rank, sex, and years since degree",
+       x = "Years since PhD",
+       y = "Salary ($)",
+       color = "Rank",
+       shape = "Gender") +
+  theme_pubr()
+```
+
+## Multivariate graphs|Grouping -- 4 variables (colour and shape)
+
+```{r, echo=FALSE, fig.width=9, fig.height=4.3}
+# Plot experience vs. salary (color represents rank, shape represents sex)
+ggplot(salaries, 
+       aes(x = yrs_since_phd, 
+           y = salary, 
+           color = rank, 
+           shape = sex)) +
+  geom_point(size = 3, 
+             alpha = .6) +
+  labs(title = "Academic salary by rank, sex, and years since degree",
+       x = "Years since PhD",
+       y = "Salary ($)",
+       color = "Rank",
+       shape = "Gender") +
+  theme_pubr()
+```
+
+
+## Multivariate graphs|Grouping -- 4 variables (colour and size)
+
+```{r, eval=FALSE}
+# Plot experience vs. salary (color represents rank and size represents service)
+ggplot(salaries, 
+       aes(x = yrs_since_phd, 
+           y = salary, 
+           color = rank, 
+           size = yrs_service)) +
+  geom_point(size = 3, 
+             alpha = .6) +
+  labs(title = "Academic salary by rank, years of service, and years since degree",
+       x = "Years since PhD",
+       y = "Salary ($)",
+       color = "Rank",
+       size = "Years of service") +
+  theme_pubr()
+```
+
+## Multivariate graphs|Grouping -- 4 variables (colour and size)
+
+```{r, echo=FALSE, fig.width=9, fig.height=4.3}
+# Plot experience vs. salary (color represents rank and size represents service)
+ggplot(salaries, 
+       aes(x = yrs_since_phd, 
+           y = salary, 
+           color = rank, 
+           size = yrs_service)) +
+  geom_point(alpha = .6) +
+  labs(title = "Academic salary by rank, years of service, and years since degree",
+       x = "Years since PhD",
+       y = "Salary ($)",
+       color = "Rank",
+       size = "Years of service") +
+  theme_pubr()
+```
+
+## Multivariate graphs|Faceting
+
+* In faceting, a graph consists of several separate plots or small multiples, one for each level of a third variable, or combination of variables
+
+```{r, eval=FALSE}
+# Plot salary histograms by rank
+ggplot(salaries, aes(x = salary)) +
+  geom_histogram(fill = "lightseagreen",
+                 color = "white") +
+  facet_wrap(~rank, ncol = 1) +
+  labs(title = "Salary histograms by rank") +
+  theme_pubr()
+```
+
+## Multivariate graphs|Faceting -- 3 variables
+
+```{r, echo=FALSE, fig.width=9, fig.height=4.3, message=FALSE}
+# Plot salary histograms by rank
+ggplot(salaries, aes(x = salary)) +
+  geom_histogram(fill = "lightseagreen",
+                 color = "white") +
+  facet_wrap(~rank, ncol = 1) +
+  labs(title = "Salary histograms by rank") +
+  theme_pubr()
+```
+
+## Multivariate graphs|Faceting -- 4 variables
+
+```{r, eval=FALSE}
+# Plot salary histograms by rank and sex
+ggplot(salaries, aes(x = salary/1000)) +
+  geom_histogram(color = "white",
+                 fill = "lightseagreen") +
+  facet_grid(sex ~ rank) +
+  labs(title = "Salary histograms by sex and rank",
+       x = "Salary ($1000)") +
+  theme_pubr()
+```
+
+## Multivariate graphs|Faceting -- 4 variables
+
+```{r, echo=FALSE, fig.width=9, fig.height=4.3, message=FALSE}
+# Plot salary histograms by rank and sex
+ggplot(salaries, aes(x = salary/1000)) +
+  geom_histogram(color = "white",
+                 fill = "lightseagreen") +
+  facet_grid(sex ~ rank) +
+  labs(title = "Salary histograms by sex and rank",
+       x = "Salary ($1000)") +
+  theme_pubr()
+```
+
+## Multivariate graphs|Combining grouping and faceting
+
+* E.g.: use Mean/SE plots and faceting to compare the salaries of male and female professors, within rank and discipline
+
+```{r}
+# Calculate means and standard erroes by sex, rank and discipline
+library(dplyr)
+sal_srd <- salaries %>%
+  group_by(sex, rank, discipline) %>%
+  summarize(n = n(),
+            mean = mean(salary),
+            sd = sd(salary),
+            se = sd / sqrt(n))
+```
+
+## Multivariate graphs|Combining grouping and faceting
+
+```{r}
+# Check the categories of discipline
+levels(salaries$discipline) # A = Theoretical, B = Applied
+# Create better labels for discipline's categories
+sal_srd$discipline <- factor(sal_srd$discipline, levels = c("A", "B"),
+                              labels = c("Theoretical","Applied"))
+sal_srd
+```
+
+## Multivariate graphs|Combining grouping and faceting
+
+```{r, eval=FALSE}
+# Create plot
+ggplot(sal_srd, aes(x = sex, y = mean, color = sex)) +
+  geom_point(size = 3) +
+  geom_errorbar(aes(ymin = mean - se, ymax = mean + se), width = .1) +
+  scale_y_continuous(breaks = seq(70000, 140000, 10000), label = scales::dollar) +
+  facet_grid(. ~ rank + discipline) +
+  theme_bw() +
+  theme(legend.position = "none",
+        panel.grid.major.x = element_blank(),
+        panel.grid.minor.y = element_blank()) +
+  labs(x="", y="", 
+       title="Nine month academic salaries by gender, discipline, and rank",
+       subtitle = "(Means and standard errors)") +
+  scale_color_brewer(palette="Set1")
+```
+
+## Multivariate graphs|Combining grouping and faceting
+
+```{r, echo=FALSE, fig.width=9, fig.height=4.3}
+# Create plot
+ggplot(sal_srd, aes(x = sex, y = mean, color = sex)) +
+  geom_point(size = 3) +
+  geom_errorbar(aes(ymin = mean - se, 
+                    ymax = mean + se),
+                width = .1) +
+  scale_y_continuous(breaks = seq(70000, 140000, 10000),
+                     label = scales::dollar) +
+  facet_grid(. ~ rank + discipline) +
+  theme_bw() +
+  theme(legend.position = "none",
+        panel.grid.major.x = element_blank(),
+        panel.grid.minor.y = element_blank()) +
+  labs(x="", 
+       y="", 
+       title="Nine month academic salaries by gender, discipline, and rank",
+       subtitle = "(Means and standard errors)") +
+  scale_color_brewer(palette="Set1")
+```
+
+
 ## Multivariate graphs|Exercises (all)
 
 
@@ -35,7 +273,77 @@ output: html_document
 
 ## Maps|Introduction (Joe)
 
+
 ## Maps|Dot density maps (Arsenio)
+
+* Use points on a map to explore spatial relationships
+* The geographic coordinates (longitude and latitude) are usually required for each observation
+* E.g.: Suppose we have located moquitoes' habitats in Manhica district, and recorded their geographic coordinates and the number of anophel larvae
+  + Let's plot the  locations of the habitats on the map
+
+```{r, message=FALSE, warning=FALSE}
+library(leaflet)
+mosquito <- rio::import("data/mosquito_habitat.rds") # Note: This are fake data
+# Print the variable names
+names(mosquito)
+```
+
+## Maps|Dot density maps
+
+```{r}
+mosquito[4:6,]
+```
+
+
+* Plot mosquitoes' habitat on the map using circles markers
+
+```{r, eval=FALSE}
+library(leaflet)
+leaflet(mosquito, width = 1000, height = 600) %>%
+  addTiles() %>%  # Add default OpenStreetMap map tiles
+  addCircleMarkers(lng = ~longitude, lat = ~latitude)
+```
+
+
+***
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+library(leaflet)
+leaflet(mosquito, width = 1000, height = 600) %>%
+  addTiles() %>%  # Add default OpenStreetMap map tiles
+  addCircleMarkers(lng = ~longitude, lat = ~latitude)
+```
+
+
+## Maps|Dot density maps -- enhancements
+
+```{r, eval=FALSE}
+leaflet(mosquito, width = 1000, height = 600) %>%
+  addTiles() %>%  
+  addCircleMarkers(lng = ~longitude,lat = ~latitude,
+                   color = ~ifelse(anophel_larvae>0,'red','green'),
+                   popup = ~paste0('Habitat: ', habitat_id,
+                          ', Number of anophel larvae: ', anophel_larvae),
+                   label = ~habitat_id,
+                   radius = 7,stroke = F,fillOpacity = 0.5)
+
+```
+
+
+***
+
+```{r, echo=FALSE}
+leaflet(mosquito, width = 1000, height = 600) %>%
+  addTiles() %>%  
+  addCircleMarkers(lng = ~longitude,lat = ~latitude,
+                   color = ~ifelse(anophel_larvae>0,'red','green'),
+                   popup = ~paste0('Habitat: ', habitat_id,
+                          ', Number of anophel larvae: ', anophel_larvae),
+                   label = ~habitat_id,
+                   radius = 7,stroke = F,fillOpacity = 0.5)
+
+```
+
 
 ## Maps|Choropleth maps (Ben)
 
