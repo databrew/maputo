@@ -1,5 +1,5 @@
 ---
-title: "Exercises"
+title: "Exercises (Tuesday afternoon)"
 author: "DataBrew"
 output: 
     html_document:
@@ -10,6 +10,8 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 ```
+
+## Part 1
 
 1. Load up data on health and sociodemographic factors from Switzerland.
 
@@ -55,5 +57,66 @@ swiss <- swiss %>%
 
 15. Create a new variable in your data called `very_cath`. This should whether or not a canton is very Catholic (ie, > 50%).
 
-
 16. Create an overlapping density chart of fertility in which the `fill` is whether a place is very Catholic or not.
+
+## Part 2
+
+17. Load up some data about the weight of chickens over time. Create an object called `frangos`.
+
+```{r}
+data('ChickWeight')
+frangos <- ChickWeight
+```
+
+18. How many columns does the data have?
+
+19. How many rows does the data have?
+
+20. What are the variable types (quantitative/numeric or categorical)?
+
+21. Create a point chart showing weight on the x-axis and time on the y-axis.
+
+22. Create an object called `frango1`. This should be just the data for chicken number 1 (ie, 1 in the `Chick` column).
+
+23. Chart the weight of chicken 1 over time using `geom_point()`
+
+23. Chart the weight of chicken 1 over time using `geom_line()`
+
+24. Chart the weight of chicken 1 over time using `geom_area()`
+
+25. Chart the weight of _all_ chickens over time using `geom_line()`. Make the color of each line different for each chicken.
+
+26. Create an object called `zero`. This should be the frangos only at day 0 (ie, when they are born).
+
+27. Make a histogram of chicken's weights at day 0.
+
+28. Make a density plot of chicken's weights at day 0.
+
+29. Make a violin plot of chicken's weights at day 0. On the x-axis, put the `Diet` type. On the y-axis, put the weight.
+
+30. Add points to the violin plot
+
+## Part 3
+
+31. Run the following to get some data on "unidades sanitarias" on your computer:
+```{r}
+us <- read_csv("https://raw.githubusercontent.com/databrew/databrew.github.io/master/us.csv")
+```
+
+32. Look at the head of hte data.
+
+33. Make a scatterplot of the `us` data, with `longitude` on the x-axis and `latitude` on the y-axis.
+
+34. Make an object called `province`. This should be the number of unidades sanitarias per province.
+
+35. Make an object called `district`. This should be the number of unidades sanitarias per district.
+
+36. Create an object called `types`. This should be the number of unidades sanitarias per type
+
+37. Make a barplot of the number of unidades sanitarias by type.
+
+38. Add `coord_flip` to the code to make the plot horizontal instead of vertical.
+
+39. Which type of health post is most common?
+ 
+40. Make another a scatterplot of the `us` data, with `longitude` on the x-axis and `latitude` on the y-axis. But make the color of each point be a reflection of the province

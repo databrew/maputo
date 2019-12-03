@@ -1,0 +1,36 @@
+---
+title: "Exercises 1 b"
+author: "DataBrew"
+output: 
+    html_document:
+        theme: united
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+1. Load up some data on insecticide by running the following:
+
+```{r}
+data('InsectSprays')
+insect <- InsectSprays
+```
+
+
+2. Create overlapping histograms by spray
+
+3. Create a distribution plot. Use `facet_wrap()` to create separate panels for each spray
+
+4. Create a new variable called `avg`. This will be the average number of seconds to death for each spray.
+
+5. Create a new variable called `slow`. This will be whether the time to death was slower than the average time to death for each spray.
+
+6. Create a new variable called `new_spray`. This will be whether the spray is a vowel or a consonsant.
+
+7. Create an overlapping distribution plot showing the times to death for consonant vs. vowel sprays.
+
+8. Create a point distribution plot (use `geom_jitter`) with the `new_spray` on the x axis and the time to death on the y axis.
+
+9. Add a `geom_violin` to the above chart.
