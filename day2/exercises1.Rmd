@@ -10,7 +10,6 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## Univariate graphs
 
 1. Load up some data on insecticide by running the following:
 

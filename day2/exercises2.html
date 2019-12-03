@@ -375,23 +375,33 @@ summary {
 
 
 <ol style="list-style-type: decimal">
-<li>Load up some data on insecticide by running the following:</li>
+<li>Load up data on health and sociodemographic factors from Switzerland.</li>
 </ol>
-<pre class="r"><code>data('InsectSprays')
-insect &lt;- InsectSprays</code></pre>
+<pre class="r"><code>data('swiss')
+swiss &lt;- swiss</code></pre>
 <ol start="2" style="list-style-type: decimal">
-<li><p>The dataset is very simple. It has two columns: (a) <code>spray</code> (the type of spray) and (b) <code>count</code> (how many seconds it took for the insect to die). How many rows does it have?</p></li>
-<li><p>Is the <code>spray</code> column categorical or quantitative (numeric)?</p></li>
-<li><p>Is the <code>count</code> column categorical or quantitative (numeric)?</p></li>
-<li><p>Make a barplot of the number of observations we have for each spray.</p></li>
-<li><p>Get the average (<code>mean</code>) number of seconds it takes for each spray to kill an insect and make a barplot of it.</p></li>
-<li><p>Get the the minimum (<code>min</code>) number of seconds it takes for each spray to kill an insect and make a barplot of it.</p></li>
-<li><p>What is the average time to kill an insect for <em>all</em> sprays?</p></li>
-<li><p>Imagine that spray “C” was classified as dangerous by the Mozambican health authorities. So, remove it from your data. Now what is the average number of seconds to kill an insect?</p></li>
-<li><p>Make a histogram of the number of seconds it takes for <em>all</em> sprays to kill an insect.</p></li>
-<li><p>Make a “density” plot of the number of seconds it takes for all sprays to kill an insect.</p></li>
-<li><p>Make a boxplot of the number of seconds it takes for all sprays to kill an insect.</p></li>
-<li><p>Make an <em>overlapping</em> density chart showing the distribution of the number of seconds it takes for each spray to kill an insect (ie, each spray gets a different <code>fill</code>).</p></li>
+<li><p>Look at the <code>cabeça</code> of the data. Describe it.</p></li>
+<li><p>Make a chart showing the association between Agriculture rate and Fertility rate.</p></li>
+<li><p>Describe the association.</p></li>
+<li><p>Create a variable called <code>canton</code>. Assign to this variable the <code>row.names</code> of the data. To do this:</p></li>
+</ol>
+<pre class="r"><code>swiss$canton &lt;- row.names(swiss)</code></pre>
+<ol start="6" style="list-style-type: decimal">
+<li><p>Create an object called <code>x</code>. This will be the <code>swiss</code> data, but only keeping those cantons which are more than 80% catholic.</p></li>
+<li><p>How many rows are in <code>x</code>?</p></li>
+<li><p>Go back to your <code>swiss</code> data. Is there an association between <code>Education</code> and <code>Catholicism</code>? Show it in a chart.</p></li>
+<li><p>What is the relationship between infant mortality and education? Show it in a chart.</p></li>
+<li><p>Arrange the data by infant mortality. Which canton has the lowest?</p></li>
+<li><p>What is the maximum infant mortality for all Swiss canons?</p></li>
+<li><p>Make a “density” plot of fertility.</p></li>
+<li><p>Create a new variable in <code>swiss</code> using <code>mutate</code>. This should be whether a canton is very agricultural or not (ie, more than 50%). To do this:</p></li>
+</ol>
+<pre class="r"><code>swiss &lt;- swiss %&gt;%
+  mutate(very_ag = Agriculture &gt; 50)</code></pre>
+<ol start="14" style="list-style-type: decimal">
+<li><p>Create an overlapping density chart of infant mortality in which the <code>fill</code> shows whether a place is very agricultural or not.</p></li>
+<li><p>Create a new variable in your data called <code>very_cath</code>. This should whether or not a canton is very Catholic (ie, &gt; 50%).</p></li>
+<li><p>Create an overlapping density chart of fertility in which the <code>fill</code> is whether a place is very Catholic or not.</p></li>
 </ol>
 
 

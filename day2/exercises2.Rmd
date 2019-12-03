@@ -1,0 +1,59 @@
+---
+title: "Exercises"
+author: "DataBrew"
+output: 
+    html_document:
+        theme: united
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+```
+
+1. Load up data on health and sociodemographic factors from Switzerland.
+
+```{r}
+data('swiss')
+swiss <- swiss
+```
+
+2. Look at the `cabeça` of the data. Describe it.
+
+3. Make a chart showing the association between Agriculture rate and Fertility rate.
+
+4. Describe the association.
+
+5. Create a variable called `canton`. Assign to this variable the `row.names` of the data. To do this:
+
+```{r}
+swiss$canton <- row.names(swiss)
+```
+
+6. Create an object called `x`. This will be the `swiss` data, but only keeping those cantons which are more than 80% catholic.
+
+7. How many rows are in `x`?
+
+8. Go back to your `swiss` data. Is there an association between `Education` and `Catholicism`? Show it in a chart.
+
+9. What is the relationship between infant mortality and education? Show it in a chart.
+
+10. Arrange the data by infant mortality. Which canton has the lowest?
+
+11. What is the maximum infant mortality for all Swiss canons?
+
+12. Make a "density" plot of fertility.
+
+13. Create a new variable in `swiss` using `mutate`. This should be whether a canton is very agricultural or not (ie, more than 50%). To do this:
+
+```{r}
+swiss <- swiss %>%
+  mutate(very_ag = Agriculture > 50)
+```
+
+14. Create an overlapping density chart of infant mortality in which the `fill` shows whether a place is very agricultural or not.
+
+15. Create a new variable in your data called `very_cath`. This should whether or not a canton is very Catholic (ie, > 50%).
+
+
+16. Create an overlapping density chart of fertility in which the `fill` is whether a place is very Catholic or not.

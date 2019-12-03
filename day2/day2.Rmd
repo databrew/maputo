@@ -412,10 +412,7 @@ ggplot(ottm, aes(fill = officialTitle, area = n, label = officialTitle)) +
 ## Univariate graphs | Exercises (Joe)
 
 
-```{r}
-
-```
-
+www.databrew.cc/exercises1
 
 
 
@@ -603,10 +600,38 @@ ggplot(mpg)+
 ## Bivariate graphs|Quantitative vs Quantitative (Joe)
 
 ```{r}
-data('InsectSprays')
-spray <- InsectSprays
-# Now plot the association between heigt and weight
+data('USArrests')
+arrests <- USArrests
 ```
+
+
+
+## Bivariate graphs|Quantitative vs Quantitative (Joe)
+
+What are the names of the columns?
+
+```{r}
+head(arrests)
+```
+
+
+## Bivariate graphs|Quantitative vs Quantitative (Joe)
+
+How can we visualize the relationship between the percentage of a state which is urban, and the murder rate?
+
+
+## Bivariate graphs|Quantitative vs Quantitative (Joe)
+
+How can we visualize the relationship between the Assault rate and the murder rate?
+
+## Bivariate graphs|Exercises
+
+
+
+
+
+
+
 
 ## Bivariate graphs|Categorical vs Quantitative (Ben)
 
