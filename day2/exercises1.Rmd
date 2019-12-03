@@ -1,0 +1,44 @@
+---
+title: "Exercises"
+author: "DataBrew"
+output: 
+    html_document:
+        theme: united
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Univariate graphs
+
+1. Load up some data on insecticide by running the following:
+
+```{r}
+data('InsectSprays')
+insect <- InsectSprays
+```
+
+2. The dataset is very simple. It has two columns: (a) `spray` (the type of spray) and (b) `count` (how many seconds it took for the insect to die). How many rows does it have?
+
+3. Is the `spray` column categorical or quantitative (numeric)?
+
+4. Is the `count` column categorical or quantitative (numeric)?
+
+5. Make a barplot of the number of observations we have for each spray.
+
+6. Get the average (`mean`) number of seconds it takes for each spray to kill an insect and make a barplot of it.
+
+7. Get the the minimum (`min`) number of seconds it takes for each spray to kill an insect and make a barplot of it.
+
+8. What is the average time to kill an insect for _all_ sprays?
+
+9. Imagine that spray "C" was classified as dangerous by the Mozambican health authorities. So, remove it from your data. Now what is the average number of seconds to kill an insect?
+
+10. Make a histogram of the number of seconds it takes for _all_ sprays to kill an insect.
+
+11. Make a "density" plot of the number of seconds it takes for all sprays to kill an insect.
+
+12. Make a boxplot of the number of seconds it takes for all sprays to kill an insect.
+
+13. Make an _overlapping_ density chart showing the distribution of the number of seconds it takes for each spray to kill an insect (ie, each spray gets a different `fill`).

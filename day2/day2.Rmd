@@ -1,0 +1,637 @@
+---
+title: "Data Visualization using R"
+subtitle: "Day 2"
+author: "Arsénio Nhacolo, Joe Brew and Ben Brew"
+date: "02-06/12/2019"
+output: 
+  ioslides_presentation:
+    logo: www/logo_full.png
+    css: www/cism_styles.css
+    widescreen: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+npac <- c("ggplot2","plotly" , "dplyr", "tidyr", 
+        "gapminder", "ggmap", 
+        "knitr", "kableExtra")
+for (pk in npac){
+  library(pk,character.only = TRUE)
+}
+
+```
+
+
+
+
+
+# Day 2
+
+
+## Today's agenda
+
+### Morning  
+- Arsenio: **Univariate graphs** - Categorical
+- Ben: **Univeriate graphs** - Quantitative
+- Joe: **Univariate graphs** - Exercises
+
+### Afternoon
+- Ben: **Bivariate graphs** - Introduction
+- Arsenio: **Bivariate graphs**|Categorical vs Categorical
+- Joe: **Bivariate graphs**|Quantitative vs Quantitative
+- Ben: **Bivariate graphs**|Categorical vs Quantitative
+- Arsenio: **Bivariate graphs** - Exercises
+
+
+
+
+## Univariate graphs (Arsenio)
+
+* Plot the distribution of data from a single variable
+* The variable can be
+  + Categorical (e.g., sex, marital status, race)
+    - typically plotted with a **bar chart**, a **pie chart**, or (less commonly) a **tree map**
+  + Quantitative (e.g., height, age, weight)
+    - typically plotted with a **histogram**, **kernel density plot**, or **dot plot**
+
+## Categorical|Bar chart -- Counts
+```{r}
+# Importing the data (marriage records of 98 individuals in Mobile County, Alabama) 
+marriage <- rio::import("data/marriage.rds")
+# Plot the distribution of wedding participants' race
+ggplot(marriage, aes(x = race)) + geom_bar() 
+```
+
+## Categorical|Bar chart -- Counts
+```{r, eval=FALSE}
+# Plot the distribution of race with modified colors and labels
+ggplot(marriage, aes(x = race)) +
+  geom_bar(fill = "lightseagreen",
+           color="black") +
+  labs(x = "Race",
+       y = "Frequency",
+       title = "Participants by race")
+```
+
+## Categorical|Bar chart -- Counts
+```{r, echo=FALSE, fig.width=9, fig.height=4.3}
+# Plot the distribution of race with modified colors and labels
+ggplot(marriage, aes(x = race)) +
+  geom_bar(fill = "lightseagreen",
+           color="black") +
+  labs(x = "Race",
+       y = "Frequency",
+       title = "Participants by race")
+```
+
+## Categorical|Bar chart -- Percentages
+
+* The code `aes(x=race)` is shortcut for `aes(x = race, y = ..count..)`, where `..count..` is a ggplot calculated variable representing the frequency within each category
+```{r, eval=FALSE}
+# Plot the distribution as percentages
+ggplot(marriage, aes(x = race, y = ..count.. / sum(..count..))) +
+  geom_bar(fill = "lightseagreen", color="black") +
+  labs(x = "Race",
+       y = "Frequency",
+       title = "Participants by race") +
+  scale_y_continuous(labels = scales::percent)
+```
+
+## Categorical|Bar chart -- Percentages
+
+```{r, echo=FALSE, fig.width=9, fig.height=4.3}
+# Plot the distribution as percentages
+ggplot(marriage, aes(x = race, y = ..count.. / sum(..count..))) +
+  geom_bar(fill = "lightseagreen", color="black") +
+  labs(x = "Race",
+       y = "Proportion",
+       title = "Participants by race") +
+  scale_y_continuous(labels = scales::percent)
+```
+
+## Categorical|Bar chart -- Sorting categories
+
+To sort the bars by frequency:
+
+* calculate explicitly the frequencies
+* sort the categories by the frequency 
+* use the option `stat="identity"` in `geom_bar` 
+
+```{r}
+# Calculate the frenquency of each race and save
+library(dplyr)
+racetab <- marriage %>% group_by(race) %>% summarise(n=n()) # or
+racetab <- marriage %>% count(race) 
+```
+
+## Categorical|Bar chart -- Sorting categories
+
+```{r, eval=FALSE}
+# Plot the bars in ascending order (use `reorder(race, -n)` to sort in descending order)
+ggplot(racetab, aes(x = reorder(race, n), 
+                    y = n)) +
+  geom_bar(stat = "identity", 
+           fill = "lightseagreen", 
+           color="black") +
+  labs(x = "Race",
+       y = "Frequency",
+       title = "Participants by race") 
+```
+
+## Categorical|Bar chart -- Sorting categories
+
+```{r, echo=FALSE, fig.width=9, fig.height=4.3}
+# Plot the bars in ascending order (use `reorder(race, -n)` to sort in descending order)
+ggplot(racetab, aes(x = reorder(race, n), y = n)) +
+  geom_bar(stat = "identity", fill = "lightseagreen", color="black") +
+  labs(x = "Race",
+       y = "Frequency",
+       title = "Participants by race")
+```
+
+## Categorical|Bar chart -- Labeling bars
+
+```{r, eval=FALSE}
+# Plot the bars with numeric labels
+ggplot(racetab, aes(x = reorder(race, n), 
+                    y = n)) +
+  geom_bar(stat = "identity", 
+           fill = "lightseagreen", 
+           color="black") +
+  geom_text(aes(label = n),
+            vjust=-0.5)+
+  labs(x = "Race",
+       y = "Frequency",
+       title = "Participants by race") 
+```
+* `geom_text` adds the labels, and `vjust` controls vertical justification
+
+## Categorical|Bar chart -- Labeling bars
+
+```{r, echo=FALSE, fig.width=9, fig.height=4.3}
+# Plot the bars with numeric labels
+ggplot(racetab, aes(x = reorder(race, n), 
+                    y = n)) +
+  geom_bar(stat = "identity", 
+           fill = "lightseagreen", 
+           color="black") +
+  geom_text(aes(label = n),
+            vjust=-0.5)+
+  labs(x = "Race",
+       y = "Frequency",
+       title = "Participants by race")
+```
+
+## Categorical|Bar chart -- Labeling bars (%)
+
+```{r, eval=FALSE}
+library(scales)
+# Calculate percentages based on counts previously calculated
+racepct <- racetab %>% 
+  mutate(p = n/sum(n), pct = paste0(round(p*100,1), "%"))
+
+# Plot the bars as percentages, in decending order with bar labels
+ggplot(racepct, aes(x = reorder(race, -p), y = p)) +
+  geom_bar(stat = "identity", fill = "lightseagreen", color="black") +
+  geom_text(aes(label = pct),vjust=-0.25)+
+  scale_y_continuous(labels = percent) +
+  labs(x = "Race", y = "Proportion", title = "Participants by race")
+```
+
+## Categorical|Bar chart -- Labeling bars (%)
+
+```{r, echo=FALSE, fig.width=9, fig.height=4.3}
+library(scales)
+# Calculate percentages based on counts previously calculated
+racepct <- racetab %>% 
+  mutate(p = n/sum(n), pct = paste0(round(p*100,1), "%"))
+
+# Plot the bars as percentages, in decending order with bar labels
+ggplot(racepct, aes(x = reorder(race, -p), 
+                    y = p)) +
+  geom_bar(stat = "identity", 
+           fill = "lightseagreen", 
+           color="black") +
+  geom_text(aes(label = pct),
+            vjust=-0.25)+
+  scale_y_continuous(labels = percent) +
+  labs(x = "Race",
+       y = "Proportion",
+       title = "Participants by race") 
+```
+
+## Categorical|Bar chart -- Overlapping labels
+
+```{r, eval=FALSE}
+# Bar chart with overlapping labels
+ggplot(marriage, aes(x = officialTitle)) +
+  geom_bar(fill = "lightseagreen", 
+           color="black") +
+  labs(x = "Officiate",
+       y = "Frequency", 
+       title = "Marriages by officiate") 
+```
+
+## Categorical|Bar chart -- Overlapping labels
+
+```{r, echo=FALSE, fig.width=9, fig.height=4.3}
+# Bar chart with overlapping labels
+ggplot(marriage, aes(x = officialTitle)) +
+  geom_bar(fill = "lightseagreen", 
+           color="black") +
+  labs(x = "Officiate",
+       y = "Frequency", 
+       title = "Marriages by officiate") 
+```
+
+## Categorical|Bar chart -- Overlapping labels
+
+* Solution: flip the x and y axes (`coord_flip()`)
+```{r, eval=FALSE}
+# Horizontal bar chart
+ggplot(marriage, aes(x = officialTitle)) +
+  geom_bar(fill = "lightseagreen", 
+           color="black") +
+  labs(x = "Officiate",
+       y = "Frequency", 
+       title = "Marriages by officiate") +
+  coord_flip() 
+```
+
+## Categorical|Bar chart -- Overlapping labels
+
+```{r, echo=FALSE, fig.width=9, fig.height=4.3}
+# Horizontal bar chart
+ggplot(marriage, aes(x = officialTitle)) +
+  geom_bar(fill = "lightseagreen", 
+           color="black") +
+  labs(x = "Officiate",
+       y = "Frequency", 
+       title = "Marriages by officiate") +
+  coord_flip()
+```
+
+## Categorical|Bar chart -- Overlapping labels
+
+* Alternative solution: rotate the axis labels.
+```{r, eval=FALSE}
+# Bar chart with rotated labels
+ggplot(marriage, aes(x = officialTitle)) +
+  geom_bar(fill = "lightseagreen", 
+           color="black") +
+  labs(x = "Officiate",
+       y = "Frequency", 
+       title = "Marriages by officiate") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) 
+```
+
+## Categorical|Bar chart -- Overlapping labels
+
+```{r, echo=FALSE, fig.width=9, fig.height=4.3}
+# Bar chart with rotated labels
+ggplot(marriage, aes(x = officialTitle)) +
+  geom_bar(fill = "lightseagreen", 
+           color="black") +
+  labs(x = "Officiate",
+       y = "Frequency", 
+       title = "Marriages by officiate") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) 
+```
+
+
+## Categorical|Pie chart
+
+* Humans are better at distinguishing the length of bars than the volume of pie slices
+* If the goal is to compare the frequency of categories, bar charts are better
+* If the goal is compare each category with the the whole (e.g., what portion of participants are Hispanic compared to all participants), and the number of categories is small, then pie charts may work
+```{r}
+# Prepare data for pie chart
+racepie <- marriage %>% 
+  count(race) %>% 
+  arrange(desc(race)) %>% 
+  mutate(pp = round(n*100/sum(n), 1), lab.ypos = cumsum(pp) - 0.5*pp) %>% 
+  mutate(lab = paste0(race, "\n", round(pp), "%"))
+```
+
+## Categorical|Pie chart -- Basic
+
+```{r}
+# Create a basic pie chart
+ggplot(racepie,aes(x = "", y = pp, fill = race)) +
+  geom_bar(width = 1, stat = "identity") +
+  coord_polar("y", start = 0, direction = -1) +
+  theme_void()
+```
+
+## Categorical|Pie chart -- Slice labels
+
+```{r, eval=FALSE}
+# Create a basic pie chart
+ggplot(racepie, aes(x = "", y = pp, fill = race)) +
+  geom_bar(width = 1, stat = "identity") +
+  geom_text(aes(y = lab.ypos, label = lab), color = "black") + 
+  coord_polar("y", start = 0, direction = -1) +
+  theme_void() +
+  theme(legend.position = "FALSE") +
+  labs(title = "Participants by race")
+```
+
+## Categorical|Pie chart -- Slice labels
+
+```{r, echo=FALSE, fig.width=9, fig.height=4.3}
+# Create a basic pie chart
+ggplot(racepie, aes(x = "", y = pp, fill = race)) +
+  geom_bar(width = 1, stat = "identity") +
+  geom_text(aes(y = lab.ypos, label = lab), color = "black") + 
+  coord_polar("y", start = 0, direction = -1) +
+  theme_void() +
+  theme(legend.position = "FALSE") +
+  labs(title = "Participants by race")
+```
+
+
+## Categorical|Tree map
+
+* An alternative to a pie chart
+* It handles variables with many categories better that pie chart
+```{r, eval=FALSE}
+library(treemapify)
+
+# Tabulate officialTitle variable
+ottm <- marriage %>% count(officialTitle)
+
+# Create a treemap of marriage officials
+ggplot(ottm, aes(fill = officialTitle, area = n)) +
+  geom_treemap() +
+  labs(title = "Marriages by officiate")
+```
+
+## Categorical|Tree map
+```{r, echo=FALSE, fig.width=9, fig.height=4.3}
+library(treemapify)
+
+# Tabulate officialTitle variable
+ottm <- marriage %>% count(officialTitle)
+
+# Create a treemap of marriage officials
+ggplot(ottm, aes(fill = officialTitle, area = n)) +
+  geom_treemap() +
+  labs(title = "Marriages by officiate")
+```
+
+## Categorical|Tree map -- Tile labels
+```{r, eval=FALSE}
+# Create a treemap with tile labels
+ggplot(ottm, aes(fill = officialTitle, area = n, label = officialTitle)) +
+  geom_treemap() +
+  geom_treemap_text(colour = "white", place = "centre") +
+  labs(title = "Marriages by officiate") +
+  theme(legend.position = "none")
+```
+
+## Categorical|Tree map -- Tile labels
+```{r, echo=FALSE, fig.width=9, fig.height=4.3}
+# Create a treemap with tile labels
+ggplot(ottm, aes(fill = officialTitle, area = n, label = officialTitle)) +
+  geom_treemap() +
+  geom_treemap_text(colour = "white", place = "centre") +
+  labs(title = "Marriages by officiate") +
+  theme(legend.position = "none")
+```
+
+
+
+
+## Univariate graphs|Quantitative (Ben)
+
+
+```{r}
+# BEN PUT STUFF HERE
+```
+
+## Univariate graphs | Exercises (Joe)
+
+
+```{r}
+
+```
+
+
+
+
+
+
+# Afternoon
+
+
+# Bivariate graphs
+
+## Bivariate graphs|Introduction (Ben)
+
+
+## Bivariate graphs|Categorical vs Categorical (Arsenio)
+
+## Categorical vs Categorical
+
+* Typically used graphs: stacked, grouped, and segmented bar charts
+* Other: mosaic chart
+```{r}
+# Importing the data
+mpg <- rio::import('data/mpg.rds')
+```
+* We are intesrested in the relationship between automobile class and drive type (front-wheel, rear-wheel, or 4-wheel drive)
+
+## Categorical vs Categorical|Stacked bar chart
+
+```{r}
+# Stacked bar chart
+ggplot(mpg, aes(x = class, fill = drv)) +
+  geom_bar() 
+```
+
+## Categorical vs Categorical|Grouped bar chart
+
+```{r}
+# Grouped bar chart
+ggplot(mpg, aes(x = class, fill = drv)) +
+  geom_bar(position = "dodge")
+```
+
+## Categorical vs Categorical|Grouped bar chart -- Preserving zero count bars
+
+```{r}
+# Grouped bar plot preserving zero count bars
+ggplot(mpg, aes(x = class, fill = drv)) +
+  geom_bar(position = position_dodge(preserve = "single"))
+```
+
+## Categorical vs Categorical|Segmented bar chart
+
+* A stacked bar plot where each bar represents 100%
+* Useful if the goal is to compare the percentage of a category in one variable across each level of another variable
+```{r, eval=FALSE}
+# Bar plot, with each bar representing 100%
+ggplot(mpg, aes(x = class, fill = drv)) +
+  geom_bar(position = "fill") +
+  labs(y = "Proportion")
+```
+
+## Categorical vs Categorical|Segmented bar chart
+
+```{r, echo=FALSE, fig.width=9, fig.height=4.3}
+# Bar plot, with each bar representing 100%
+ggplot(mpg, aes(x = class, fill = drv)) +
+  geom_bar(position = "fill") +
+  labs(y = "Proportion")
+```
+
+## Categorical vs Categorical|Segmented bar chart -- colour and labeling
+
+```{r, eval=FALSE}
+# Bar plot, with each bar representing 100%, reordered bars, and better labels and colors
+library(scales)
+ggplot(mpg, aes(x = factor(class,levels = c("2seater", "subcompact", "compact", 
+                                            "midsize", "minivan", "suv", "pickup")),
+                fill = factor(drv, levels = c("f", "r", "4"), 
+                              labels = c("front-wheel", "rear-wheel", "4-wheel")))) +
+  geom_bar(position = "fill") +
+  scale_y_continuous(breaks = seq(0, 1, .2), label = percent) +
+  scale_fill_brewer(palette = "Set2") +
+  labs(y = "Percent", fill = "Drive Train", x = "Class", 
+       title = "Automobile Drive by Class") 
+```
+
+## Categorical vs Categorical|Segmented bar chart -- colour and labeling
+
+```{r, echo=FALSE, fig.width=9, fig.height=4.3}
+# Bar plot, with each bar representing 100%,
+# reordered bars, and better labels and colors
+library(scales)
+ggplot(mpg, 
+       aes(x = factor(class,
+                      levels = c("2seater", "subcompact", "compact", "midsize", 
+                                 "minivan", "suv", "pickup")),
+           fill = factor(drv, 
+                         levels = c("f", "r", "4"), 
+                         labels = c("front-wheel", "rear-wheel", "4-wheel")))) +
+  geom_bar(position = "fill") +
+  scale_y_continuous(breaks = seq(0, 1, .2), label = percent) +
+  scale_fill_brewer(palette = "Set2") +
+  labs(y = "Percent", 
+       fill = "Drive Train", 
+       x = "Class", 
+       title = "Automobile Drive by Class")
+```
+
+## Categorical vs Categorical|Segmented bar chart -- labeling segments
+
+```{r}
+# Create a summary dataset
+library(dplyr)
+cds <- mpg %>%
+  group_by(class, drv) %>%
+  summarize(n = n()) %>%
+  mutate(p = n/sum(n),pct = scales::percent(p,accuracy = 0.1))
+# Print from the 2nd to 4th rows in HTML table
+kable(cds[2:4,])
+```
+
+## Categorical vs Categorical|Segmented bar chart -- labeling segments
+
+```{r, eval=FALSE}
+# Create segmented bar chart adding labels to each segment
+ggplot(cds, aes(x = factor(class,levels = c("2seater", "subcompact", "compact", 
+                                            "midsize", "minivan", "suv", "pickup")),
+                y = p,
+                fill = factor(drv, levels = c("f", "r", "4"), 
+                              labels = c("front-wheel", "rear-wheel", "4-wheel")))) +
+  geom_bar(stat = "identity", position = "fill") +
+  scale_y_continuous(breaks = seq(0, 1, .2), label = percent) +
+  geom_text(aes(label = pct), size = 3, position = position_stack(vjust = 0.5)) +
+  scale_fill_brewer(palette = "Set2") +
+  labs(y = "Percent", fill = "Drive Train", x = "Class", 
+       title = "Automobile Drive by Class")
+```
+
+## Categorical vs Categorical|Segmented bar chart -- labeling segments
+
+```{r, echo=FALSE, fig.width=9, fig.height=4.3}
+# Create segmented bar chart adding labels to each segment
+library(scales)
+ggplot(cds, 
+       aes(x = factor(class,
+                      levels = c("2seater", "subcompact", "compact", "midsize", 
+                                 "minivan", "suv", "pickup")),
+           y = p,
+           fill = factor(drv, 
+                         levels = c("f", "r", "4"), 
+                         labels = c("front-wheel", "rear-wheel", "4-wheel")))) +
+  geom_bar(stat = "identity", position = "fill") +
+  scale_y_continuous(breaks = seq(0, 1, .2), label = percent) +
+  geom_text(aes(label = pct), size = 3, position = position_stack(vjust = 0.5)) +
+  scale_fill_brewer(palette = "Set2") +
+  labs(y = "Percent", 
+       fill = "Drive Train", 
+       x = "Class", 
+       title = "Automobile Drive by Class")
+```
+
+## Categorical vs Categorical|Mosaic plot
+
+* An alternative to stacked bar charts for displaying the relationship between categorical
+variables
+* It is less commonly used
+* As of now, mosaic geomtry function is not available in `ggplot2` package, it is provided by the `ggmosaic` package
+```{r, eval=FALSE}
+library(ggmosaic)
+ggplot(mpg)+
+  geom_mosaic(aes(x = product(class,drv), fill = drv))+
+  theme_minimal()
+```
+
+## Categorical vs Categorical|Mosaic plot
+
+```{r, echo=FALSE, fig.width=9, fig.height=4.3}
+library(ggmosaic)
+ggplot(mpg)+
+  geom_mosaic(aes(x = product(class,drv), fill = drv)) +
+  theme_minimal()
+```
+
+
+
+## Bivariate graphs|Quantitative vs Quantitative (Joe)
+
+```{r}
+data('InsectSprays')
+spray <- InsectSprays
+# Now plot the association between heigt and weight
+```
+
+## Bivariate graphs|Categorical vs Quantitative (Ben)
+
+## Bivariate graphs|Exercises (Arsenio)
+
+* Pick one of the datasets we used in the examples or one of your own
+* Choose pairs of variables and study theirs relationship using suitable graphs
+
+Most of the datasets we used in the examples are availabble in R. You can
+
+* check their details using `help("datasete_name")`
+```{r, eval=FALSE}
+help("mpg")
+```
+* load them in to R"s global environment using `data(dataset_name, package = package_name`)
+```{r, eval=FALSE}
+data(mpg , package = "ggplot2")
+```
+
+
+
+
+
+
+###########################
+
+
+
