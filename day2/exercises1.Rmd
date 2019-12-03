@@ -38,6 +38,5 @@ insect <- InsectSprays
 
 11. Make a "density" plot of the number of seconds it takes for all sprays to kill an insect.
 
-12. Make a boxplot of the number of seconds it takes for all sprays to kill an insect.
 
-13. Make an _overlapping_ density chart showing the distribution of the number of seconds it takes for each spray to kill an insect (ie, each spray gets a different `fill`).
+12. Make an _overlapping_ density chart showing the distribution of the number of seconds it takes for each spray to kill an insect (ie, each spray gets a different `fill`).
