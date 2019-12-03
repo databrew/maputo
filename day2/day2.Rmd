@@ -658,9 +658,11 @@ How can we visualize the relationship between the Assault rate and the murder ra
 <!-- The heights of the bars commonly represent one of two things: either a count of cases in each group, or the values in a column of the data frame. By default, geom_bar uses stat="bin" . ... If you want the heights of the bars to represent values in the data, use stat="identity" and map a value to the y aesthetic. -->
 ```{r}
 dat <- gapminder
+
 ggplot(data = dat, aes(country, lifeExp)) + geom_bar(stat = 'identity') 
 
 continent <- dat %>% group_by(continent) %>% summarise(mean_pop = mean(pop))
+
 ggplot(data = continent, aes(continent, mean_pop)) + geom_bar(stat = 'identity')
 
 ```
@@ -668,7 +670,7 @@ ggplot(data = continent, aes(continent, mean_pop)) + geom_bar(stat = 'identity')
 
 ## historgram
 ```{r}
-dat <- gapminder
+# ggplot(data = continent, aes(mean_pop))
 
 ```
 
