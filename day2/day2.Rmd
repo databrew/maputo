@@ -405,9 +405,29 @@ ggplot(ottm, aes(fill = officialTitle, area = n, label = officialTitle)) +
 ## Univariate graphs|Quantitative (Ben)
 
 
+## histogram
 ```{r}
-# BEN PUT STUFF HERE
+dat <- trees
+ggplot(data = dat, aes(Girth)) + geom_histogram()
+
 ```
+
+## density
+```{r}
+dat <- trees
+ggplot(data = dat, aes(Girth)) + geom_density()
+
+
+```
+
+
+## boxplot
+```{r}
+dat <- trees
+ggplot(data = dat, aes(x = '', y = Girth)) + geom_boxplot()
+
+```
+
 
 ## Univariate graphs | Exercises (Joe)
 
@@ -424,7 +444,6 @@ www.databrew.cc/exercises1
 # Bivariate graphs
 
 ## Bivariate graphs|Introduction (Ben)
-
 
 ## Bivariate graphs|Categorical vs Categorical (Arsenio)
 
@@ -634,6 +653,37 @@ How can we visualize the relationship between the Assault rate and the murder ra
 
 
 ## Bivariate graphs|Categorical vs Quantitative (Ben)
+
+## barplot
+<!-- The heights of the bars commonly represent one of two things: either a count of cases in each group, or the values in a column of the data frame. By default, geom_bar uses stat="bin" . ... If you want the heights of the bars to represent values in the data, use stat="identity" and map a value to the y aesthetic. -->
+```{r}
+dat <- gapminder
+ggplot(data = dat, aes(country, lifeExp)) + geom_bar(stat = 'identity') 
+
+continent <- dat %>% group_by(continent) %>% summarise(mean_pop = mean(pop))
+ggplot(data = continent, aes(continent, mean_pop)) + geom_bar(stat = 'identity')
+
+```
+
+
+## historgram
+```{r}
+dat <- gapminder
+
+```
+
+
+## density
+```{r}
+dat <- gapminder
+
+```
+
+## boxplot
+```{r}
+dat <- gapminder
+
+```
 
 ## Bivariate graphs|Exercises (Arsenio)
 
