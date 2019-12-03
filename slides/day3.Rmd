@@ -30,6 +30,9 @@ output: html_document
 library(dplyr)
 library(ggplot2)
 library(ggthemes)
+
+# for the afternoon, we need to install rgdal.
+# install.packages('leaflet')
 dat <- read.csv('../../police_shootings/data/fatal-police-shootings-data.csv')
 
 new_dat <- dat %>% group_by(flee) %>% summarise(counts = n()) %>% filter(flee != '')
@@ -495,5 +498,15 @@ leaflet(mosquito, width = 1000, height = 600) %>%
 
 
 ## Maps|Choropleth maps (Ben)
+
+- A choropleth map displays divided geographical areas or regions that are coloured in relation to a numeric variable. 
+
+```{r}
+data(quakes)
+dat <- quakes
+# Show first 20 rows from the `quakes` dataset
+leaflet(data = dat) %>% addTiles() %>%
+  addMarkers(~long, ~lat, popup = ~as.character(mag), label = ~as.character(mag))
+```
 
 ## Maps|Exercises (all)
