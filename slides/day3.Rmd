@@ -23,6 +23,155 @@ output: html_document
 
 ## Multivariate graphs|Introduction (Ben)
 
+- How do we show 3 (or more) variables on a 2 dimensional plot?
+
+## two variable bar plot
+```{r}
+library(dplyr)
+library(ggplot2)
+library(ggthemes)
+dat <- read.csv('../../police_shootings/data/fatal-police-shootings-data.csv')
+
+new_dat <- dat %>% group_by(flee) %>% summarise(counts = n()) %>% filter(flee != '')
+ggplot(data = new_dat, aes(x = flee, counts)) + 
+  geom_bar(stat = 'identity') + labs(x = '', y = 'Counts', title = 'People killed by police') + theme_clean()
+
+```
+
+## Other variables to
+
+```{r}
+summary(dat)
+
+```
+
+## Add 3rd variable
+```{r}
+
+new_dat <- dat %>% group_by(flee, threat_level) %>% summarise(counts = n()) %>% filter(flee != '')
+
+ggplot(data = new_dat, aes(x = flee, y = counts, fill = threat_level)) + 
+  geom_bar(stat = 'identity', position = 'dodge') + labs(x = '', y = 'Counts', title = 'People killed by police') + theme_clean()
+
+```
+
+## Numeric data (2 variables)
+
+- Life expectancy and gdp per capita in 2007
+
+
+```{r}
+dat <- gapminder
+dat <- dat %>% filter(year == '2007')
+ggplot(data = dat, aes(gdpPercap, lifeExp)) + 
+  geom_point(size = 2, alpha = 0.4) +
+  labs(x = 'GDP per capita', 
+       y = 'Life expectancy',
+       title = 'GDP per capita and Life expectancy') + theme_clean()
+
+```
+
+## Numeric data (3 variables)
+
+- Life expectancy and gdp per capita in 2007
+- The size of the points represents population
+
+```{r}
+options(scipen = '999')
+dat <- gapminder
+dat <- dat %>% filter(year == '2007')
+ggplot(data = dat, aes(gdpPercap, lifeExp)) + 
+  geom_point(aes(size = pop), alpha = 0.4) +
+  labs(x = 'GDP per capita', 
+       y = 'Life expectancy',
+       title = 'GDP per capita and Life expectancy') + theme_clean()
+```
+
+## Numeric data (4 variables)
+
+- Life expectancy and gdp per capita in 2007
+- The size of the points represents population
+
+```{r}
+options(scipen = '999')
+dat <- gapminder
+dat <- dat %>% filter(year == '2007')
+ggplot(data = dat, aes(gdpPercap, lifeExp)) + 
+  geom_point(aes(size = pop, color = continent), alpha = 0.4) +
+  labs(x = 'GDP per capita', 
+       y = 'Life expectancy',
+       title = 'GDP per capita and Life expectancy') + theme_clean()
+```
+
+## Another example
+
+
+```{r}
+options(scipen = '999')
+dat <- gapminder
+dat <- dat %>% group_by(year, continent) %>% summarise(avg_gdp = mean(gdpPercap),
+                                                       avg_life_exp = mean(lifeExp),
+                                                       avg_pop = mean(pop))
+# dat <- dat %>% filter(continent == 'Oceania')
+ggplot(data = dat, aes(year, avg_pop)) +
+  geom_point(aes(color = continent)) +
+  geom_line(aes(color = continent)) +
+  labs(x = 'Year', 
+       y = 'Population',
+       title = 'Year and population by continent') + theme_clean()
+```
+
+## Another example
+
+```{r}
+options(scipen = '999')
+dat <- gapminder
+dat <- dat %>% group_by(year, continent) %>% summarise(avg_gdp = mean(gdpPercap),
+                                                       avg_life_exp = mean(lifeExp),
+                                                       avg_pop = mean(pop))
+# dat <- dat %>% filter(continent == 'Oceania')
+ggplot(data = dat, aes(year, avg_pop)) +
+  geom_point(aes(color = continent, size = avg_gdp)) +
+  geom_line(aes(color = continent)) +
+  labs(x = 'Year', 
+       y = 'Population',
+       title = 'Year and population by continent') + theme_clean()
+```
+
+## Another example
+
+```{r}
+options(scipen = '999')
+dat <- gapminder
+dat <- dat %>% group_by(year, continent) %>% summarise(avg_gdp = mean(gdpPercap),
+                                                       avg_life_exp = mean(lifeExp),
+                                                       avg_pop = mean(pop))
+# dat <- dat %>% filter(continent == 'Oceania')
+ggplot(data = dat, aes(year, avg_pop)) +
+  geom_point(aes(color = continent, size = avg_life_exp)) +
+  geom_line(aes(color = continent)) +
+  labs(x = 'Year', 
+       y = 'Population',
+       title = 'Year and population by continent') + theme_clean()
+```
+
+## Asia example
+```{r}
+options(scipen = '999')
+dat <- gapminder
+dat <- dat %>% group_by(year, country) %>% filter(continent == 'Asia' & country %in% c('China', 'Japan', 'Singapore', 'Korea, Rep.')) %>% summarise(gdp = mean(gdpPercap),
+                                                       life_exp = mean(lifeExp),
+                                                       pop = mean(pop))
+# dat <- dat %>% filter(continent == 'Oceania')
+ggplot(data = dat, aes(year, gdp)) +
+  geom_point(aes(color = country, size = pop)) +
+  geom_line(aes(color = country)) +
+  labs(x = 'Year', 
+       y = 'GDP per capita',
+       title = 'Year and GDP') + theme_clean()
+
+```
+
 ## Multivariate graphs|Data preparation (Joe)
 
 ## Multivariate graphs|Practical instruction (Arsenio)
