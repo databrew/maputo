@@ -407,7 +407,9 @@ ggplot(ottm, aes(fill = officialTitle, area = n, label = officialTitle)) +
 
 ## histogram
 ```{r}
+library(tidyverse)
 dat <- trees
+
 ggplot(data = dat, aes(Girth)) + geom_histogram()
 
 ```
@@ -441,18 +443,6 @@ www.databrew.cc/exercises1
 # Bivariate graphs
 
 ## Bivariate graphs|Introduction (Ben)
-
-- Two variables
-- 3 main types:
-- categorical and categorical
-- categorical and numeric
-- numeric and numeric
-
-## Bivariate graphs - categorical and categorical
-
-## Bivariate graphs - categorical and numeric
-
-## Bivariate graphs - numeric and numeric
 
 
 ## Bivariate graphs|Categorical vs Categorical (Arsenio)

@@ -1,0 +1,4 @@
+dat <- ChickWeight
+summary(dat)
+
+
