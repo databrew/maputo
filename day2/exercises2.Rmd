@@ -38,6 +38,9 @@ I. Add `position = 'dodge'` to the inside of `geom_bar()` in order to change the
 J. Pick two other categorical variables. Tally the number of people in the groups and make a chart.
 
 
+
+
+
 ## Part 1
 
 1. Load up data on health and sociodemographic factors from Switzerland.
@@ -127,7 +130,7 @@ frangos <- ChickWeight
 ## Part 3
 
 31. Run the following to get some data on "unidades sanitarias" on your computer:
-```{r}
+```{r, eval = FALSE}
 us <- read_csv("https://raw.githubusercontent.com/databrew/databrew.github.io/master/us.csv")
 ```
 
