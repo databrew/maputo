@@ -645,7 +645,7 @@ How can we visualize the relationship between the Assault rate and the murder ra
 
 ## Bivariate graphs|Exercises
 
-
+www.databrew.cc/exercises2
 
 
 
