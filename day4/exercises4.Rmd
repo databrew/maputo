@@ -1,0 +1,534 @@
+---
+title: "Exercises"
+author: "DataBrew"
+output: 
+    html_document:
+        theme: united
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+```
+
+## Wednesday {.tabset .tabset-fade}
+
+
+```{r, include = FALSE}
+library(tidyverse)
+```
+
+
+### Spatial review
+
+1. Load up some useful packages
+
+```{r, message = FALSE}
+library(tidyverse)
+library(rgdal)
+library(raster)
+library(sp)
+```
+
+2. Get some Mozambican geographic data from the internet and assign it to an object named `moz0`.
+
+```{r, message = FALSE}
+library(raster)
+library(leaflet)
+moz0 <- getData(country = 'MOZ', level = 0)
+```
+
+3. Create a basic leaflet plot.
+
+```{r}
+leaflet() %>%
+  addProviderTiles("Esri.WorldImagery") %>%
+  addPolygons(data = moz0)
+```
+
+4. Get some more Mozambican data. This time, at the province level (ie, level 1).
+
+```{r, message = FALSE}
+moz1 <- getData(country = 'MOZ', level = 1)
+```
+
+
+5. Create a leaflet map of the moz1 object (see question 3 if you need help).
+
+```{r, eval = FALSE}
+leaflet() %>%
+  addProviderTiles("Esri.WorldImagery") %>%
+  addPolygons(data = moz1)
+```
+
+
+6. Filter to only keep Gaza
+
+```{r}
+gaza <- moz1[moz1$NAME_1 == 'Gaza',]
+```
+
+7. Make a leaflet map of it.
+
+```{r, eval = FALSE}
+leaflet() %>%
+  addProviderTiles("Esri.WorldImagery") %>%
+  addPolygons(data = gaza)
+```
+
+8. Read in some data on health posts.
+
+
+```{r, eval = FALSE, echo = TRUE}
+us <- read_csv("https://raw.githubusercontent.com/databrew/databrew.github.io/master/us.csv")
+```
+
+
+```{r, echo = FALSE}
+us <- read_csv("https://raw.githubusercontent.com/databrew/databrew.github.io/master/us.csv", col_types = cols())
+```
+
+9. Subset the health posts to just include those in Gaza
+
+```{r}
+gaza_us <- us %>% filter(province == 'GAZA')
+```
+
+10. Make a plot with both the polygon of the Gaza province and the health posts of the Gaza province
+
+```{r, eval = FALSE, echo = FALSE}
+leaflet() %>%
+  addProviderTiles("Esri.WorldImagery") %>%
+  addPolygons(data = gaza) %>%
+  addCircleMarkers(data = gaza_us, col = 'yellow')
+```
+
+### Advanced spatial
+
+```{r, eval = FALSE, echo = FALSE}
+library(bohemia)
+library(cism)
+mopeia_us <- us %>% filter(district == 'MOPEIA')
+save(mop2, mop3, mopeia_roads, mopeia_water, mopeia_waterways,
+     mopeia2, mopeia3,
+     man3, man2,
+     mopeia_us,
+     file = 'mop.RData')
+```
+
+1. Load up some spatial data from the internet by running the following:
+
+```{r}
+load(url('https://github.com/databrew/maputo/raw/master/day3/mop.RData'))
+```
+
+2. Make a plot of the district borders (use the mop2 object)
+
+```{r, echo = FALSE}
+ggplot(data = mop2,
+       aes(x = long,
+           y = lat,
+           group = group)) +
+  geom_polygon()
+```
+
+
+3. Make the border of the district black, and the inside of the district grey.
+
+```{r, echo = FALSE}
+ggplot(data = mop2,
+       aes(x = long,
+           y = lat,
+           group = group)) +
+  geom_polygon(color = 'black',
+               fill = 'grey')
+```
+
+4. Add `theme_map()` to remove the background
+
+```{r, echo = FALSE}
+library(ggthemes)
+ggplot(data = mop2,
+       aes(x = long,
+           y = lat,
+           group = group)) +
+  geom_polygon(color = 'black',
+               fill = 'grey') +
+  theme_map()
+```
+
+5. Add a title, subtitle, and caption
+
+
+```{r, echo = FALSE}
+ggplot(data = mop2,
+       aes(x = long,
+           y = lat,
+           group = group)) +
+  geom_polygon(color = 'black',
+               fill = 'grey') +
+    theme_map() +
+  labs(title = 'The district of Mopeia',
+       subtitle = 'Map',
+       caption = 'Produced by Carla')
+```
+
+6. Add rivers by adding `geom_path` with the `mopeia_waterways` object. Color the water blue.
+
+
+```{r, echo = FALSE}
+ggplot(data = mop2,
+       aes(x = long,
+           y = lat,
+           group = group)) +
+  geom_polygon(color = 'black',
+               fill = 'grey') +
+    theme_map() +
+  labs(title = 'The district of Mopeia',
+       subtitle = 'Map',
+       caption = 'Produced by Carla') +
+  geom_path(data = mopeia_waterways,
+            color = 'blue')
+```
+
+
+
+7. Add roads using the `mopeia_roads` object. Color them brown
+
+
+```{r, echo = FALSE}
+ggplot(data = mop2,
+       aes(x = long,
+           y = lat,
+           group = group)) +
+  geom_polygon(color = 'black',
+               fill = 'grey') +
+    theme_map() +
+  labs(title = 'The district of Mopeia',
+       subtitle = 'Map',
+       caption = 'Produced by Carla') +
+  geom_path(data = mopeia_waterways,
+            color = 'blue') +
+  geom_path(data = mopeia_roads,
+            color = 'brown')
+```
+
+8. Add points for the unidades sanitarias. Color them yellow. You'll need to use the `mopeia_us` data and add `group=NA` to within your call to `geom_point()`.
+
+```{r, echo = FALSE}
+ggplot(data = mop2,
+       aes(x = long,
+           y = lat,
+           group = group)) +
+  geom_polygon(color = 'black',
+               fill = 'grey') +
+    theme_map() +
+  labs(title = 'The district of Mopeia',
+       subtitle = 'Map',
+       caption = 'Produced by Carla') +
+  geom_path(data = mopeia_waterways,
+            color = 'blue') +
+  geom_path(data = mopeia_roads,
+            color = 'brown') +
+  geom_point(data = mopeia_us,
+             aes(x = longitude,
+                 y = latitude),
+             group = NA,
+             color = 'yellow')
+```
+
+9. ADVANCED: Reproduce the above map, but in an interactive version using leaflet. Some hints:
+
+- You'll need the `addPolylines` function for roads and water.
+- `weight` makes things thinner
+- `opacity` controls alpha
+
+```{r, echo = FALSE}
+leaflet() %>% 
+  addProviderTiles(providers$Esri.WorldImagery) %>%
+  addPolygons(data = mopeia2) %>%
+  addPolylines(data = mopeia_roads,
+                           color = 'brown',
+               weight = 2,
+               opacity = 1)%>%
+  addPolylines(data = mopeia_waterways,
+                           color = 'blue',
+               weight = 1,
+               opacity = 1) %>%
+  addCircleMarkers(data = mopeia_us,
+                   color = 'yellow')
+```
+
+
+
+### Weather
+
+1. Read in some Mozambican weather data by running the following
+
+```{r, include = FALSE, echo = FALSE}
+library(tidyverse)
+weather <- read_csv("https://github.com/databrew/maputo/blob/master/day3/data/mozambican_weather.csv?raw=true")
+```
+
+```{r, eval = FALSE, echo = TRUE}
+library(tidyverse)
+weather <- read_csv("https://github.com/databrew/maputo/blob/master/day3/data/mozambican_weather.csv?raw=true")
+```
+
+2. Take a look at the top of the data. 
+
+3. Create an object called `x`. This will be the `weather` data, then summarized to tell us the minimum and maximum dates.
+
+4. Create an object called `y`. This will be the `weather` data, then summarized to tell us the maximum `temp_max` and the mimimum `temp_min`.
+
+5. Create an object called `z`. This will be the `weather` data, but filtered to only include the year 2014 and only the district of "MATOLA".
+
+6. Make a plot of `z` with the `date` on the x-axis and the average temperature (`temp`) on the y-axis.
+
+7. Make a plot of `z` showing the distribution of precipitation.
+
+8. Make a plot showing the distribution of the maximum temperature, but faceted by district.
+
+```{r, eval = FALSE, echo = FALSE}
+ggplot(data = weather,
+       aes(x = temp_max)) +
+  geom_density() +
+  facet_wrap(~district)
+```
+
+9. Color the lines in the above red.
+
+10. Add another distribution the above chart with the minimum temperature. Color it blue. To do this you will need to add another `geom_density` line to your chart, and you can include another `aes()` section within that `geom_density` function.
+
+
+
+### Switzerland
+
+1. Load up data on health and sociodemographic factors from Switzerland.
+
+```{r}
+library(tidyverse)
+data('swiss')
+swiss <- swiss
+```
+
+2. Look at the `cabeça` of the data. Describe it.
+
+3. Make a chart showing the association between Agriculture rate and Fertility rate. This should be a scatterplot. You'll use `geom_point`.
+
+```{r, eval = FALSE, echo = FALSE}
+ggplot(data = swiss,
+       aes(x = Agriculture,
+           y = Fertility)) +
+  geom_point()
+```
+
+4. Describe the association.
+
+5. Add the argument `geom_smooth()` to the above chart. What happens?
+
+```{r, eval = FALSE, echo = FALSE}
+ggplot(data = swiss,
+       aes(x = Agriculture,
+           y = Fertility)) +
+  geom_point() +
+  geom_smooth()
+```
+
+
+6. Run the following code to create a variable called `canton` from the `row.names` of the data:
+
+```{r}
+swiss$canton <- row.names(swiss)
+```
+
+7. Create an object called `x`. This will be the `swiss` data, but only keeping those cantons which are more than 80% catholic.
+
+```{r, eval = FALSE, echo = FALSE}
+x <- swiss %>% filter(Catholic > 80)
+```
+
+8. How many rows are in `x`?
+
+9. Go back to your `swiss` data. Is there an association between `Education` and `Catholicism`? Show it in a chart.
+
+10. Create a variable a new variable in `swiss` called `edu`, which indicates whether the canton is highly-educated (at or above the average) or has low education (below the average). Here's the code to do this:
+
+```{r}
+swiss <- swiss %>%
+  mutate(edu = ifelse(Education >= mean(Education),
+                      "High education",
+                      "Low education"))
+```
+
+11. Create a variable in `swiss` called `fert`. This variable should show whether the canton has high fertility or low fertility. Use the code in the previous question as a guide.
+
+```{r, eval = TRUE, echo = FALSE}
+swiss <- swiss %>%
+  mutate(fert = ifelse(Fertility >= mean(Fertility),
+                      "High fertility",
+                      "Low fertility"))
+```
+
+12. Create an object called `y`. This will be the `swiss` data, grouped by both your new `edu` and `fert` variables, and then summarized to tell the average infant mortality rate for each subgroup.
+
+```{r, echo = FALSE}
+y <- swiss %>%
+  group_by(fert, edu) %>%
+  summarise(avg = mean(Infant.Mortality))
+```
+
+13. Make a barplot of the data in y. Add the argument `position = 'dodge` to within `geom_bar()` to make the bars not stack
+
+```{r, echo = FALSE, eval = FALSE}
+ggplot(data = y,
+       aes(x = fert, y= avg, fill = edu)) +
+  geom_bar(stat = 'identity', position = 'dodge')
+```
+
+14. Interpret the above chart. Which group has the highest infant mortality? Which one has the lowest?
+
+
+15. Arrange the data by infant mortality. Which canton has the lowest?
+
+16. What is the maximum infant mortality for all Swiss canons?
+
+17. What is the maximum infant mortality for canons with high education?
+
+18. What is the average infant mortality for canons with high fertility.
+
+19. Make a plot showing the relationship between fertility (on the x-axis) and infant mortality (on the y-axis).
+
+```{r, echo = FALSE, eval = FALSE}
+ggplot(data = swiss,
+       aes(x = Fertility,
+           y = Infant.Mortality)) +
+  geom_point()
+```
+
+20. Add `color = edu` to within the `aes()` section of the above chart.
+
+```{r, echo = FALSE, eval = FALSE}
+ggplot(data = swiss,
+       aes(x = Fertility,
+           y = Infant.Mortality,
+           color = edu)) +
+  geom_point()
+```
+
+
+21. Make a "density" plot of fertility.
+
+22. Create a new variable in `swiss` using `mutate`. The new variable will be named `ag`. This should be whether a canton is very agricultural or not (ie, more than 50%). To do this:
+
+```{r}
+swiss <- swiss %>%
+  mutate(ag = ifelse(Agriculture > 50, 'Very agricultural',
+                     'Not very agricultural'))
+```
+
+23. Create an overlapping density chart of infant mortality in which the `fill` shows whether a place is very agricultural or not.
+
+24. Create a new variable in your data called `cath`. This should whether or not a canton is very Catholic (ie, > 50%).
+
+```{r, eval = FALSE, echo = FALSE}
+swiss <- swiss %>%
+  mutate(cath = ifelse(Catholic > 50, 'Very Catholic', 'Not very Catholic'))
+```
+
+25. Create an overlapping density chart of fertility in which the `fill` is whether a place is very Catholic or not.
+
+
+26. Use `ggridges` to create a ridgeline chart of the distribution of infant mortality by your `cath` variable (here's the code to help)
+
+```{r, eval = FALSE, echo = TRUE}
+library(ggridges)
+ggplot(data = swiss,
+       aes(x = Infant.Mortality,
+           y = cath)) +
+  ggridges::geom_density_ridges()
+```
+
+27. Create a ridgeline chart (like above) showing fertility instead of infant mortality.
+
+```{r, eval = FALSE, echo = FALSE}
+library(ggridges)
+ggplot(data = swiss,
+       aes(x = Fertility,
+           y = cath)) +
+  ggridges::geom_density_ridges()
+```
+
+28. Which areas have more children: Catholic or non-Catholic areas?
+
+29. Use the `cut` function to generate a 4-category categorical variable of the `Education` variable. Call this new variable `educat`. Note that `cut` takes two arguments: first, the variable you are cutting; second, the number of categories you want.
+
+```{r, eval = TRUE, echo = FALSE}
+swiss <- swiss %>%
+  mutate(educat = cut(Education, 4))
+```
+
+30. Make a ridgeline plot of infant mortality's distribution by your new `educat` variable.
+
+```{r, eval = FALSE, echo = FALSE}
+ggplot(data = swiss,
+       aes(x = Infant.Mortality,
+           y = educat)) +
+  geom_density_ridges(alpha = 0.6)
+```
+
+31. Can you create the following plot? You'll need to add `facet_wrap(~educat)`...
+
+```{r}
+ggplot(data = swiss,
+       aes(x = Catholic,
+           y = Infant.Mortality,
+           size = Fertility)) +
+  facet_wrap(~educat) +
+  geom_point(alpha = 0.6)
+```
+
+32. What percentage of high-Catholicism cantons are agricultural?
+
+33. What percentage of low fertility canons are Catholic?
+
+
+
+### Time data
+
+1. Load up some data about the weight of chickens over time. Create an object called `frangos`.
+
+```{r}
+data('ChickWeight')
+frangos <- ChickWeight
+```
+
+2 How many columns does the data have?
+
+3 How many rows does the data have?
+
+4 What are the variable types (quantitative/numeric or categorical)?
+
+5 Create a point chart showing weight on the x-axis and time on the y-axis.
+
+6 Create an object called `frango1`. This should be just the data for chicken number 1 (ie, 1 in the `Chick` column).
+
+7 Chart the weight of chicken 1 over time using `geom_point()`
+
+8 Chart the weight of chicken 1 over time using `geom_line()`
+
+9 Chart the weight of chicken 1 over time using `geom_area()`
+
+10 Chart the weight of _all_ chickens over time using `geom_line()`. Make the color of each line different for each chicken.
+
+11 Create an object called `zero`. This should be the frangos only at day 0 (ie, when they are born).
+
+12 Make a histogram of chicken's weights at day 0.
+
+13 Make a density plot of chicken's weights at day 0.
+
+14 Make a violin plot of chicken's weights at day 0. On the x-axis, put the `Diet` type. On the y-axis, put the weight.
+
+15 Add points to the violin plot
+
+

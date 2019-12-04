@@ -32,8 +32,8 @@ for (pk in npac){
 
 - Ben: **Time-dependent charts** - Introduction
 - Joe: **Time-dependent charts** - Time series
-- Arsenio: **Time-dependent maps** - Dumbbell, slope, area charts
-- All: **Time-dependent maps** - Exercises
+- Arsenio: **Time-dependent charts** - Dumbbell, slope, area charts
+- All: **Time-dependent charts** - Exercises
 
 ### Afternoon
 
@@ -44,41 +44,5 @@ for (pk in npac){
 - Ben: **Statistical models** - Mosaic plots
 - Ben: **Statistical models** - Survival plots
 - All: **Statistical models** - Exercises
-
-
-
-# Time-dependent graphs
-
-## Time-dependent graphs|Introduction (Ben)
-
-
-## Time-dependent graphs|Time series (Joe)
-
-## Time-dependent graphs|Dummbbell charts (Arsenio)
-
-## Time-dependent graphs|Slope graphs (Arsenio)
-
-## Time-dependent graphs|Area charts (Arsenio)
-
-## Time-dependent graphs|Exercises (all)
-
-
-
-# Statistical models
-
-## Statistical models|Introduction (Arsenio)
-
-## Statistical models|Correlation plots (Ben)
-
-## Statistical models|Linear regression (Arsenio)
-
-## Statistical models|Logistic regression (Joe)
-
-## Statistical models|Mosaic plots (Ben)
-
-## Statistical models|Survival plots (Ben)
-
-
-## Statistical models|Exercises (all)
 
 
