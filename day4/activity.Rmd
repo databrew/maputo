@@ -1,0 +1,66 @@
+---
+title: "Assignment"
+author: "DataBrew"
+output: 
+    html_document:
+        theme: united
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+install.packages('fivethirtyeight')
+library(fivethirtyeight)
+library(tidyverse)
+```
+
+
+## 538 data (drug use)
+
+
+```{r}
+# create an object called 'du' and assign to it the 'drug_use' dataset
+du <- drug_use
+```
+
+## plotting exercises
+
+1. Create a histogram of one variable
+
+2. Create a density plot of one variable.
+
+3. Create a histogram of with two or more variables.
+
+4. Create a barplot using two variables. 
+
+5. Create a scatter plot using two variables.
+
+6. Create a scatter plot using three variables 
+
+7. Create a scatter plot using four variables.
+
+## creating new variables from our data
+
+1. Create a variable call age_category. The categories will be "old" and 
+"young". 
+
+2. What is the average marijuana use by age_category
+
+3. 
+
+## spatial data
+
+```{r}
+# read in world cities data 
+world_cities <- read_csv('data/simplemaps-worldcities-basic.csv')
+
+```
+
+1. Create a map of all the cities in the world.
+
+2. Create a map of all the cities in Mozambique
+
+3. Create a map of all the cities in Mozambique and show population
+
+4. Create a map of all the cities in Kenya, France, and China and show population
+
+5. 
