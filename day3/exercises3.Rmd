@@ -14,6 +14,44 @@ library(tidyverse)
 ## Wednesday {.tabset .tabset-fade}
 
 
+```{r, include = FALSE}
+library(tidyverse)
+```
+
+
+### Salaries
+
+1. Read in the professor salary data.
+
+```{r}
+salaries <- rio::import("https://github.com/databrew/maputo/raw/master/data/salaries.rds")
+```
+
+2. Look at the top of the data.
+
+3. Make a distribution plot of the salaries.
+
+4. Facet the distribution by sex (use `facet_wrap`).
+
+5. Facet the distribution by sex and rank (use `facet_grid`).
+
+6. Facet the distribution by sex and rank (use `facet_grid`) and fill the chart according to `discipline`
+
+7. Create a scatterplot of years of service and salary.
+
+8. Color the points in the above by sex.
+
+9. Make the size of the points in the above a reflection of years since PhD.
+
+10. Facet the above by rank.
+
+11. Facet the above by both rank and discipline.
+
+12. Create an object called `x`. This will be have the average salary for professors by rank, discipline, and sex.
+
+13. Make a plot of x (however you would like).
+
+
 ### Violence
 
 1. Read in some data on Mozambican violence.
@@ -94,6 +132,8 @@ ggplot(data = weather,
 9. Color the lines in the above red.
 
 10. Add another distribution the above chart with the minimum temperature. Color it blue. To do this you will need to add another `geom_density` line to your chart, and you can include another `aes()` section within that `geom_density` function.
+
+
 
 ### Switzerland
 
