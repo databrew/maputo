@@ -14,11 +14,17 @@ library(tidyverse)
 ## Wednesday {.tabset .tabset-fade}
 
 
-#### Violence
+### Violence
 
 1. Read in some data on Mozambican violence.
 
-```{r}
+```{r, include = FALSE}
+library(tidyverse)
+violence <- read_csv("https://github.com/databrew/maputo/blob/master/day3/data/moz.csv?raw=true")
+```
+
+
+```{r, echo = TRUE, eval = FALSE}
 library(tidyverse)
 violence <- read_csv("https://github.com/databrew/maputo/blob/master/day3/data/moz.csv?raw=true")
 ```
@@ -266,32 +272,6 @@ ggplot(data = swiss,
 
 33. What percentage of low fertility canons are Catholic?
 
-#### Extra
-
-
-1 Run the following to get some data on "unidades sanitarias" on your computer:
-```{r, eval = FALSE}
-us <- read_csv("https://raw.githubusercontent.com/databrew/databrew.github.io/master/us.csv")
-```
-
-2 Look at the head of the data.
-
-3 Make a scatterplot of the `us` data, with `longitude` on the x-axis and `latitude` on the y-axis.
-
-4 Make an object called `province`. This should be the number of unidades sanitarias per province.
-
-5 Make an object called `district`. This should be the number of unidades sanitarias per district.
-
-6 Create an object called `types`. This should be the number of unidades sanitarias per type
-
-7 Make a barplot of the number of unidades sanitarias by type.
-
-8 Add `coord_flip` to the code to make the plot horizontal instead of vertical.
-
-9 Which type of health post is most common?
- 
-10 Make another a scatterplot of the `us` data, with `longitude` on the x-axis and `latitude` on the y-axis. But make the color of each point be a reflection of the province
-
 
 
 ### Time data
@@ -330,3 +310,302 @@ frangos <- ChickWeight
 14 Make a violin plot of chicken's weights at day 0. On the x-axis, put the `Diet` type. On the y-axis, put the weight.
 
 15 Add points to the violin plot
+
+
+### Extra
+
+
+1 Run the following to get some data on "unidades sanitarias" on your computer:
+```{r, eval = FALSE}
+us <- read_csv("https://raw.githubusercontent.com/databrew/databrew.github.io/master/us.csv")
+```
+
+2 Look at the head of the data.
+
+3 Make a scatterplot of the `us` data, with `longitude` on the x-axis and `latitude` on the y-axis.
+
+4 Make an object called `province`. This should be the number of unidades sanitarias per province.
+
+5 Make an object called `district`. This should be the number of unidades sanitarias per district.
+
+6 Create an object called `types`. This should be the number of unidades sanitarias per type
+
+7 Make a barplot of the number of unidades sanitarias by type.
+
+8 Add `coord_flip` to the code to make the plot horizontal instead of vertical.
+
+9 Which type of health post is most common?
+ 
+10 Make another a scatterplot of the `us` data, with `longitude` on the x-axis and `latitude` on the y-axis. But make the color of each point be a reflection of the province
+
+### Spatial intro
+
+
+1. Install some packages by running the following:
+
+```{r, eval = FALSE}
+install.packages('sp')
+install.packages('maps')
+install.packages('leaflet')
+install.packages('rgdal')
+install.packages('rgeos')
+install.packages('leaflet.extras')
+install.packages('maptools')
+install.packages('raster')
+install.packages('ggthemes')
+```
+
+2. Get some Mozambican geographic data from the internet and assign it to an object named `moz3`.
+
+```{r, message = FALSE}
+library(tidyverse)
+library(raster)
+library(sp)
+library(ggthemes)
+moz3 <- getData(country = 'MOZ', level = 3)
+```
+
+3. Make a ggplot of the `moz3` object.
+
+```{r}
+ggplot(data = moz3,
+       aes(x = long,
+           y = lat,
+           group = group)) +
+  geom_polygon()
+```
+
+4. Use the `color` argument in the `geom_polygon` to draw some borders.
+
+5. Use the `fill` argument in the `geom_polygon` to change the color of the inside of the polygons
+
+6. Add a theme to the map, for example, `theme_map()`
+
+```{r, eval = FALSE, echo = FALSE}
+ggplot(data = moz3,
+       aes(x = long,
+           y = lat,
+           group = group)) +
+  geom_polygon(color = 'black', fill = 'yellow') +
+  theme_map()
+```
+
+7. Use the `labs` argument to add a title, subtitle and caption
+
+```{r, eval = TRUE, echo = FALSE}
+ggplot(data = moz3,
+       aes(x = long,
+           y = lat,
+           group = group)) +
+  geom_polygon(color = 'black', fill = 'yellow') +
+  theme_map() +
+  labs(title = 'Mozambique',
+       subtitle = 'This is a map',
+       caption = 'Made by Joe')
+```
+
+
+8. Read in some locations of Mozambican health facilities by running the following:
+
+```{r, eval = FALSE, echo = TRUE}
+us <- read_csv("https://raw.githubusercontent.com/databrew/databrew.github.io/master/us.csv")
+```
+
+
+
+```{r, echo = FALSE}
+us <- read_csv("https://raw.githubusercontent.com/databrew/databrew.github.io/master/us.csv", col_types = cols())
+```
+
+9. Add the points to our map
+
+```{r, eval = TRUE, echo = FALSE}
+ggplot(data = moz3,
+       aes(x = long,
+           y = lat,
+           group = group)) +
+  geom_polygon(color = 'black', fill = 'yellow') +
+  theme_map() +
+  labs(title = 'Mozambique',
+       subtitle = 'This is a map',
+       caption = 'Made by Joe') +
+  geom_point(data = us,
+             aes(x = longitude,
+                 y = latitude,
+                 group = NA))
+```
+
+10. Make the points blue and semi-transparent.
+
+### Point maps (leaflet)
+
+1. Install some packages by running the following:
+
+```{r, eval = FALSE}
+install.packages('sp')
+install.packages('maps')
+install.packages('leaflet')
+install.packages('rgdal')
+install.packages('rgeos')
+install.packages('leaflet.extras')
+install.packages('maptools')
+install.packages('raster')
+install.packages('ggthemes')
+```
+
+2. Load up the leaflet and leaflet.extras package by running the following:
+
+```{r}
+library(leaflet)
+library(leaflet.extras)
+```
+
+
+3. Go to your web browser and look at the different "provider" tiles for leaflet: https://leaflet-extras.github.io/leaflet-providers/preview/. Pick one that you like and write it down (for example, "Thunderforest.SpinalMap" or "OpenStreetMap.Mapnik").
+
+4. Make an object called `mytile`. Assign to this the name of your favorite tile. For example:
+
+```{r}
+mytile <- "OpenStreetMap.Mapnik"
+```
+
+5. Create a very basic world map by running the following:
+
+```{r}
+library(leaflet)
+library(leaflet.extras)
+leaflet() %>%
+  addProviderTiles(mytile)
+```
+
+6. Read in some locations of Mozambican health facilities by running the following:
+
+```{r, eval = FALSE, echo = TRUE}
+us <- read_csv("https://raw.githubusercontent.com/databrew/databrew.github.io/master/us.csv")
+```
+
+
+```{r, echo = FALSE}
+us <- read_csv("https://raw.githubusercontent.com/databrew/databrew.github.io/master/us.csv", col_types = cols())
+```
+
+7. Add some points to our map by running the following:
+
+```{r}
+leaflet() %>%
+  addProviderTiles(mytile) %>%
+  addMarkers(data = us)
+```
+
+8. Change the type of the markers by running the following:
+
+```{r, message = FALSE}
+leaflet() %>%
+  addProviderTiles(mytile) %>%
+  addCircleMarkers(data = us,
+                   color = 'red', radius = 0.1)
+```
+
+9. Add a popup to each point with the name of the health facility:
+
+
+```{r}
+leaflet() %>%
+  addProviderTiles(mytile) %>%
+  addCircleMarkers(data = us,
+                   color = 'red', radius = 0.1,
+                   popup = ~name)
+```
+
+10. Make the plot 
+
+```{r, message = FALSE}
+leaflet() %>%
+  addProviderTiles(mytile) %>%
+  addCircleMarkers(data = us,
+                   color = 'red', radius = 0.1,
+                   popup = ~name,
+                   clusterOptions = markerClusterOptions())
+```
+
+### Shapefiles (leaflet)
+
+1. Load up some useful packages
+
+```{r, message = FALSE}
+library(tidyverse)
+library(rgdal)
+library(raster)
+```
+
+2. Get some Mozambican geographic data from the internet and assign it to an object named `moz0`.
+
+```{r, message = FALSE}
+library(raster)
+moz0 <- getData(country = 'MOZ', level = 0)
+```
+
+3. Create a basic leaflet plot.
+
+```{r}
+leaflet() %>%
+  addProviderTiles("Esri.WorldImagery") %>%
+  addPolygons(data = moz0)
+```
+
+4. Get some more Mozambican data. This time, at the province level (ie, level 1).
+
+```{r, message = FALSE}
+moz1 <- getData(country = 'MOZ', level = 1)
+```
+
+
+5. Create a leaflet map of the moz1 object (see question 3 if you need help).
+
+```{r, eval = FALSE}
+leaflet() %>%
+  addProviderTiles("Esri.WorldImagery") %>%
+  addPolygons(data = moz1)
+```
+
+
+6. Filter to only keep Gaza
+
+```{r}
+gaza <- moz1[moz1$NAME_1 == 'Gaza',]
+```
+
+7. Make a leaflet map of it.
+
+```{r, eval = FALSE}
+leaflet() %>%
+  addProviderTiles("Esri.WorldImagery") %>%
+  addPolygons(data = gaza)
+```
+
+8. Read in some data on health posts.
+
+
+```{r, eval = FALSE, echo = TRUE}
+us <- read_csv("https://raw.githubusercontent.com/databrew/databrew.github.io/master/us.csv")
+```
+
+
+```{r, echo = FALSE}
+us <- read_csv("https://raw.githubusercontent.com/databrew/databrew.github.io/master/us.csv", col_types = cols())
+```
+
+9. Subset the health posts to just include those in Gaza
+
+```{r}
+gaza_us <- us %>% filter(province == 'GAZA')
+```
+
+10. Make a plot with both the polygon of the Gaza province and the health posts of the Gaza province
+
+```{r, eval = FALSE, echo = FALSE}
+leaflet() %>%
+  addProviderTiles("Esri.WorldImagery") %>%
+  addPolygons(data = gaza) %>%
+  addCircleMarkers(data = gaza_us, col = 'yellow')
+```
