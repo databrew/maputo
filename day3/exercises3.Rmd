@@ -83,7 +83,7 @@ violence <- read_csv("https://github.com/databrew/maputo/blob/master/day3/data/m
 
 9. Create an object called `z`. This will be the `violence` data grouped by three variables: (a) year, (b) `admin1` (the province) and (c) the event type. After grouping, use `summarise` to calculate the average number of fatalities for these kinds of incidents.
 
-10. Create a barplot of `z` with `year` on the x-axis, the total number of fatalities on the y-axis, and the fill of the bars reflecting the event type. Use `facet_wrap()` to make different panels for each province.
+10. Create a barplot of `z` with `year` on the x-axis, the average number of fatalities on the y-axis, and the fill of the bars reflecting the event type. Use `facet_wrap()` to make different panels for each province.
 
 11. Create an object called `w` which will be the total number of fatalities by year and by province.
 
