@@ -11,7 +11,7 @@ knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 ```
 
-## Wednesday {.tabset .tabset-fade}
+## Thursday {.tabset .tabset-fade}
 
 
 ```{r, include = FALSE}
@@ -19,7 +19,7 @@ library(tidyverse)
 ```
 
 
-### Spatial review
+### Spatial 1
 
 1. Load up some useful packages
 
@@ -103,7 +103,8 @@ leaflet() %>%
   addCircleMarkers(data = gaza_us, col = 'yellow')
 ```
 
-### Advanced spatial
+
+### Spatial 2
 
 ```{r, eval = FALSE, echo = FALSE}
 library(bohemia)
@@ -259,6 +260,65 @@ leaflet() %>%
                    color = 'yellow')
 ```
 
+
+### Spatial 3
+
+
+1. Load up some packages
+
+```{r}
+library(tidyverse)
+```
+
+2. Create an object called `terra` like this:
+
+```{r}
+terra <- map_data("world")
+```
+
+3. Plot `terra`
+
+4. Plot `terra` with clear borders between each country
+
+5. Create an object named `mozy`. This will just be Mozambique.
+
+6. Plot `mozy`.
+
+7. Plot `mozy` in an interactive map.
+
+8. Load up the gapminder data as an object called `gm`.
+
+```{r}
+gm <- gapminder::gapminder
+```
+
+9. Filter the gapminder data to only include data from 2007. Call this `recent`.
+
+10. Create a variable in the `recent` object named `region`. This will just be a copy of the country.
+
+```{r, echo = FALSE, eval = FALSE}
+recent <- gm %>% filter(year == 2007) %>% mutate(region = country)
+```
+
+11. Perform a join between `terra` and `recent` so as to associate geographic data with health/wealth data. Call the new objected `combinado`
+
+```{r, echo = FALSE, eval = FALSE}
+combinado <- left_join(terra, recent)
+```
+
+12. Plot `combinado` using ggplot, but filling each country as a function of gdpPerCap
+
+```{r, echo = FALSE, eval = FALSE}
+ggplot(data = combinado,
+       aes(x = long,
+           y = lat,
+           group = group,
+           fill = gdpPercap)) +
+  geom_polygon() +
+  scale_fill_gradientn(colors = c('red', 'white', 'blue'))
+```
+
+13. Let's alter the color scale by using
 
 
 ### Weather
