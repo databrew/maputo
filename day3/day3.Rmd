@@ -79,7 +79,37 @@ ggplot(data = new_dat, aes(x = flee, y = counts, fill = threat_level)) +
 
 ```
 
-## Numeric data (2 variables)
+## Add 3rd variable
+```{r}
+
+new_dat <- dat %>% group_by(race, threat_level) %>% summarise(counts = n()) %>% filter(race != '')
+
+ggplot(data = new_dat, aes(x = race, y = counts, fill = threat_level)) + 
+  geom_bar(stat = 'identity', position = 'dodge') + labs(x = '', y = 'Counts', title = 'People killed by police') + theme_clean()
+
+```
+
+## Another example
+```{r}
+
+new_dat <- dat %>% group_by(race) %>% summarise(mean_age = mean(age, na.rm = TRUE)) %>% filter(race != '')
+
+ggplot(data = new_dat, aes(x = race, y = mean_age)) + 
+  geom_bar(stat = 'identity', position = 'dodge') + labs(x = '', y = 'Avg age', title = 'People killed by police') + theme_clean()
+
+```
+
+## Add 3rd variable
+```{r}
+
+new_dat <- dat %>% group_by(race, threat_level) %>% summarise(mean_age = mean(age, na.rm = TRUE)) %>% filter(race != '')
+
+ggplot(data = new_dat, aes(x = race, y = mean_age, fill = threat_level)) + 
+  geom_bar(stat = 'identity', position = 'dodge') + labs(x = '', y = 'Avg age', title = 'People killed by police') + theme_clean()
+
+```
+
+## More examples
 
 - Life expectancy and gdp per capita in 2007
 
