@@ -13,9 +13,44 @@ library(tidyverse)
 
 ## Wednesday {.tabset .tabset-fade}
 
-### Data preparation
 
-#### Weather
+#### Violence
+
+1. Read in some data on Mozambican violence.
+
+```{r}
+library(tidyverse)
+violence <- read_csv("https://github.com/databrew/maputo/blob/master/day3/data/moz.csv?raw=true")
+```
+
+2. Click on the data to look at. What does this data appear to be about?
+
+3. Make an object called `x`. This will be all the violent events in Mozambique grouped by the type of event (`event_type`) and then tallied (ie, counted).
+
+4. Look at x. Which type of violence is most common?
+
+5. Make a barplot of the number of different types of violence.
+
+6. Make a histogram of the number of fatalities.
+
+7. Make a new object called `y`. This will be the `violence` data, grouped by `year` and `event_type`, and then summarized to get the total number of fatalities.
+
+8. Plot the total number of fatalities by event type. This should be a barchart of `y` with `year` on the x-axis, the total number of fatalities on the y-axis, and the fill of the bars reflecting the event type.
+
+9. Create an object called `z`. This will be the `violence` data grouped by three variables: (a) year, (b) `admin1` (the province) and (c) the event type. After grouping, use `summarise` to calculate the average number of fatalities for these kinds of incidents.
+
+10. Create a barplot of `z` with `year` on the x-axis, the total number of fatalities on the y-axis, and the fill of the bars reflecting the event type. Use `facet_wrap()` to make different panels for each province.
+
+11. Create an object called `w` which will be the total number of fatalities by year and by province.
+
+12. Make a line chart of `w`, panelled by province.
+
+13. Make a violin chart of the `violence` data in which `year` is on the x-axis and `fatalities` is on the y-axis. You'll need to add `group=year` to within the `aes()` argument.
+
+14. Make the above chart panelled by `admin1`.
+
+
+### Weather
 
 1. Read in some Mozambican weather data by running the following
 
@@ -41,9 +76,7 @@ weather <- read_csv("https://github.com/databrew/maputo/blob/master/day3/data/mo
 
 7. Make a plot of `z` showing the distribution of precipitation.
 
-#### 
-
-### Quantitative with Quantitative
+### Switzerland
 
 1. Load up data on health and sociodemographic factors from Switzerland.
 
