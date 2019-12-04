@@ -22,13 +22,45 @@ library(tidyverse)
 du <- drug_use
 ```
 
-## exercises
+## plotting exercises
 
-1. Create a barplot using two variables from the dataset. 
+1. Create a histogram of one variable
 
-2. Create a scatter plot using two variables from the dataset
+2. Create a density plot of one variable.
 
-3. Create a scatter plot using three variables 
+3. Create a histogram of with two or more variables.
 
-4. Cr
+4. Create a barplot using two variables. 
 
+5. Create a scatter plot using two variables.
+
+6. Create a scatter plot using three variables 
+
+7. Create a scatter plot using four variables.
+
+## creating new variables from our data
+
+1. Create a variable call age_category. The categories will be "old" and 
+"young". 
+
+2. What is the average marijuana use by age_category
+
+3. 
+
+## spatial data
+
+```{r}
+# read in world cities data 
+world_cities <- read_csv('data/simplemaps-worldcities-basic.csv')
+
+```
+
+1. Create a map of all the cities in the world.
+
+2. Create a map of all the cities in Mozambique
+
+3. Create a map of all the cities in Mozambique and show population
+
+4. Create a map of all the cities in Kenya, France, and China and show population
+
+5. 
