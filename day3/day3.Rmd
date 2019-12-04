@@ -62,7 +62,7 @@ ggplot(data = new_dat, aes(x = flee, counts)) +
 
 ```
 
-## Other variables to
+## The data
 
 ```{r}
 summary(dat)
@@ -82,7 +82,6 @@ ggplot(data = new_dat, aes(x = flee, y = counts, fill = threat_level)) +
 ## Numeric data (2 variables)
 
 - Life expectancy and gdp per capita in 2007
-
 
 ```{r}
 dat <- gapminder
@@ -128,7 +127,6 @@ ggplot(data = dat, aes(gdpPercap, lifeExp)) +
 ```
 
 ## Another example
-
 
 ```{r}
 options(scipen = '999')
