@@ -82,6 +82,19 @@ weather <- read_csv("https://github.com/databrew/maputo/blob/master/day3/data/mo
 
 7. Make a plot of `z` showing the distribution of precipitation.
 
+8. Make a plot showing the distribution of the maximum temperature, but faceted by district.
+
+```{r, eval = FALSE, echo = FALSE}
+ggplot(data = weather,
+       aes(x = temp_max)) +
+  geom_density() +
+  facet_wrap(~district)
+```
+
+9. Color the lines in the above red.
+
+10. Add another distribution the above chart with the minimum temperature. Color it blue. To do this you will need to add another `geom_density` line to your chart, and you can include another `aes()` section within that `geom_density` function.
+
 ### Switzerland
 
 1. Load up data on health and sociodemographic factors from Switzerland.
