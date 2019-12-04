@@ -1,0 +1,34 @@
+---
+title: "Assignment"
+author: "DataBrew"
+output: 
+    html_document:
+        theme: united
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+install.packages('fivethirtyeight')
+library(fivethirtyeight)
+library(tidyverse)
+```
+
+
+## 538 data (drug use)
+
+
+```{r}
+# create an object called 'du' and assign to it the 'drug_use' dataset
+du <- drug_use
+```
+
+## exercises
+
+1. Create a barplot using two variables from the dataset. 
+
+2. Create a scatter plot using two variables from the dataset
+
+3. Create a scatter plot using three variables 
+
+4. Cr
+
