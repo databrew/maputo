@@ -446,6 +446,110 @@ ggplot(sal_srd, aes(x = sex, y = mean, color = sex)) +
 
 ## Maps|Introduction (Joe)
 
+- What is a map?  
+- What is longitude and latitude?  
+- What kind of maps are there?  
+
+## What is a map?
+
+- A _symoblic_ representation of a place.
+
+## What is longitude and latitude?  
+
+- Longitude: the angular distance of a place east or west of the Greenwich meridian
+- Latitude: 
+the angular distance of a place north or south of the earth's equator
+
+```{r, echo = FALSE, include = FALSE}
+library(maps)
+```
+
+```{r}
+map('world')
+abline(h = 0, col = 'red')
+abline(v = 0, col = 'blue')
+```
+
+## What kind of maps are there?
+
+Choropleth
+
+<center>
+![](www/pretty_3.png)
+</center>
+
+## What kind of maps are there?
+
+Choropleth
+
+<center>
+![](www/choro2.png)
+</center>
+
+
+## What kind of maps are there?
+
+Point
+
+<center>
+![](www/point.png)
+</center>
+
+## What kind of maps are there?
+
+Point density
+
+<center>
+![](www/snow.png)
+</center>
+
+
+
+## What kind of maps are there?
+
+Point density
+
+<center>
+![](www/het.png)
+</center>
+
+
+## What kind of maps are there?
+
+Point density
+
+<center>
+![](www/line.png)
+</center>
+
+
+## What kind of maps are there?
+
+Administrative
+
+<center>
+![](www/admin.png)
+</center>
+
+
+
+## What kind of maps are there?
+
+Population cartogram
+
+<center>
+![](www/carto.png)
+</center>
+
+## What kind of maps are there?
+
+Elevation maps
+
+
+<center>
+![](www/elevation.png)
+</center>
+
 
 ## Maps|Dot density maps (Arsenio)
 
