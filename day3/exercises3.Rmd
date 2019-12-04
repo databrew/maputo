@@ -695,6 +695,7 @@ library(bohemia)
 library(cism)
 mopeia_us <- us %>% filter(district == 'MOPEIA')
 save(mop2, mop3, mopeia_roads, mopeia_water, mopeia_waterways,
+     mopeia2, mopeia3,
      man3, man2,
      mopeia_us,
      file = 'mop.RData')
@@ -703,8 +704,7 @@ save(mop2, mop3, mopeia_roads, mopeia_water, mopeia_waterways,
 1. Load up some spatial data from the internet by running the following:
 
 ```{r}
-rio::import('https://github.com/databrew/maputo/raw/master/day3/mop.RData')
-load('https://github.com/databrew/maputo/raw/master/day3/mop.RData')
+load(url('https://github.com/databrew/maputo/raw/master/day3/mop.RData'))
 ```
 
 2. Make a plot of the district borders (use the mop2 object)
