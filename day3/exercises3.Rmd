@@ -365,33 +365,57 @@ frangos <- ChickWeight
 15 Add points to the violin plot
 
 
-### Extra
+### Spatial intro
 
 
 1 Run the following to get some data on "unidades sanitarias" on your computer:
-```{r, eval = FALSE}
+
+
+```{r, eval = FALSE, echo = TRUE}
 us <- read_csv("https://raw.githubusercontent.com/databrew/databrew.github.io/master/us.csv")
 ```
 
-2 Look at the head of the data.
 
-3 Make a scatterplot of the `us` data, with `longitude` on the x-axis and `latitude` on the y-axis.
 
-4 Make an object called `province`. This should be the number of unidades sanitarias per province.
+```{r, echo = FALSE}
+us <- read_csv("https://raw.githubusercontent.com/databrew/databrew.github.io/master/us.csv", col_types = cols())
+```
 
-5 Make an object called `district`. This should be the number of unidades sanitarias per district.
+1. Look at the head of the data.
 
-6 Create an object called `types`. This should be the number of unidades sanitarias per type
+2. Make a scatterplot of the `us` data, with `longitude` on the x-axis and `latitude` on the y-axis.
 
-7 Make a barplot of the number of unidades sanitarias by type.
+3. Make an object called `province`. This should be the number of unidades sanitarias per province.
 
-8 Add `coord_flip` to the code to make the plot horizontal instead of vertical.
+4. Make another a scatterplot of the `us` data, with `longitude` on the x-axis and `latitude` on the y-axis. But make the color of each point be a reflection of the province
 
-9 Which type of health post is most common?
- 
-10 Make another a scatterplot of the `us` data, with `longitude` on the x-axis and `latitude` on the y-axis. But make the color of each point be a reflection of the province
+5. Read in the violence data again
 
-### Spatial intro
+```{r, include = FALSE}
+library(tidyverse)
+violence <- read_csv("https://github.com/databrew/maputo/blob/master/day3/data/moz.csv?raw=true")
+```
+
+
+```{r, echo = TRUE, eval = FALSE}
+library(tidyverse)
+violence <- read_csv("https://github.com/databrew/maputo/blob/master/day3/data/moz.csv?raw=true")
+```
+
+6. Make a map of the violent incidents
+
+7. Color the map of the violent incidents by event type
+
+8. Create an object called `recent`. This will be violent incidents which took place only in the last 2 years (2018 and 2019).
+
+9. Make a map of recent
+
+10. Make a map of recent but where the point size is the number of fatalities
+
+11. Make it pretty
+
+
+### Shapefiles intro
 
 
 1. Install some packages by running the following:
@@ -570,7 +594,7 @@ leaflet() %>%
                    popup = ~name)
 ```
 
-10. Make the plot 
+10. Make the plot have "clustered" points.
 
 ```{r, message = FALSE}
 leaflet() %>%
@@ -595,6 +619,7 @@ library(raster)
 
 ```{r, message = FALSE}
 library(raster)
+library(leaflet)
 moz0 <- getData(country = 'MOZ', level = 0)
 ```
 
@@ -661,4 +686,160 @@ leaflet() %>%
   addProviderTiles("Esri.WorldImagery") %>%
   addPolygons(data = gaza) %>%
   addCircleMarkers(data = gaza_us, col = 'yellow')
+```
+
+### Advanced spatial
+
+```{r, eval = FALSE, echo = FALSE}
+library(bohemia)
+library(cism)
+mopeia_us <- us %>% filter(district == 'MOPEIA')
+save(mop2, mop3, mopeia_roads, mopeia_water, mopeia_waterways,
+     man3, man2,
+     mopeia_us,
+     file = 'mop.RData')
+```
+
+1. Load up some spatial data from the internet by running the following:
+
+```{r}
+rio::import('https://github.com/databrew/maputo/raw/master/day3/mop.RData')
+load('https://github.com/databrew/maputo/raw/master/day3/mop.RData')
+```
+
+2. Make a plot of the district borders (use the mop2 object)
+
+```{r, echo = FALSE}
+ggplot(data = mop2,
+       aes(x = long,
+           y = lat,
+           group = group)) +
+  geom_polygon()
+```
+
+
+3. Make the border of the district black, and the inside of the district grey.
+
+```{r, echo = FALSE}
+ggplot(data = mop2,
+       aes(x = long,
+           y = lat,
+           group = group)) +
+  geom_polygon(color = 'black',
+               fill = 'grey')
+```
+
+4. Add `theme_map()` to remove the background
+
+```{r, echo = FALSE}
+library(ggthemes)
+ggplot(data = mop2,
+       aes(x = long,
+           y = lat,
+           group = group)) +
+  geom_polygon(color = 'black',
+               fill = 'grey') +
+  theme_map()
+```
+
+5. Add a title, subtitle, and caption
+
+
+```{r, echo = FALSE}
+ggplot(data = mop2,
+       aes(x = long,
+           y = lat,
+           group = group)) +
+  geom_polygon(color = 'black',
+               fill = 'grey') +
+    theme_map() +
+  labs(title = 'The district of Mopeia',
+       subtitle = 'Map',
+       caption = 'Produced by Carla')
+```
+
+6. Add rivers by adding `geom_path` with the `mopeia_waterways` object. Color the water blue.
+
+
+```{r, echo = FALSE}
+ggplot(data = mop2,
+       aes(x = long,
+           y = lat,
+           group = group)) +
+  geom_polygon(color = 'black',
+               fill = 'grey') +
+    theme_map() +
+  labs(title = 'The district of Mopeia',
+       subtitle = 'Map',
+       caption = 'Produced by Carla') +
+  geom_path(data = mopeia_waterways,
+            color = 'blue')
+```
+
+
+
+7. Add roads using the `mopeia_roads` object. Color them brown
+
+
+```{r, echo = FALSE}
+ggplot(data = mop2,
+       aes(x = long,
+           y = lat,
+           group = group)) +
+  geom_polygon(color = 'black',
+               fill = 'grey') +
+    theme_map() +
+  labs(title = 'The district of Mopeia',
+       subtitle = 'Map',
+       caption = 'Produced by Carla') +
+  geom_path(data = mopeia_waterways,
+            color = 'blue') +
+  geom_path(data = mopeia_roads,
+            color = 'brown')
+```
+
+8. Add points for the unidades sanitarias. Color them yellow. You'll need to use the `mopeia_us` data and add `group=NA` to within your call to `geom_point()`.
+
+```{r, echo = FALSE}
+ggplot(data = mop2,
+       aes(x = long,
+           y = lat,
+           group = group)) +
+  geom_polygon(color = 'black',
+               fill = 'grey') +
+    theme_map() +
+  labs(title = 'The district of Mopeia',
+       subtitle = 'Map',
+       caption = 'Produced by Carla') +
+  geom_path(data = mopeia_waterways,
+            color = 'blue') +
+  geom_path(data = mopeia_roads,
+            color = 'brown') +
+  geom_point(data = mopeia_us,
+             aes(x = longitude,
+                 y = latitude),
+             group = NA,
+             color = 'yellow')
+```
+
+9. ADVANCED: Reproduce the above map, but in an interactive version using leaflet. Some hints:
+
+- You'll need the `addPolylines` function for roads and water.
+- `weight` makes things thinner
+- `opacity` controls alpha
+
+```{r, echo = FALSE}
+leaflet() %>% 
+  addProviderTiles(providers$Esri.WorldImagery) %>%
+  addPolygons(data = mopeia2) %>%
+  addPolylines(data = mopeia_roads,
+                           color = 'brown',
+               weight = 2,
+               opacity = 1)%>%
+  addPolylines(data = mopeia_waterways,
+                           color = 'blue',
+               weight = 1,
+               opacity = 1) %>%
+  addCircleMarkers(data = mopeia_us,
+                   color = 'yellow')
 ```
