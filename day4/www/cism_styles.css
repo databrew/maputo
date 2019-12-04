@@ -1,0 +1,18 @@
+/*Customising the logo on the title page and the rectangular element containing it*/
+.gdbar img {
+  width: 200px !important;
+  height: 101px !important;
+  margin: 8px 8px;
+}
+
+.gdbar {
+  width: 250px !important;
+  height: 118px !important;
+}
+
+/*Customising the logo in the footer of each slide*/
+slides > slide:not(.nobackground):before {
+  width: 100px;
+  height: 50px;
+  background-size: 100px 50px;
+}
