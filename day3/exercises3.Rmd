@@ -13,7 +13,7 @@ library(tidyverse)
 
 
 
-## Part 1 (Quantitative with Quantitative)
+## Part 0 (Quantitative with Quantitative)
 
 1. Load up data on health and sociodemographic factors from Switzerland.
 
@@ -91,7 +91,7 @@ y <- swiss %>%
 
 13. Make a barplot of the data in y. Add the argument `position = 'dodge` to within `geom_bar()` to make the bars not stack
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, eval = FALSE}
 ggplot(data = y,
        aes(x = fert, y= avg, fill = edu)) +
   geom_bar(stat = 'identity', position = 'dodge')
@@ -174,7 +174,7 @@ ggplot(data = swiss,
 
 29. Use the `cut` function to generate a 4-category categorical variable of the `Education` variable. Call this new variable `educat`. Note that `cut` takes two arguments: first, the variable you are cutting; second, the number of categories you want.
 
-```{r, eval = FALSE, echo = FALSE}
+```{r, eval = TRUE, echo = FALSE}
 swiss <- swiss %>%
   mutate(educat = cut(Education, 4))
 ```
@@ -187,6 +187,28 @@ ggplot(data = swiss,
            y = educat)) +
   geom_density_ridges(alpha = 0.6)
 ```
+
+31. Can you create the following plot? You'll need to add `facet_wrap(~educat)`...
+
+```{r}
+ggplot(data = swiss,
+       aes(x = Catholic,
+           y = Infant.Mortality,
+           size = Fertility)) +
+  facet_wrap(~educat) +
+  geom_point(alpha = 0.6)
+```
+
+32. What percentage of high-Catholicism cantons are agricultural?
+
+33. What percentage of low fertility canons are Catholic?
+
+
+## Part 1 (New concepts)
+
+
+
+
 
 ## Part 2 (Data over time)
 

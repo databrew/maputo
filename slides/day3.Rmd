@@ -27,8 +27,7 @@ output: html_document
 
 ## two variable bar plot
 ```{r}
-library(dplyr)
-library(ggplot2)
+library(tidyverse)
 library(ggthemes)
 
 # for the afternoon, we need to install rgdal.

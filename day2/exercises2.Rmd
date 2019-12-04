@@ -11,7 +11,7 @@ knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 ```
 
-## Part 0 (Categorical)
+## Part 0 (Categorical with categorical)
 
 A. Run the following to read in some data about people
 
@@ -41,7 +41,7 @@ J. Pick two other categorical variables. Tally the number of people in the group
 
 
 
-## Part 1
+## Part 1 (Quantitative with Quantitative)
 
 1. Load up data on health and sociodemographic factors from Switzerland.
 
@@ -90,7 +90,7 @@ swiss <- swiss %>%
 
 16. Create an overlapping density chart of fertility in which the `fill` is whether a place is very Catholic or not.
 
-## Part 2
+## Part 2 (Data over time)
 
 17. Load up some data about the weight of chickens over time. Create an object called `frangos`.
 
@@ -127,7 +127,7 @@ frangos <- ChickWeight
 
 30. Add points to the violin plot
 
-## Part 3
+## Part 3 (Scatterplots, misc practice)
 
 31. Run the following to get some data on "unidades sanitarias" on your computer:
 ```{r, eval = FALSE}

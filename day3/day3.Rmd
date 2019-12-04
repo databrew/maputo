@@ -440,7 +440,7 @@ ggplot(sal_srd, aes(x = sex, y = mean, color = sex)) +
 
 ## Multivariate graphs|Exercises (all)
 
-
+www.databrew.cc/exercises3
 
 # Maps
 
