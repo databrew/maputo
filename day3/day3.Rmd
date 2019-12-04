@@ -1,0 +1,533 @@
+---
+title: "Data Visualization using R"
+subtitle: "Day 3"
+author: "Arsénio Nhacolo, Joe Brew and Ben Brew"
+date: "02-06/12/2019"
+output: 
+  ioslides_presentation:
+    logo: www/logo_full.png
+    css: www/cism_styles.css
+    widescreen: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+npac <- c("ggplot2","plotly" , "dplyr", "tidyr", 
+        "gapminder", "ggmap", 
+        "knitr", "kableExtra")
+for (pk in npac){
+  library(pk,character.only = TRUE)
+}
+
+```
+
+
+
+
+# Day 3
+
+## Today's agenda
+
+### Morning
+- Ben: **Multivariate graphs** - Introduction
+- Joe: **Multivariate graphs** - Preparing the data (dplyr, grouping, etc.).
+- Arsenio: **Multivariate graphs** - Practical instruction
+- All: **Multivariate graphs** - Exercises
+
+### Afternoon
+- Joe: **Mapping** - Introduction  
+- Arsenio: **Mapping** - Point maps / dot density maps
+- Ben: **Mapping** - Choropleth maps  
+- All: **Mapping** - Exercises
+
+
+# Multivariate graphs
+
+## Multivariate graphs|Introduction (Ben)
+
+- How do we show 3 (or more) variables on a 2 dimensional plot?
+
+## two variable bar plot
+```{r}
+library(tidyverse)
+library(ggthemes)
+
+# for the afternoon, we need to install rgdal.
+# install.packages('leaflet')
+dat <- read.csv('../../police_shootings/data/fatal-police-shootings-data.csv')
+
+new_dat <- dat %>% group_by(flee) %>% summarise(counts = n()) %>% filter(flee != '')
+ggplot(data = new_dat, aes(x = flee, counts)) + 
+  geom_bar(stat = 'identity') + labs(x = '', y = 'Counts', title = 'People killed by police') + theme_clean()
+
+```
+
+## Other variables to
+
+```{r}
+summary(dat)
+
+```
+
+## Add 3rd variable
+```{r}
+
+new_dat <- dat %>% group_by(flee, threat_level) %>% summarise(counts = n()) %>% filter(flee != '')
+
+ggplot(data = new_dat, aes(x = flee, y = counts, fill = threat_level)) + 
+  geom_bar(stat = 'identity', position = 'dodge') + labs(x = '', y = 'Counts', title = 'People killed by police') + theme_clean()
+
+```
+
+## Numeric data (2 variables)
+
+- Life expectancy and gdp per capita in 2007
+
+
+```{r}
+dat <- gapminder
+dat <- dat %>% filter(year == '2007')
+ggplot(data = dat, aes(gdpPercap, lifeExp)) + 
+  geom_point(size = 2, alpha = 0.4) +
+  labs(x = 'GDP per capita', 
+       y = 'Life expectancy',
+       title = 'GDP per capita and Life expectancy') + theme_clean()
+
+```
+
+## Numeric data (3 variables)
+
+- Life expectancy and gdp per capita in 2007
+- The size of the points represents population
+
+```{r}
+options(scipen = '999')
+dat <- gapminder
+dat <- dat %>% filter(year == '2007')
+ggplot(data = dat, aes(gdpPercap, lifeExp)) + 
+  geom_point(aes(size = pop), alpha = 0.4) +
+  labs(x = 'GDP per capita', 
+       y = 'Life expectancy',
+       title = 'GDP per capita and Life expectancy') + theme_clean()
+```
+
+## Numeric data (4 variables)
+
+- Life expectancy and gdp per capita in 2007
+- The size of the points represents population
+
+```{r}
+options(scipen = '999')
+dat <- gapminder
+dat <- dat %>% filter(year == '2007')
+ggplot(data = dat, aes(gdpPercap, lifeExp)) + 
+  geom_point(aes(size = pop, color = continent), alpha = 0.4) +
+  labs(x = 'GDP per capita', 
+       y = 'Life expectancy',
+       title = 'GDP per capita and Life expectancy') + theme_clean()
+```
+
+## Another example
+
+
+```{r}
+options(scipen = '999')
+dat <- gapminder
+dat <- dat %>% group_by(year, continent) %>% summarise(avg_gdp = mean(gdpPercap),
+                                                       avg_life_exp = mean(lifeExp),
+                                                       avg_pop = mean(pop))
+# dat <- dat %>% filter(continent == 'Oceania')
+ggplot(data = dat, aes(year, avg_pop)) +
+  geom_point(aes(color = continent)) +
+  geom_line(aes(color = continent)) +
+  labs(x = 'Year', 
+       y = 'Population',
+       title = 'Year and population by continent') + theme_clean()
+```
+
+## Another example
+
+```{r}
+options(scipen = '999')
+dat <- gapminder
+dat <- dat %>% group_by(year, continent) %>% summarise(avg_gdp = mean(gdpPercap),
+                                                       avg_life_exp = mean(lifeExp),
+                                                       avg_pop = mean(pop))
+# dat <- dat %>% filter(continent == 'Oceania')
+ggplot(data = dat, aes(year, avg_pop)) +
+  geom_point(aes(color = continent, size = avg_gdp)) +
+  geom_line(aes(color = continent)) +
+  labs(x = 'Year', 
+       y = 'Population',
+       title = 'Year and population by continent') + theme_clean()
+```
+
+## Another example
+
+```{r}
+options(scipen = '999')
+dat <- gapminder
+dat <- dat %>% group_by(year, continent) %>% summarise(avg_gdp = mean(gdpPercap),
+                                                       avg_life_exp = mean(lifeExp),
+                                                       avg_pop = mean(pop))
+# dat <- dat %>% filter(continent == 'Oceania')
+ggplot(data = dat, aes(year, avg_pop)) +
+  geom_point(aes(color = continent, size = avg_life_exp)) +
+  geom_line(aes(color = continent)) +
+  labs(x = 'Year', 
+       y = 'Population',
+       title = 'Year and population by continent') + theme_clean()
+```
+
+## Asia example
+```{r}
+options(scipen = '999')
+dat <- gapminder
+dat <- dat %>% group_by(year, country) %>% filter(continent == 'Asia' & country %in% c('China', 'Japan', 'Singapore', 'Korea, Rep.')) %>% summarise(gdp = mean(gdpPercap),
+                                                       life_exp = mean(lifeExp),
+                                                       pop = mean(pop))
+# dat <- dat %>% filter(continent == 'Oceania')
+ggplot(data = dat, aes(year, gdp)) +
+  geom_point(aes(color = country, size = pop)) +
+  geom_line(aes(color = country)) +
+  labs(x = 'Year', 
+       y = 'GDP per capita',
+       title = 'Year and GDP') + theme_clean()
+
+```
+
+## Multivariate graphs|Data preparation (Joe)
+
+## Multivariate graphs|Practical instruction (Arsenio)
+
+## Multivariate graphs
+
+* Display the relationships among three or more variables in a single graph
+* Two common methods for accommodating multiple variables: grouping and faceting
+
+## Multivariate graphs|Grouping
+
+* The values of the first two variables are mapped to the x and y axes
+* Additional variables are mapped to other visual characteristics such as color, shape, size, line type, and transparency 
+
+## Multivariate graphs|Grouping -- 3 variables (colour)
+
+```{r, eval=FALSE}
+# Plot experience vs. salary (color represents rank)
+ggplot(salaries, aes(x = yrs_since_phd, 
+                     y = salary, 
+                     color=rank)) +
+  geom_point() +
+  labs(title = "Academic salary by rank and years since degree",
+       x = "Years since PhD",
+       y = "Salary ($)",
+       color = "Rank") +
+  theme_pubr()
+```
+
+## Multivariate graphs|Grouping -- 3 variables (colour)
+
+```{r, echo=FALSE, fig.width=9, fig.height=4.3}
+salaries <- rio::import("data/salaries.rds")
+# Plot experience vs. salary (color represents rank)
+ggplot(salaries, aes(x = yrs_since_phd, 
+                     y = salary, 
+                     color=rank)) +
+  geom_point() +
+  labs(title = "Academic salary by rank and years since degree",
+       x = "Years since PhD",
+       y = "Salary ($)",
+       color = "Rank") +
+  theme_pubr()
+```
+
+## Multivariate graphs|Grouping -- 4 variables (colour and shape)
+
+```{r, eval=FALSE}
+# Plot experience vs. salary (color represents rank, shape represents sex)
+ggplot(salaries, 
+       aes(x = yrs_since_phd, 
+           y = salary, 
+           color = rank, 
+           shape = sex)) +
+  geom_point(size = 3, 
+             alpha = .6) +
+  labs(title = "Academic salary by rank, sex, and years since degree",
+       x = "Years since PhD",
+       y = "Salary ($)",
+       color = "Rank",
+       shape = "Gender") +
+  theme_pubr()
+```
+
+## Multivariate graphs|Grouping -- 4 variables (colour and shape)
+
+```{r, echo=FALSE, fig.width=9, fig.height=4.3}
+# Plot experience vs. salary (color represents rank, shape represents sex)
+ggplot(salaries, 
+       aes(x = yrs_since_phd, 
+           y = salary, 
+           color = rank, 
+           shape = sex)) +
+  geom_point(size = 3, 
+             alpha = .6) +
+  labs(title = "Academic salary by rank, sex, and years since degree",
+       x = "Years since PhD",
+       y = "Salary ($)",
+       color = "Rank",
+       shape = "Gender") +
+  theme_pubr()
+```
+
+
+## Multivariate graphs|Grouping -- 4 variables (colour and size)
+
+```{r, eval=FALSE}
+# Plot experience vs. salary (color represents rank and size represents service)
+ggplot(salaries, 
+       aes(x = yrs_since_phd, 
+           y = salary, 
+           color = rank, 
+           size = yrs_service)) +
+  geom_point(size = 3, 
+             alpha = .6) +
+  labs(title = "Academic salary by rank, years of service, and years since degree",
+       x = "Years since PhD",
+       y = "Salary ($)",
+       color = "Rank",
+       size = "Years of service") +
+  theme_pubr()
+```
+
+## Multivariate graphs|Grouping -- 4 variables (colour and size)
+
+```{r, echo=FALSE, fig.width=9, fig.height=4.3}
+# Plot experience vs. salary (color represents rank and size represents service)
+ggplot(salaries, 
+       aes(x = yrs_since_phd, 
+           y = salary, 
+           color = rank, 
+           size = yrs_service)) +
+  geom_point(alpha = .6) +
+  labs(title = "Academic salary by rank, years of service, and years since degree",
+       x = "Years since PhD",
+       y = "Salary ($)",
+       color = "Rank",
+       size = "Years of service") +
+  theme_pubr()
+```
+
+## Multivariate graphs|Faceting
+
+* In faceting, a graph consists of several separate plots or small multiples, one for each level of a third variable, or combination of variables
+
+```{r, eval=FALSE}
+# Plot salary histograms by rank
+ggplot(salaries, aes(x = salary)) +
+  geom_histogram(fill = "lightseagreen",
+                 color = "white") +
+  facet_wrap(~rank, ncol = 1) +
+  labs(title = "Salary histograms by rank") +
+  theme_pubr()
+```
+
+## Multivariate graphs|Faceting -- 3 variables
+
+```{r, echo=FALSE, fig.width=9, fig.height=4.3, message=FALSE}
+# Plot salary histograms by rank
+ggplot(salaries, aes(x = salary)) +
+  geom_histogram(fill = "lightseagreen",
+                 color = "white") +
+  facet_wrap(~rank, ncol = 1) +
+  labs(title = "Salary histograms by rank") +
+  theme_pubr()
+```
+
+## Multivariate graphs|Faceting -- 4 variables
+
+```{r, eval=FALSE}
+# Plot salary histograms by rank and sex
+ggplot(salaries, aes(x = salary/1000)) +
+  geom_histogram(color = "white",
+                 fill = "lightseagreen") +
+  facet_grid(sex ~ rank) +
+  labs(title = "Salary histograms by sex and rank",
+       x = "Salary ($1000)") +
+  theme_pubr()
+```
+
+## Multivariate graphs|Faceting -- 4 variables
+
+```{r, echo=FALSE, fig.width=9, fig.height=4.3, message=FALSE}
+# Plot salary histograms by rank and sex
+ggplot(salaries, aes(x = salary/1000)) +
+  geom_histogram(color = "white",
+                 fill = "lightseagreen") +
+  facet_grid(sex ~ rank) +
+  labs(title = "Salary histograms by sex and rank",
+       x = "Salary ($1000)") +
+  theme_pubr()
+```
+
+## Multivariate graphs|Combining grouping and faceting
+
+* E.g.: use Mean/SE plots and faceting to compare the salaries of male and female professors, within rank and discipline
+
+```{r}
+# Calculate means and standard erroes by sex, rank and discipline
+library(dplyr)
+sal_srd <- salaries %>%
+  group_by(sex, rank, discipline) %>%
+  summarize(n = n(),
+            mean = mean(salary),
+            sd = sd(salary),
+            se = sd / sqrt(n))
+```
+
+## Multivariate graphs|Combining grouping and faceting
+
+```{r}
+# Check the categories of discipline
+levels(salaries$discipline) # A = Theoretical, B = Applied
+# Create better labels for discipline's categories
+sal_srd$discipline <- factor(sal_srd$discipline, levels = c("A", "B"),
+                              labels = c("Theoretical","Applied"))
+sal_srd
+```
+
+## Multivariate graphs|Combining grouping and faceting
+
+```{r, eval=FALSE}
+# Create plot
+ggplot(sal_srd, aes(x = sex, y = mean, color = sex)) +
+  geom_point(size = 3) +
+  geom_errorbar(aes(ymin = mean - se, ymax = mean + se), width = .1) +
+  scale_y_continuous(breaks = seq(70000, 140000, 10000), label = scales::dollar) +
+  facet_grid(. ~ rank + discipline) +
+  theme_bw() +
+  theme(legend.position = "none",
+        panel.grid.major.x = element_blank(),
+        panel.grid.minor.y = element_blank()) +
+  labs(x="", y="", 
+       title="Nine month academic salaries by gender, discipline, and rank",
+       subtitle = "(Means and standard errors)") +
+  scale_color_brewer(palette="Set1")
+```
+
+## Multivariate graphs|Combining grouping and faceting
+
+```{r, echo=FALSE, fig.width=9, fig.height=4.3}
+# Create plot
+ggplot(sal_srd, aes(x = sex, y = mean, color = sex)) +
+  geom_point(size = 3) +
+  geom_errorbar(aes(ymin = mean - se, 
+                    ymax = mean + se),
+                width = .1) +
+  scale_y_continuous(breaks = seq(70000, 140000, 10000),
+                     label = scales::dollar) +
+  facet_grid(. ~ rank + discipline) +
+  theme_bw() +
+  theme(legend.position = "none",
+        panel.grid.major.x = element_blank(),
+        panel.grid.minor.y = element_blank()) +
+  labs(x="", 
+       y="", 
+       title="Nine month academic salaries by gender, discipline, and rank",
+       subtitle = "(Means and standard errors)") +
+  scale_color_brewer(palette="Set1")
+```
+
+
+## Multivariate graphs|Exercises (all)
+
+
+
+# Maps
+
+## Maps|Introduction (Joe)
+
+
+## Maps|Dot density maps (Arsenio)
+
+* Use points on a map to explore spatial relationships
+* The geographic coordinates (longitude and latitude) are usually required for each observation
+* E.g.: Suppose we have located moquitoes' habitats in Manhica district, and recorded their geographic coordinates and the number of anophel larvae
+  + Let's plot the  locations of the habitats on the map
+
+```{r, message=FALSE, warning=FALSE}
+library(leaflet)
+mosquito <- rio::import("data/mosquito_habitat.rds") # Note: This are fake data
+# Print the variable names
+names(mosquito)
+```
+
+## Maps|Dot density maps
+
+```{r}
+mosquito[4:6,]
+```
+
+
+* Plot mosquitoes' habitat on the map using circles markers
+
+```{r, eval=FALSE}
+library(leaflet)
+leaflet(mosquito, width = 1000, height = 600) %>%
+  addTiles() %>%  # Add default OpenStreetMap map tiles
+  addCircleMarkers(lng = ~longitude, lat = ~latitude)
+```
+
+
+***
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+library(leaflet)
+leaflet(mosquito, width = 1000, height = 600) %>%
+  addTiles() %>%  # Add default OpenStreetMap map tiles
+  addCircleMarkers(lng = ~longitude, lat = ~latitude)
+```
+
+
+## Maps|Dot density maps -- enhancements
+
+```{r, eval=FALSE}
+leaflet(mosquito, width = 1000, height = 600) %>%
+  addTiles() %>%  
+  addCircleMarkers(lng = ~longitude,lat = ~latitude,
+                   color = ~ifelse(anophel_larvae>0,'red','green'),
+                   popup = ~paste0('Habitat: ', habitat_id,
+                          ', Number of anophel larvae: ', anophel_larvae),
+                   label = ~habitat_id,
+                   radius = 7,stroke = F,fillOpacity = 0.5)
+
+```
+
+
+***
+
+```{r, echo=FALSE}
+leaflet(mosquito, width = 1000, height = 600) %>%
+  addTiles() %>%  
+  addCircleMarkers(lng = ~longitude,lat = ~latitude,
+                   color = ~ifelse(anophel_larvae>0,'red','green'),
+                   popup = ~paste0('Habitat: ', habitat_id,
+                          ', Number of anophel larvae: ', anophel_larvae),
+                   label = ~habitat_id,
+                   radius = 7,stroke = F,fillOpacity = 0.5)
+
+```
+
+
+## Maps|Choropleth maps (Ben)
+
+- A choropleth map displays divided geographical areas or regions that are coloured in relation to a numeric variable. 
+
+```{r}
+data(quakes)
+dat <- quakes
+# Show first 20 rows from the `quakes` dataset
+leaflet(data = dat) %>% addTiles() %>%
+  addMarkers(~long, ~lat, popup = ~as.character(mag), label = ~as.character(mag))
+```
+
+## Maps|Exercises (all)
