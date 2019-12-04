@@ -54,7 +54,7 @@ library(ggthemes)
 
 # for the afternoon, we need to install rgdal.
 # install.packages('leaflet')
-dat <- read.csv('../../police_shootings/data/fatal-police-shootings-data.csv')
+dat <- read.csv('data/fatal-police-shootings-data.csv')
 
 new_dat <- dat %>% group_by(flee) %>% summarise(counts = n()) %>% filter(flee != '')
 ggplot(data = new_dat, aes(x = flee, counts)) + 
