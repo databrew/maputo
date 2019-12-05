@@ -704,4 +704,95 @@ frangos <- ChickWeight
 
 15 Add points to the violin plot
 
+### correlation plots
 
+- between -1 and 1
+- positive: as x increases, y increases
+- negative: as x increases, y decreases
+- 0: no correlation
+
+### scatter plot 
+
+```{r}
+library(gapminder)
+library(tidyverse)
+
+dat <- gapminder
+
+ggplot(dat, aes(gdpPercap, lifeExp)) + geom_point()
+
+
+```
+
+### add correlation to plot
+
+
+```{r}
+corr <- cor(dat$gdpPercap, dat$lifeExp)
+ggplot(dat, aes(gdpPercap, lifeExp)) + geom_point() +
+  labs(title = corr)
+
+
+```
+
+
+```{r}
+corr <- round(corr, digits = 2)
+ggplot(dat, aes(gdpPercap, lifeExp)) + geom_point() +
+  labs(title = corr)
+
+
+```
+
+### correlation matrix
+
+```{r}
+install.packages("corrplot")
+library(corrplot)
+cars <- mtcars
+?mtcars
+# create correlation matrix
+m <-cor(mtcars)
+head(round(m,2))
+
+```
+
+### plot the correlation matrix
+
+```{r}
+corrplot(m, method="circle")
+
+```
+
+```{r}
+corrplot(m, method="pie")
+
+```
+
+```{r}
+corrplot(m, method="color")
+
+```
+
+```{r}
+corrplot(m, method="number")
+
+```
+
+```{r}
+corrplot(m, method="upper")
+
+```
+
+```{r}
+corrplot(m, method="lower")
+
+```
+
+### exercise 
+
+1. Create scatter plot using the cars data.
+
+2. Add the correlation coefficient to the title of the plot
+
+3. 

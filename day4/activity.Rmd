@@ -14,6 +14,145 @@ library(tidyverse)
 ```
 
 
+## Time series 
+
+```{r}
+library(tidyverse)
+dat <-economics
+ggplot(data = dat, aes(x = date, y = psavert)) +
+  geom_line() +
+  labs(title = "Personal Savings Rate",
+       x = "Date",
+       y = "Personal Savings Rate")
+
+```
+
+## using geom_smooth() to fit a linear model over the data
+```{r}
+ggplot(dat, aes(x = date, y = psavert)) +
+  geom_line(color = "indianred3", 
+            size=1 ) +
+  geom_smooth(method = 'lm') +
+  labs(title = "Personal Savings Rate",
+       subtitle = "1967 to 2015",
+       x = "",
+       y = "Personal Savings Rate") +
+  theme_minimal()
+```
+
+## Loess - Locally weighted least squares regression
+```{r}
+ggplot(dat, aes(x = date, y = psavert)) +
+  geom_line(color = "indianred3", 
+            size=1 ) +
+  geom_smooth(method = 'loess') +
+  labs(title = "Personal Savings Rate",
+       subtitle = "1967 to 2015",
+       x = "",
+       y = "Personal Savings Rate") +
+  theme_minimal()
+```
+
+## gather data into long form
+```{r}
+long_dat <- gather(data = dat, variable, value, -date) %>% 
+ filter(variable == 'pce' | variable == 'unemploy')
+
+head(long_dat)
+
+```
+
+## plot all variables
+```{r}
+ggplot(data = long_dat, aes(x = date, y = value, color = variable)) +
+  geom_line(size=1) +
+  labs(title = "Personal Savings Rate",
+       subtitle = "1967 to 2015",
+       x = "",
+       y = "Personal Savings Rate") +
+  theme_minimal()
+
+```
+
+## Area charts
+```{r}
+# basic area chart
+ggplot(dat, aes(x = date, y = psavert)) +
+  geom_area(fill="lightblue", color="black") +
+  labs(title = "Personal Savings Rate",
+       x = "Date",
+       y = "Personal Savings Rate")
+```
+
+
+## Dumbell chart
+```{r}
+# subset data
+# install.packages('ggalt')
+# install.packages('devtools')
+devtools::install_github("hrbrmstr/ggalt", ref = "noproj")
+
+library(ggalt)
+library(gapminder)
+dat <- gapminder %>% filter(continent == "Americas" &
+                                      year == 1952 | year == 2007) %>%
+  select(country, year, lifeExp)
+
+# convert data to wide format
+dat_wide <- spread(dat, year, lifeExp)
+names(dat_wide) <- c("country", "y1952", "y2007")
+
+# create dumbbell plot
+ggplot(dat_wide, aes(y = country,
+                          x = y1952,
+                          xend = y2007)) +  
+  geom_dumbbell()
+
+```
+
+## add titles and labels
+```{r}
+ggplot(dat_wide, 
+       aes(y = reorder(country, y1952),
+           x = y1952,
+           xend = y2007)) +  
+  geom_dumbbell(size = 1.2,
+                size_x = 3, 
+                size_xend = 3,
+                colour = "grey", 
+                colour_x = "blue", 
+                colour_xend = "red") +
+  theme_minimal() + 
+  labs(title = "Change in Life Expectancy",
+       subtitle = "1952 to 2007",
+       x = "Life Expectancy (years)",
+       y = "")
+```
+
+## slope charts
+
+```{r}
+library(CGPfunctions)
+install.packages('CGPfunctions')
+# Select Central American countries data 
+# for 1992, 1997, 2002, and 2007
+
+df <- gapminder %>%
+  filter(year %in% c(1992, 1997, 2002, 2007) &
+           country %in% c("Panama", "Costa Rica", 
+                          "Nicaragua", "Honduras", 
+                          "El Salvador", "Guatemala",
+                          "Belize")) %>%
+  mutate(year = factor(year),
+         lifeExp = round(lifeExp)) 
+
+# create slope graph
+newggslopegraph(df, year, lifeExp, country) +
+  labs(title="Life Expectancy by Country", 
+       subtitle="Central America", 
+       caption="source: gapminder")
+```
+
 ## 538 data (drug use)
 
 
