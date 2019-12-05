@@ -9,6 +9,10 @@ output:
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
+
+# group by cylinders and summarise
+dat <- 
+
 ```
 
 ## Thursday {.tabset .tabset-fade}
@@ -21,10 +25,6 @@ library(tidyverse)
 ### Getting data
 
 1. Load up some libraries
-
-```{r, include = FALSE, echo = FALSE}
-library(raster)
-```
 
 ```{r, eval = FALSE, echo = TRUE}
 library(raster)
@@ -1010,7 +1010,7 @@ ggplot(dat, aes(x = date, y = psavert)) +
 # subset data
 # install.packages('ggalt')
 # install.packages('devtools')
-devtools::install_github("hrbrmstr/ggalt", ref = "noproj")
+# devtools::install_github("hrbrmstr/ggalt", ref = "noproj")
 
 library(ggalt)
 library(gapminder)

@@ -1,0 +1,80 @@
+
+## Introduction to Markdown in R
+
+- What is markdown
+- Crossplatform language
+
+## Why use rmarkdown
+
+- Documents with embedded code are reproducible.
+- The document will serve as a record for how you arrived at the results you include in your papers.
+- You can pass on your code to readers in addition to the report content
+- Dynamic documents can change as data are updated
+
+## R markdown plots
+
+- create a basic plot
+
+```{r}
+#install.pcakages('rmarkdown')
+# R Markdown allows you to create documents that serve as a neat record of your analysis. In the world of reproducible research, we want other researchers to easily understand what we did in our analysis, otherwise nobody can be certain that you analysed your data properly. You might choose to create an RMarkdown document as an appendix to a paper or project assignment that you are doing, upload it to an online repository such as Github, or simply to keep as a personal record so you can quickly look back at your code and see what you did. RMarkdown presents your code alongside its output (graphs, tables, etc.) with conventional text to explain it, a bit like a notebook.
+library(rmarkdown)
+library(gapminder)
+library(tidyverse)
+
+dat <- gapminder
+ggplot(data = dat, aes(lifeExp, gdpPercap)) + geom_point()
+
+
+```
+
+# Headers
+
+## Header 1 
+
+### Header 2 
+
+### Header 3
+
+#### Header 4 
+
+## Using code chunks to analyze data
+
+```{r}
+dat <- mtcars
+head(dat)
+
+```
+
+## plot gapminder data
+
+```{r}
+
+
+```
+
+## Using code chunks to analyze data (gather data)
+
+```{r}
+dat 
+
+```
+
+
+## Using code chunks to make figures
+
+```{r}
+library(tidyverse)
+gggplot(mtcars, aes(hp, mpg)) +
+        geom_point(aes(color=as.factor(cyl)), size=5) +
+        geom_smooth(method="lm", se=FALSE) +
+        labs(x = "Horsepower",y= "Miles Per Gallon", 
+             color= "# of Cylinders") +
+        theme_bw()
+
+```
+
+
+
+
+
