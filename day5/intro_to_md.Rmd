@@ -46,7 +46,7 @@ head(dat)
 
 ```
 
-## plot gapminder data
+## plot car data
 
 ```{r}
 
@@ -56,7 +56,7 @@ head(dat)
 ## Using code chunks to analyze data (gather data)
 
 ```{r}
-dat 
+
 
 ```
 
@@ -65,7 +65,7 @@ dat
 
 ```{r}
 library(tidyverse)
-gggplot(mtcars, aes(hp, mpg)) +
+ggplot(mtcars, aes(hp, mpg)) +
         geom_point(aes(color=as.factor(cyl)), size=5) +
         geom_smooth(method="lm", se=FALSE) +
         labs(x = "Horsepower",y= "Miles Per Gallon", 
