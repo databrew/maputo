@@ -18,7 +18,6 @@ library(tidyverse)
 library(tidyverse)
 ```
 
-
 ### Spatial 1
 
 1. Load up some useful packages
@@ -704,4 +703,42 @@ frangos <- ChickWeight
 
 15 Add points to the violin plot
 
+### Markdown
 
+1. Install these packages if you don't yet have them
+
+```{}
+knitr
+rmarkdown
+DT
+```
+
+2. In the upper left of RStudio, click "File", then "New File", then "R Markdown".
+
+3. Name your file: "Mapping with R"
+
+4. In your new file, run CTRL + s in order to save. Save it as "mapping" (for example).
+
+5. Delete lines 11 until the end.
+
+6. Write the following in order to create a "header" section:
+
+```
+
+## How to get data
+
+```
+
+7. Move your cursor below that section, and then click on "Insert" at the top of the code window. From there, click on "R".
+
+8. You now have a section for writing R code. In that section, write:
+
+```{r}
+library(raster)
+library(leaflet)
+library(tidyverse)
+```
+
+9. Click "Knit" in the top of the window in order to compile the document.
+
+10. Now add more text and R sections to create a complete guide for mapping in R.
