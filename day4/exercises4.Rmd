@@ -18,6 +18,96 @@ library(tidyverse)
 library(tidyverse)
 ```
 
+### Getting data
+
+1. Load up some libraries
+
+```{r, include = FALSE, echo = FALSE}
+library(raster)
+```
+
+```{r, eval = FALSE, echo = TRUE}
+library(raster)
+```
+
+2. Find the 3 letter ISO code of a country you like.s Here is a list of codes: https://www.iban.com/country-codes
+
+3. Create an object called `iso`. This will be 3 letter ISO code. For example, here is Tanzania (but you can do a different country)
+
+```{r}
+iso <- 'TZA'
+```
+
+4. Get the data for your country into an object called `x`. Set the level to `0` if you want for only the country, set it higher if you want more detailed
+
+```{r}
+x <- getData(country = iso, level = 2)
+```
+
+5. Make a very simple plot, just to confirm that it all worked.
+
+```{r}
+plot(x)
+```
+
+
+
+### Spatial 0
+
+1. Load up some packages
+
+```{r, include = FALSE, echo = FALSE}
+library(choroplethr)
+library(choroplethrMaps)
+library(tidyverse)
+library(gapminder)
+```
+
+```{r, eval = FALSE, echo = TRUE}
+library(choroplethr)
+library(choroplethrMaps)
+library(tidyverse)
+library(gapminder)
+```
+
+
+
+2. Get the gapminder data. Name it `gm`
+
+```{r}
+gm <- gapminder
+```
+
+3. Rename some things
+
+```{r}
+gm <- gm %>%
+  rename(region = country,
+         value = lifeExp) %>%
+  mutate(region = tolower(region))
+```
+
+4. Filter for only 2007
+
+```{r}
+gm_choro <- gm %>% filter(year == 2007)
+```
+
+5. Plot
+
+```{r, message=FALSE, eval = FALSE}
+country_choropleth(gm_choro)
+```
+
+6. Make only 4 colors
+
+```{r, eval = FALSE}
+country_choropleth(gm_choro, num_colors = 4)
+```
+
+7. Extra/advanced. Clean up the mismatched country names and make the charts prettier.
+
+
 
 ### Spatial 1
 
@@ -474,6 +564,60 @@ ggplot(data = weather,
 10. Add another distribution the above chart with the minimum temperature. Color it blue. To do this you will need to add another `geom_density` line to your chart, and you can include another `aes()` section within that `geom_density` function.
 
 
+### Making long data
+
+1. Read in some Mozambican weather data by running the following
+
+```{r, include = FALSE, echo = FALSE}
+library(tidyverse)
+weather <- read_csv("https://github.com/databrew/maputo/blob/master/day3/data/mozambican_weather.csv?raw=true")
+```
+
+```{r, eval = FALSE, echo = TRUE}
+library(tidyverse)
+weather <- read_csv("https://github.com/databrew/maputo/blob/master/day3/data/mozambican_weather.csv?raw=true")
+```
+
+2. Take a look at the top of the data. 
+
+3. Create an object called `pd`. This will be some data we want to plot. It will include only the columns we want to plot. For example.
+
+```{r}
+pd <- weather %>%
+  dplyr::select(district, date, temp_max, temp_min)
+```
+
+4. Make the data "long" using `gather`
+
+```{r}
+pdl <- pd %>%
+  gather(key, value, temp_max:temp_min)
+```
+
+5. Make a plot of temperature with the color showing the `key` and paneling/faceting for each district.
+
+6. Read in the gapminder data
+
+```{r}
+library(gapminder)
+gm <- gapminder
+```
+
+7. Create an object called `x`. This will only be data for countries in Oceania
+
+```{r, echo = FALSE, eval = TRUE}
+x <- gm %>% filter(continent == 'Oceania')
+```
+
+8. Make the data "long" by gathering the lifeExp, pop, and gdpPercap variables.
+
+```{r}
+x <- x %>% gather(key, value, lifeExp:gdpPercap)
+```
+
+9. Plot the `x` data with year on the x-axis, the `value` on the y-axis, colored by country, and panelled/faceted by `key`. Add `scales = 'free_y'` to within the `facet_wrap` function in order to have "loose" scales.
+
+10. Filter `x` to remove population. Plot again (using the same code from 9)
 
 ### Switzerland
 
@@ -796,3 +940,43 @@ corrplot(m, method="lower")
 2. Add the correlation coefficient to the title of the plot
 
 3. 
+=======
+### Markdown
+
+1. Install these packages if you don't yet have them
+
+```{}
+knitr
+rmarkdown
+DT
+```
+
+2. In the upper left of RStudio, click "File", then "New File", then "R Markdown".
+
+3. Name your file: "Mapping with R"
+
+4. In your new file, run CTRL + s in order to save. Save it as "mapping" (for example).
+
+5. Delete lines 11 until the end.
+
+6. Write the following in order to create a "header" section:
+
+```
+
+## How to get data
+
+```
+
+7. Move your cursor below that section, and then click on "Insert" at the top of the code window. From there, click on "R".
+
+8. You now have a section for writing R code. In that section, write:
+
+```{r}
+library(raster)
+library(leaflet)
+library(tidyverse)
+```
+
+9. Click "Knit" in the top of the window in order to compile the document.
+
+10. Now add more text and R sections to create a complete guide for mapping in R.
