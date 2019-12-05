@@ -45,4 +45,41 @@ for (pk in npac){
 - Ben: **Statistical models** - Survival plots
 - All: **Statistical models** - Exercises
 
+## Time dependent charts - scatter plot
+
+![](www/time_plot_1.png)
+
+
+## Time series analysis
+
+![](www/time_plot_2.png)
+
+## More than two variables
+![](www/time_plot_2a.png)
+
+## Dummbbell charts (two time points)
+![](www/time_plot_3.png)
+
+## Dummbbell charts (two time points)
+![](www/time_plot_4.png)
+
+## Slope graphs 
+
+![](www/time_plot_5.png)
+
+## Area graphs
+
+![](www/time_plot_6.png)
+
+
+## Area graphs 3 variables
+
+![](www/time_plot_7.png)
+
+## Area graphs
+
+- scale_fill_brewer(palette = "Set2") +
+- theme_minimal()
+
+![](www/time_plot_8.png)
 
