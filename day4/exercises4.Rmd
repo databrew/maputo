@@ -933,13 +933,6 @@ corrplot(m, method="lower")
 
 ```
 
-### exercise 
-
-1. Create scatter plot using the cars data.
-
-2. Add the correlation coefficient to the title of the plot
-
-3. 
 =======
 ### Markdown
 
