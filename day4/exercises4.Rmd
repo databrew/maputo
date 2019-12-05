@@ -272,8 +272,32 @@ library(tidyverse)
 
 2. Create an object called `terra` like this:
 
-```{r}
+```{r, eval = FALSE, echo = FALSE}
 terra <- map_data("world")
+change <- function(ff, tt){
+  terra$country[terra$country == ff] <- tt
+}
+terra$country <- as.character(terra$region)
+terra$country[terra$country == 'Democratic Republic of the Congo'] <- "Congo, Dem. Rep."
+terra$country[terra$country == 'Republic of Congo'] <- "Congo, Rep."
+terra$country[terra$country == "Ivory Coast"] <- "Cote d'Ivore"
+terra$country[terra$country == "North Korea"] <- "Korea, Dem. Rep."
+terra$country[terra$country == "South Korea"] <- "Korea, Rep."
+terra$country[terra$country == "Slovakia"] <- "Slovak Republic"
+terra$country[terra$country == "Trinidad"] <- "Trinidad and Tobago"
+terra$country[terra$country == "UK"] <- "United Kingdom"
+terra$country[terra$country == "USA"] <- "United States"
+terra$country[terra$country == "Palestine"] <- "West Bank and Gaza"
+terra$country[terra$country == "Yemen"] <- "Yemen, Rep."
+write_csv(terra, 'terra.csv')
+```
+
+```{r, include = FALSE}
+terra <- read_csv('https://github.com/databrew/maputo/blob/master/day4/terra.csv?raw=true')
+```
+
+```{r, echo = TRUE, eval = FALSE}
+terra <- read_csv('https://github.com/databrew/maputo/blob/master/day4/terra.csv?raw=true')
 ```
 
 3. Plot `terra`
@@ -294,19 +318,14 @@ gm <- gapminder::gapminder
 
 9. Filter the gapminder data to only include data from 2007. Call this `recent`.
 
-10. Create a variable in the `recent` object named `region`. This will just be a copy of the country.
 
-```{r, echo = FALSE, eval = FALSE}
-recent <- gm %>% filter(year == 2007) %>% mutate(region = country)
-```
-
-11. Perform a join between `terra` and `recent` so as to associate geographic data with health/wealth data. Call the new objected `combinado`
+10. Perform a join between `terra` and `recent` so as to associate geographic data with health/wealth data. Call the new objected `combinado`
 
 ```{r, echo = FALSE, eval = FALSE}
 combinado <- left_join(terra, recent)
 ```
 
-12. Plot `combinado` using ggplot, but filling each country as a function of gdpPerCap
+11. Plot `combinado` using ggplot, but filling each country as a function of gdpPerCap
 
 ```{r, echo = FALSE, eval = FALSE}
 ggplot(data = combinado,
@@ -318,7 +337,101 @@ ggplot(data = combinado,
   scale_fill_gradientn(colors = c('red', 'white', 'blue'))
 ```
 
-13. Let's alter the color scale by using
+12. Let's alter the color scale by adding the following:
+
+```{r, echo = TRUE, eval = FALSE}
+scale_fill_gradientn(colors = c('red', 'white', 'blue'))
+```
+
+13. Change the colors, change the theme, add borders, etc.
+
+### Spatial 4
+
+1. Load up some packages
+
+```{r}
+library(leaflet)
+library(sp)
+library(tidyverse)
+library(raster)
+```
+
+2. Load the violence data from yeterday
+
+```{r, include = FALSE}
+violence <- read_csv("https://github.com/databrew/maputo/blob/master/day3/data/moz.csv?raw=true")
+```
+
+
+```{r, echo = TRUE, eval = FALSE}
+violence <- read_csv("https://github.com/databrew/maputo/blob/master/day3/data/moz.csv?raw=true")
+```
+
+
+3. Load a shapefile of Mozambique
+
+```{r}
+moz1 <- getData(country = 'MOZ', level = 1)
+```
+
+4. In `violence`, create a new column named `province`. This will be simply the `admin1` column copied.
+
+5. In `moz1`, create a new column called `province`. This will be simply the `NAME_1` column copied.
+
+6. In `moz1`, change the word "Nassa" to "Niassa" in the `province` column.
+
+7. Create an object called `bp`. This will be the number of fatalities in violent events by province, only since 2010.
+
+```{r, echo = FALSE, eval = FALSE}
+bp <- violence %>% filter(year >= 2010) %>% group_by(province = admin1) %>% summarise(deaths = sum(fatalities))
+moz1$province <- moz1$NAME_1
+moz1$province <- ifelse(moz1$province == 'Nassa', 'Niassa', moz1$province)
+```
+
+8. Join `moz1` and `bp`. **NOTE**, since `moz1` is not a normal dataframe (it's a "SpatialPolygonsDataFrame"), we have to specifically use it's "data" component. The below is how to do this.
+
+```{r, echo = TRUE, eval = FALSE}
+moz1@data <- left_join(x = moz1@data,
+                       y = bp,
+                       by = 'province')
+```
+
+9. Make an interactive map with moz1
+
+```{r, echo = FALSE, eval = FALSE}
+leaflet() %>%
+  addTiles() %>%
+  addPolygons(data = moz1)
+```
+
+10. Create a choropleth of the deaths data
+
+```{r, echo = TRUE, eval = FALSE}
+pal <- colorNumeric("Spectral", domain = range(moz1@data$deaths))
+
+leaflet() %>%
+  addTiles() %>%
+  addPolygons(data = moz1,
+              fillColor = ~pal(deaths),
+              weight = 1,
+              color = 'black',
+              opacity = 0.9)
+```
+
+11. Add a legend with the following line:
+
+```{r, echo = TRUE, eval = FALSE}
+leaflet() %>%
+  addTiles() %>%
+  addPolygons(data = moz1,
+              fillColor = ~pal(deaths),
+              weight = 1,
+              color = 'black',
+              opacity = 0.9) %>%
+  addLegend(pal=pal, values=moz1$deaths, opacity=0.9, title = "Deaths since 2010", position = "bottomright" )
+
+```
+
 
 
 ### Weather

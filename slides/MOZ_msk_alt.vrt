@@ -1,0 +1,15 @@
+<VRTDataset rasterXSize="1296" rasterYSize="1992">
+<GeoTransform>30.1, 0.008333333, 0, -10.4, 0, -0.008333333</GeoTransform>
+<SRS>+proj=longlat +ellps=WGS84</SRS>
+	<VRTRasterBand dataType="Int16" band="1" subClass="VRTRawRasterBand">
+		<Description>MOZ_msk_alt</Description>
+		<SourceFilename relativetoVRT="1">MOZ_msk_alt.gri</SourceFilename>
+		<ImageOffset>0</ImageOffset>
+		<PixelOffset>2</PixelOffset>
+		<LineOffset>2592</LineOffset>
+		<ByteOrder>LSB</ByteOrder>
+		<NoDataValue>-9999</NoDataValue>
+		<Offset>0</Offset>
+		<Scale>1</Scale>
+	</VRTRasterBand>
+</VRTDataset>
