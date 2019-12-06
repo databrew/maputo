@@ -1,0 +1,418 @@
+---
+title: "Exercises"
+author: "DataBrew"
+output: 
+    html_document:
+        theme: united
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+
+```
+
+## Friday {.tabset .tabset-fade}
+
+
+```{r, include = FALSE}
+library(tidyverse)
+library(raster)
+
+```
+
+
+### Weather
+
+1. Read in some Mozambican weather data by running the following
+
+```{r, include = FALSE, echo = FALSE}
+library(tidyverse)
+weather <- read_csv("https://github.com/databrew/maputo/blob/master/day3/data/mozambican_weather.csv?raw=true")
+```
+
+```{r, eval = FALSE, echo = TRUE}
+library(tidyverse)
+weather <- read_csv("https://github.com/databrew/maputo/blob/master/day3/data/mozambican_weather.csv?raw=true")
+```
+
+2. Take a look at the top of the data. 
+
+3. Create an object called `x`. This will be the `weather` data, then summarized to tell us the minimum and maximum dates.
+
+4. Create an object called `y`. This will be the `weather` data, then summarized to tell us the maximum `temp_max` and the mimimum `temp_min`.
+
+5. Create an object called `z`. This will be the `weather` data, but filtered to only include the year 2014 and only the district of "MATOLA".
+
+6. Make a plot of `z` with the `date` on the x-axis and the average temperature (`temp`) on the y-axis.
+
+7. Make a plot of `z` showing the distribution of precipitation.
+
+8. Make a plot showing the distribution of the maximum temperature, but faceted by district.
+
+```{r, eval = FALSE, echo = FALSE}
+ggplot(data = weather,
+       aes(x = temp_max)) +
+  geom_density() +
+  facet_wrap(~district)
+```
+
+9. Color the lines in the above red.
+
+10. Add another distribution the above chart with the minimum temperature. Color it blue. To do this you will need to add another `geom_density` line to your chart, and you can include another `aes()` section within that `geom_density` function.
+
+
+
+### Time data
+
+1. Load up some data about the weight of chickens over time. Create an object called `frangos`.
+
+```{r}
+data('ChickWeight')
+frangos <- ChickWeight
+```
+
+2 How many columns does the data have?
+
+3 How many rows does the data have?
+
+4 What are the variable types (quantitative/numeric or categorical)?
+
+5 Create a point chart showing weight on the x-axis and time on the y-axis.
+
+6 Create an object called `frango1`. This should be just the data for chicken number 1 (ie, 1 in the `Chick` column).
+
+7 Chart the weight of chicken 1 over time using `geom_point()`
+
+8 Chart the weight of chicken 1 over time using `geom_line()`
+
+9 Chart the weight of chicken 1 over time using `geom_area()`
+
+10 Chart the weight of _all_ chickens over time using `geom_line()`. Make the color of each line different for each chicken.
+
+11 Create an object called `zero`. This should be the frangos only at day 0 (ie, when they are born).
+
+12 Make a histogram of chicken's weights at day 0.
+
+13 Make a density plot of chicken's weights at day 0.
+
+14 Make a violin plot of chicken's weights at day 0. On the x-axis, put the `Diet` type. On the y-axis, put the weight.
+
+15 Add points to the violin plot
+
+
+
+### Switzerland
+
+1. Load up data on health and sociodemographic factors from Switzerland.
+
+```{r}
+library(tidyverse)
+data('swiss')
+swiss <- swiss
+```
+
+2. Look at the `cabeça` of the data. Describe it.
+
+3. Make a chart showing the association between Agriculture rate and Fertility rate. This should be a scatterplot. You'll use `geom_point`.
+
+```{r, eval = FALSE, echo = FALSE}
+ggplot(data = swiss,
+       aes(x = Agriculture,
+           y = Fertility)) +
+  geom_point()
+```
+
+4. Describe the association.
+
+5. Add the argument `geom_smooth()` to the above chart. What happens?
+
+```{r, eval = FALSE, echo = FALSE}
+ggplot(data = swiss,
+       aes(x = Agriculture,
+           y = Fertility)) +
+  geom_point() +
+  geom_smooth()
+```
+
+
+6. Run the following code to create a variable called `canton` from the `row.names` of the data:
+
+```{r}
+swiss$canton <- row.names(swiss)
+```
+
+7. Create an object called `x`. This will be the `swiss` data, but only keeping those cantons which are more than 80% catholic.
+
+```{r, eval = FALSE, echo = FALSE}
+x <- swiss %>% filter(Catholic > 80)
+```
+
+8. How many rows are in `x`?
+
+9. Go back to your `swiss` data. Is there an association between `Education` and `Catholicism`? Show it in a chart.
+
+10. Create a variable a new variable in `swiss` called `edu`, which indicates whether the canton is highly-educated (at or above the average) or has low education (below the average). Here's the code to do this:
+
+```{r}
+swiss <- swiss %>%
+  mutate(edu = ifelse(Education >= mean(Education),
+                      "High education",
+                      "Low education"))
+```
+
+11. Create a variable in `swiss` called `fert`. This variable should show whether the canton has high fertility or low fertility. Use the code in the previous question as a guide.
+
+```{r, eval = TRUE, echo = FALSE}
+swiss <- swiss %>%
+  mutate(fert = ifelse(Fertility >= mean(Fertility),
+                      "High fertility",
+                      "Low fertility"))
+```
+
+12. Create an object called `y`. This will be the `swiss` data, grouped by both your new `edu` and `fert` variables, and then summarized to tell the average infant mortality rate for each subgroup.
+
+```{r, echo = FALSE}
+y <- swiss %>%
+  group_by(fert, edu) %>%
+  summarise(avg = mean(Infant.Mortality))
+```
+
+13. Make a barplot of the data in y. Add the argument `position = 'dodge` to within `geom_bar()` to make the bars not stack
+
+```{r, echo = FALSE, eval = FALSE}
+ggplot(data = y,
+       aes(x = fert, y= avg, fill = edu)) +
+  geom_bar(stat = 'identity', position = 'dodge')
+```
+
+14. Interpret the above chart. Which group has the highest infant mortality? Which one has the lowest?
+
+
+15. Arrange the data by infant mortality. Which canton has the lowest?
+
+16. What is the maximum infant mortality for all Swiss canons?
+
+17. What is the maximum infant mortality for canons with high education?
+
+18. What is the average infant mortality for canons with high fertility.
+
+19. Make a plot showing the relationship between fertility (on the x-axis) and infant mortality (on the y-axis).
+
+```{r, echo = FALSE, eval = FALSE}
+ggplot(data = swiss,
+       aes(x = Fertility,
+           y = Infant.Mortality)) +
+  geom_point()
+```
+
+20. Add `color = edu` to within the `aes()` section of the above chart.
+
+```{r, echo = FALSE, eval = FALSE}
+ggplot(data = swiss,
+       aes(x = Fertility,
+           y = Infant.Mortality,
+           color = edu)) +
+  geom_point()
+```
+
+
+21. Make a "density" plot of fertility.
+
+22. Create a new variable in `swiss` using `mutate`. The new variable will be named `ag`. This should be whether a canton is very agricultural or not (ie, more than 50%). To do this:
+
+```{r}
+swiss <- swiss %>%
+  mutate(ag = ifelse(Agriculture > 50, 'Very agricultural',
+                     'Not very agricultural'))
+```
+
+23. Create an overlapping density chart of infant mortality in which the `fill` shows whether a place is very agricultural or not.
+
+24. Create a new variable in your data called `cath`. This should whether or not a canton is very Catholic (ie, > 50%).
+
+```{r, eval = FALSE, echo = FALSE}
+swiss <- swiss %>%
+  mutate(cath = ifelse(Catholic > 50, 'Very Catholic', 'Not very Catholic'))
+```
+
+25. Create an overlapping density chart of fertility in which the `fill` is whether a place is very Catholic or not.
+
+
+26. Use `ggridges` to create a ridgeline chart of the distribution of infant mortality by your `cath` variable (here's the code to help)
+
+```{r, eval = FALSE, echo = TRUE}
+library(ggridges)
+ggplot(data = swiss,
+       aes(x = Infant.Mortality,
+           y = cath)) +
+  ggridges::geom_density_ridges()
+```
+
+27. Create a ridgeline chart (like above) showing fertility instead of infant mortality.
+
+```{r, eval = FALSE, echo = FALSE}
+library(ggridges)
+ggplot(data = swiss,
+       aes(x = Fertility,
+           y = cath)) +
+  ggridges::geom_density_ridges()
+```
+
+28. Which areas have more children: Catholic or non-Catholic areas?
+
+29. Use the `cut` function to generate a 4-category categorical variable of the `Education` variable. Call this new variable `educat`. Note that `cut` takes two arguments: first, the variable you are cutting; second, the number of categories you want.
+
+```{r, eval = TRUE, echo = FALSE}
+swiss <- swiss %>%
+  mutate(educat = cut(Education, 4))
+```
+
+30. Make a ridgeline plot of infant mortality's distribution by your new `educat` variable.
+
+```{r, eval = FALSE, echo = FALSE}
+ggplot(data = swiss,
+       aes(x = Infant.Mortality,
+           y = educat)) +
+  geom_density_ridges(alpha = 0.6)
+```
+
+31. Can you create the following plot? You'll need to add `facet_wrap(~educat)`...
+
+```{r}
+ggplot(data = swiss,
+       aes(x = Catholic,
+           y = Infant.Mortality,
+           size = Fertility)) +
+  facet_wrap(~educat) +
+  geom_point(alpha = 0.6)
+```
+
+32. What percentage of high-Catholicism cantons are agricultural?
+
+33. What percentage of low fertility canons are Catholic?
+
+
+### Markdown
+
+1. Install these packages if you don't yet have them
+
+```{}
+knitr
+rmarkdown
+DT
+```
+
+2. In the upper left of RStudio, click "File", then "New File", then "R Markdown".
+
+3. Name your file: "Mapping with R"
+
+4. In your new file, run CTRL + s in order to save. Save it as "mapping" (for example).
+
+5. Delete lines 11 until the end.
+
+6. Write the following in order to create a "header" section:
+
+```
+
+## How to get data
+
+```
+
+7. Move your cursor below that section, and then click on "Insert" at the top of the code window. From there, click on "R".
+
+8. You now have a section for writing R code. In that section, write:
+
+```{r}
+library(raster)
+library(leaflet)
+library(tidyverse)
+```
+
+9. Click "Knit" in the top of the window in order to compile the document.
+
+10. Now add more text and R sections to create a complete guide for mapping in R.
+
+
+### Regression
+
+
+1. Load up data on health and sociodemographic factors from Switzerland.
+
+```{r}
+library(tidyverse)
+data('swiss')
+swiss <- swiss
+```
+
+2. Create an object called `fit`. This will be a regression where the outcome variable is `Infant.Mortality`, and the predictor variables are `Catholic` and `Agriculture`
+
+```{r, echo = FALSE}
+fit <- lm(Infant.Mortality ~ Catholic + Fertility, data = swiss)
+```
+
+3. What is the association between catholicism and infant mortality? Is it significant?
+
+4. What is the association between fertility and infant mortality? Is it significant?
+
+5. Create an object called `ci`. This will be the confidence intervals for each of our regression terms.
+
+```{r}
+ci <- confint(fit)
+```
+
+6. Make both `fit` and `ci` into a better format for plotting. 
+
+```{r}
+library(broom)
+tidyfit <- tidy(fit)
+tidyci <- data.frame(ci)
+```
+
+7. Combine them using `cbind`.
+
+```{r}
+combined <- cbind(tidyfit, tidyci)
+```
+
+8. Make a barchart of the estimates.
+
+9. Use `geom_hline(yintercept = 0)` to add a line at 0.
+
+10. Use `geom_errorbar` to add error bars to your plot.
+
+11. Advanced: Create a binary variable and run logistic regression to predict its likelihood.
+
+### Cities
+
+1. Read in some data on the location of cities from the internet.
+
+```{r}
+cities <- read_csv(url("https://github.com/databrew/maputo/raw/master/day4/data/simplemaps-worldcities-basic.csv"))
+```
+
+2. Create a chart showing the distribution of population of the cities
+
+3. Create a simple scatter plot of the longitude and latitude
+
+4. Create an object called `x`. This will be the number of cities in each country.
+
+5. Create an object called `mozambique`. This will only be cities in Mozambique.
+
+6. Create an object called `sa`. This will only be cities in South Africa.
+
+7. Plot `mozambique`.
+
+8. Plot `sa`. 
+
+9. Combine `mozambique` and `sa` into one object using `rbind`. Call this new object `combined`
+
+10. Plot combined, with the point color reflecting the country.
+
+11. Create an overlapping density chart of the populations of the cities of South Africa vs. Mozambique (use `combined`).
+
+12. Create a leaflet map of all the world's cities.
+
+13. Create a leaflet map of the cities in `combined`.
+
+14. Create a leaflet map of all the world's cities, but only those with a population of more than 100000.
