@@ -383,6 +383,8 @@ combined <- cbind(tidyfit, tidyci)
 
 11. Advanced: Create a binary variable and run logistic regression to predict its likelihood.
 
+12. Advanced: Create a regression with at least 3 predictor variables. Use `sjPlot::tab_model()` to tabulate it.
+
 ### Cities
 
 1. Read in some data on the location of cities from the internet.
